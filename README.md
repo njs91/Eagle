@@ -55,6 +55,10 @@ Demo SEO organiser.
    ```sh
    ./manage.py migrate
    ```
+7. Loading Data:
+   ```sh
+   ./manage.py loaddata eagle/fixtures/*
+   ```
 
 ### Front-end Installation
 

@@ -1,0 +1,34 @@
+[
+  {
+    "model": "pages.keyword",
+    "pk": 10,
+    "fields": {
+      "name": "django programming",
+      "page": 10
+    }
+  },
+  {
+    "model": "pages.keyword",
+    "pk": 11,
+    "fields": {
+      "name": "django coding",
+      "page": 10
+    }
+  },
+  {
+    "model": "pages.keyword",
+    "pk": 12,
+    "fields": {
+      "name": "nginx guide",
+      "page": 11
+    }
+  },
+  {
+    "model": "pages.keyword",
+    "pk": 13,
+    "fields": {
+      "name": "nginx hosting",
+      "page": 11
+    }
+  }
+]

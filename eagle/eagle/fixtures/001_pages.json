@@ -1,0 +1,24 @@
+[
+  {
+    "model": "pages.page",
+    "pk": 10,
+    "fields": {
+      "title": "Django Guide",
+      "type": "landing",
+      "slug": "/django/guide",
+      "notes": "Django guide squeeze page where prospects exchange their email addresses for the free PDF guide",
+      "date_created": "2021-11-14T12:10:00+00:00"
+    }
+  },
+  {
+    "model": "pages.page",
+    "pk": 11,
+    "fields": {
+      "title": "Nginx Guide",
+      "type": "landing",
+      "slug": "/nginx/guide",
+      "notes": "Nginx guide squeeze page where prospects exchange their email addresses for the free PDF guide",
+      "date_created": "2021-11-14T12:11:00+00:00"
+    }
+  }
+]
