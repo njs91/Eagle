@@ -1,0 +1,73 @@
+// widths
+$content-padding: 20px;
+$max-content-width: 960px + ($content-padding * 2);
+$content-vertical-padding: 7.5rem;
+
+// colours
+// std
+$grey-light: #f2f2f2;
+$grey-medium: #ccc;
+$grey-dark: #b2b2b2;
+$white: #fff;
+// brand
+$red: #f00;
+$green: #589414;
+$blue: #0000ff;
+$primary: #232f3e;
+$secondary: #05a0d1;
+$text: #393939;
+$links: $blue;
+
+// borders
+$border-colour: $grey-medium;
+$border-radius: 0.5rem;
+
+// font sizes
+$font-lg-4: 3.6rem;
+$font-lg-3: 3rem;
+$font-lg-2: 2.4rem;
+$font-lg-1: 2rem;
+$font-std: 1.8rem;
+$font-small: 1.6rem;
+$font-tiny-1: 1.4rem;
+$font-tiny-2: 1.2rem;
+$font-tiny-3: 1rem;
+
+// devices
+$desktop: 1200px;
+$tablet: 768px;
+$mobile: 767px;
+$small: 600px;
+$smallest: 480px;
+
+// breakpoints
+@mixin desktopStyles {
+  @media (min-width: $desktop) {
+    @content;
+  }
+}
+@mixin tabletStyles {
+  @media (min-width: $tablet) and (max-width: $desktop - 1px) {
+    @content;
+  }
+}
+@mixin nonMobileStyles {
+  @media (min-width: $tablet) {
+    @content;
+  }
+}
+@mixin mobileStyles {
+  @media (max-width: $mobile) {
+    @content;
+  }
+}
+@mixin smallStyles {
+  @media (max-width: $small) {
+    @content;
+  }
+}
+@mixin smallestStyles {
+  @media (max-width: $smallest) {
+    @content;
+  }
+}
