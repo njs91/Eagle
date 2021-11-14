@@ -1,6 +1,6 @@
-# Reango
+# Eagle
 
-Template React front-end & Dango back-end app.
+Demo SEO organiser.
 
 <!-- TABLE OF CONTENTS -->
 <details open="open">
@@ -30,7 +30,7 @@ Template React front-end & Dango back-end app.
 
 1. Clone the repo:
    ```sh
-   git clone git@github.com:njs91/reango.git
+   git clone git@github.com:njs91/eagle.git
    ```
 2. Create Virtual Environment (in root):
    ```sh
