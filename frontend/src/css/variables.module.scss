@@ -13,7 +13,7 @@ $white: #fff;
 $red: #f00;
 $green: #589414;
 $blue: #0000ff;
-$primary: #232f3e;
+$primary: #395c7f;
 $secondary: #05a0d1;
 $text: #393939;
 $links: $blue;
@@ -32,6 +32,9 @@ $font-small: 1.6rem;
 $font-tiny-1: 1.4rem;
 $font-tiny-2: 1.2rem;
 $font-tiny-3: 1rem;
+
+// styles
+$transition-std: 0.4s ease all;
 
 // devices
 $desktop: 1200px;

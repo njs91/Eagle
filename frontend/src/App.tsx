@@ -4,6 +4,7 @@ import StyleGuide from './pages/StyleGuide';
 import Homepage from './pages/Homepage';
 import NotFound from './pages/404';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Pages from './pages/Pages';
 
 const App: React.FC = () => {
   return (
@@ -12,6 +13,7 @@ const App: React.FC = () => {
         <Route path='/' element={<Homepage />} />
         <Route path='/test-api' element={<TestApiPage />} />
         <Route path='/styles' element={<StyleGuide />} />
+        <Route path='/pages' element={<Pages />} />
         <Route path='*' element={<NotFound />} />
       </Routes>
     </BrowserRouter>

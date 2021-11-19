@@ -16,7 +16,7 @@ export const Page: React.FC<PageProps> = ({
 }) => {
   const pageClasses = `${styles.pageContainer} ${clsPage ? clsPage : ''}`;
   const outerClasses = `${styles.outer} ${clsOuter ? clsOuter : ''}`;
-  const innerClasses = `${!fullWidth ? `${styles.inner} 'sometest'` : ''} ${
+  const innerClasses = `${!fullWidth ? `${styles.inner}` : ''} ${
     clsInner ? clsInner : ''
   }`;
 

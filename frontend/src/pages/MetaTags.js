@@ -16,3 +16,7 @@ export const pageNotFoundMeta = {
   title: 'Page Not Found (404)',
   description: 'The page you tried to load could not be found.',
 };
+export const pagesMeta = {
+  title: 'Pages',
+  description: 'A list of internal site pages.',
+};
