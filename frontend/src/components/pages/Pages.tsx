@@ -50,7 +50,7 @@ export const Sidebar: FC<SidebarProps> = ({ pages, currentPageData }) => {
               if (isCurrentPage) return;
               fetchPage(`http://localhost:8000/api/pages/${page.id}`);
             }}>
-            {page.title}
+            <p>{page.title}</p>
           </li>
         );
       })}

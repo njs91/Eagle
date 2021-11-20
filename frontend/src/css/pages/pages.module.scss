@@ -15,9 +15,17 @@
       display: flex;
       flex-direction: column;
       transition: $transition-std;
+      height: calc(100vh - #{$footer-height} - #{$header-height});
+      position: relative;
 
       &.expanded {
-        background: $primary;
+        background-color: $primary;
+
+        .buttonsContainer {
+          position: absolute;
+          bottom: 0;
+          background-color: $text;
+        }
       }
 
       &.contracted {
@@ -31,6 +39,7 @@
         .buttonsContainer {
           flex-direction: column;
           display: flex;
+          align-items: center;
           margin: 0 auto;
           padding: 2rem 0;
 
@@ -41,8 +50,11 @@
       }
 
       h1 {
-        text-align: center;
-        margin: 1.5rem 0;
+        margin: 0;
+        padding: 3rem 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
 
       ul {
@@ -51,7 +63,6 @@
 
         li {
           text-align: center;
-          padding: 3rem 0;
           border-top: 1px solid $border-colour;
           background-color: transparent;
           color: $white;
@@ -71,18 +82,26 @@
             transition: $transition-std;
             cursor: pointer;
           }
+
+          p {
+            padding: 3rem;
+          }
         }
       }
 
       .buttonsContainer {
         font-size: $font-lg-1;
         margin: 0 auto;
-        padding: 3rem 0;
+        padding: 0.5rem 0;
         margin-top: auto;
         transition: $transition-std;
+        width: 100%;
+        text-align: center;
+        pointer-events: none;
 
         > svg {
           transition: $transition-std;
+          pointer-events: all;
 
           &:hover {
             cursor: pointer;
