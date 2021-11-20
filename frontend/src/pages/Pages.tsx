@@ -1,4 +1,4 @@
-import React, { useEffect, useState, VFC } from 'react';
+import React, { useEffect, VFC } from 'react';
 import { Page } from '../components/Page';
 import { PageDetails, Sidebar } from '../components/pages/Pages';
 import { pagesMeta } from './MetaTags';

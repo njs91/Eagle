@@ -21,7 +21,6 @@
       }
 
       &.contracted {
-        background: purple;
         flex: 0 0 50px;
 
         h1,
@@ -59,6 +58,10 @@
           font-size: $font-std;
           transition: $transition-std;
 
+          &.current {
+            background-color: $secondary;
+          }
+
           &:last-child {
             border-bottom: 1px solid $border-colour;
           }
@@ -91,7 +94,7 @@
     }
 
     .pageDetailsOuter {
-      background-color: pink;
+      background-color: $secondary;
       flex: 1 1 100%;
       width: unset;
       padding-top: 5rem;

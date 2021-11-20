@@ -1,16 +1,19 @@
 import { Dispatch, useState } from 'react';
 
+export type GetDataFn = (url: string, options?: any) => Promise<void>;
+
 export const useFetch = (): {
   data: any;
-  getData: (url: string, options?: any) => void;
+  getData: GetDataFn;
   fetchError: boolean;
   setData: Dispatch<any>;
 } => {
   const [data, setData] = useState<any>(null);
   const [fetchError, setFetchError] = useState<boolean>(false);
 
-  const getAllData = async (url: string, options?: any): Promise<void> => {
+  const getAllData: GetDataFn = async (url, options?) => {
     try {
+      // loading?
       const res = await fetch(url, options);
       const data = await res.json();
       setData(data);
