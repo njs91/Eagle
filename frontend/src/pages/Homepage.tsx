@@ -8,8 +8,8 @@ const Homepage: React.VFC = () => (
   <Page meta={homepageMeta} clsPage={styles.homepage}>
     <h1>Homepage</h1>
     <p>
-      See <Link to='/test-api'>test api page</Link> or{' '}
-      <Link to='/styles'>style guide</Link>
+      See <Link to='/styles'>style guide</Link> or{' '}
+      <Link to='/pages'>pages</Link>
     </p>
   </Page>
 );
