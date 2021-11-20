@@ -57,9 +57,16 @@
           background-color: transparent;
           color: $white;
           font-size: $font-std;
+          transition: $transition-std;
 
           &:last-child {
             border-bottom: 1px solid $border-colour;
+          }
+
+          &:hover {
+            background-color: $secondary;
+            transition: $transition-std;
+            cursor: pointer;
           }
         }
       }

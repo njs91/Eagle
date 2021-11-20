@@ -16,20 +16,30 @@ const Pages: VFC = () => (
 );
 
 const PagesContent: VFC = () => {
-  const { data: pages, getData: getPages, fetchError } = useFetch();
-  const [currentPage, setCurrentPage] = useState(null);
+  const {
+    data: pages,
+    getData: fetchPages,
+    fetchError: fetchPagesError,
+  } = useFetch();
+  const {
+    data: currentPage,
+    getData: fetchPage,
+    fetchError: fetchPageError,
+    setData: setCurrentPage,
+  } = useFetch();
 
   useEffect(() => {
-    getPages('http://localhost:8000/api/pages');
+    fetchPages('http://localhost:8000/api/pages');
   }, []);
-  // Line 33:6:  React Hook useEffect has a missing dependency: 'getPages'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+  // React Hook useEffect has a missing dependency: 'fetchPages'. Either include it or remove the dependency array - react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (!pages || !pages.length) return;
     setCurrentPage(pages[0]);
   }, [pages]);
+  // React Hook useEffect has a missing dependency: 'setCurrentPage'. Either include it or remove the dependency array - react-hooks/exhaustive-deps
 
-  if (fetchError) {
+  if (fetchPagesError) {
     return <p>Failed to fetch</p>;
   }
 
@@ -45,9 +55,14 @@ const PagesContent: VFC = () => {
     <>
       <Sidebar
         pages={pages}
-        currentPageState={{ currentPage, setCurrentPage }}
+        currentPageData={{
+          currentPage,
+          fetchPage,
+          setCurrentPage,
+          fetchPageError,
+        }}
       />
-      <PageDetails page={currentPage} />
+      <PageDetails page={currentPage} fetchPageError={fetchPageError} />
     </>
   );
 };

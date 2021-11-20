@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { Dispatch, useState } from 'react';
 
 export const useFetch = (): {
   data: any;
   getData: (url: string, options?: any) => void;
   fetchError: boolean;
+  setData: Dispatch<any>;
 } => {
   const [data, setData] = useState<any>(null);
   const [fetchError, setFetchError] = useState<boolean>(false);
@@ -19,5 +20,5 @@ export const useFetch = (): {
     }
   };
 
-  return { data, getData: getAllData, fetchError };
+  return { data, getData: getAllData, fetchError, setData };
 };

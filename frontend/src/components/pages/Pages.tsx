@@ -23,22 +23,13 @@ interface WebPage {
 
 interface SidebarProps {
   pages: Array<WebPage>;
-  currentPageState: any;
+  currentPageData: any;
 }
 
-export const Sidebar: FC<SidebarProps> = ({ pages, currentPageState }) => {
+export const Sidebar: FC<SidebarProps> = ({ pages, currentPageData }) => {
   const [expanded, setExpanded] = useState(true);
-  const { currentPage, setCurrentPage } = currentPageState;
-  const { data: page, getData: fetchNewPage, fetchError } = useFetch();
-  const fetchPage = async (id: number) => {
-    if (currentPage?.id === id) return;
-    fetchNewPage(`http://localhost:8000/api/pages/${id}`);
-  };
-
-  useEffect(() => {
-    if (fetchError) return;
-    setCurrentPage(page);
-  }, [page]);
+  const { currentPage, fetchPage, setCurrentPage, fetchPageError } =
+    currentPageData;
 
   return (
     <div
@@ -48,11 +39,20 @@ export const Sidebar: FC<SidebarProps> = ({ pages, currentPageState }) => {
       <h1>Pages</h1>
       <ul>
         {pages.map((page: WebPage) => (
-          <li key={page.title} onClick={() => fetchPage(page.id)}>
+          <li
+            key={page.title}
+            className=''
+            onClick={() => {
+              if (page.id === currentPage.id) return;
+              fetchPage(`http://localhost:8000/api/pages/${page.id}`);
+            }}>
             {page.title}
           </li>
         ))}
-        <li onClick={() => fetchPage(23489)}>Test Breakage</li>
+        <li
+          onClick={() => fetchPage(`http://localhost:8000/api/pages/2342838`)}>
+          Test Breakage
+        </li>
       </ul>
       <div className={styles.buttonsContainer}>
         <FontAwesomeIcon icon={faPlusSquare} />{' '}
@@ -67,9 +67,14 @@ export const Sidebar: FC<SidebarProps> = ({ pages, currentPageState }) => {
 
 interface PageDetailsProps {
   page: WebPage | null;
+  fetchPageError: boolean;
 }
 
-export const PageDetails: FC<PageDetailsProps> = ({ page }) => {
+export const PageDetails: FC<PageDetailsProps> = ({ page, fetchPageError }) => {
+  if (fetchPageError) {
+    return <>fetch page error</>;
+  }
+
   if (!page?.id) {
     // if api returns {detail: 'Not found.'}
     return <>nothing</>;
