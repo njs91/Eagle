@@ -20,12 +20,14 @@ const PagesContent: VFC = () => {
     data: pages,
     getData: fetchPages,
     fetchError: fetchPagesError,
+    loading: loadingPages,
   } = useFetch();
   const {
     data: currentPage,
     getData: fetchPage,
     fetchError: fetchPageError,
     setData: setCurrentPage,
+    loading: loadingCurrentPage,
   } = useFetch();
 
   useEffect(() => {
@@ -43,7 +45,7 @@ const PagesContent: VFC = () => {
     return <p>Failed to fetch</p>;
   }
 
-  if (!pages) {
+  if (!pages || loadingPages) {
     return <p>Loading...</p>;
   }
 
@@ -62,7 +64,11 @@ const PagesContent: VFC = () => {
           fetchPageError,
         }}
       />
-      <PageDetails page={currentPage} fetchPageError={fetchPageError} />
+      <PageDetails
+        page={currentPage}
+        fetchPageError={fetchPageError}
+        loadingCurrentPage={loadingCurrentPage}
+      />
     </>
   );
 };

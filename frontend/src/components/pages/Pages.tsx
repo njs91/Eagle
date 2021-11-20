@@ -88,11 +88,20 @@ export const Sidebar: FC<SidebarProps> = ({ pages, currentPageData }) => {
 interface PageDetailsProps {
   page: WebPage | null;
   fetchPageError: boolean;
+  loadingCurrentPage: boolean;
 }
 
-export const PageDetails: FC<PageDetailsProps> = ({ page, fetchPageError }) => {
+export const PageDetails: FC<PageDetailsProps> = ({
+  page,
+  fetchPageError,
+  loadingCurrentPage,
+}) => {
   if (fetchPageError) {
     return <>fetch page error</>;
+  }
+
+  if (loadingCurrentPage) {
+    return <p>loading...</p>;
   }
 
   if (!page?.id) {
