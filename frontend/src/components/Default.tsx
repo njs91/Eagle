@@ -1,6 +1,8 @@
+import { FC, ReactNode } from 'react';
 import styles from '../css/default.module.scss';
+import LoadingImage from '../images/loading.svg';
 
-export const Section: React.FC<SectionProps> = ({
+export const Section: FC<SectionProps> = ({
   children,
   clsOuter,
   clsInner,
@@ -20,46 +22,19 @@ export const Section: React.FC<SectionProps> = ({
 };
 
 interface SectionProps {
-  children: React.ReactNode;
+  children: ReactNode;
   clsOuter?: string;
   clsInner?: string;
   tag?: any;
   patterned?: boolean;
 }
 
-// export const Section: FC<SectionProps> = ({ children }) => (
-//   <section className={styles.outerSection}>
-//     <div className={styles.inner}>{children}</div>
-//   </section>
-// );
+export const Loading: FC<{ clsOuter?: string }> = ({ clsOuter }) => (
+  <div className={clsOuter ? clsOuter : ''}>
+    <img src={LoadingImage} alt='Loading' />
+  </div>
+);
 
-// export const SectionsContainer: FC<SectionsContainerProps> = ({
-//   patterned,
-//   children,
-// }) => (
-//   <div {...(patterned ? { className: styles.patterned } : '')}>{children}</div>
-// );
-
-// interface SectionProps {
-//   children: ReactNode;
-// }
-
-// interface SectionsContainerProps {
-//   patterned?: boolean;
-//   children: ReactNode;
-// }
-
-// .outerSection {
-//   padding: $content-vertical-padding 0;
-
-//   .patterned & {
-//     // padding: $content-vertical-padding 0;
-
-//     &:nth-child(odd) {
-//       background-color: $white;
-//     }
-//     &:nth-child(even) {
-//       background-color: $grey-light;
-//     }
-//   }
-// }
+export const Error: FC<{ msg: string }> = ({ msg }) => (
+  <p className={styles.errorText}>{msg}</p>
+);

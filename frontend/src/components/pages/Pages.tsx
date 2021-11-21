@@ -1,13 +1,14 @@
 /* Note: components for the /pages page, not general components for all pages */
 
-import React, { Dispatch, FC, useState } from 'react';
+import React, { Dispatch, FC, ReactNode, useState } from 'react';
 import styles from '../../css/pages/pages.module.scss';
-import { Section } from '../Default';
+import { Loading, Section, Error } from '../Default';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faCompressArrowsAlt,
   faExpandArrowsAlt,
   faPlusSquare,
+  faTrash,
 } from '@fortawesome/free-solid-svg-icons';
 import { formatDate } from '../../utils/HelperFunctions';
 import { GetDataFn } from '../../hooks/useFetch';
@@ -51,6 +52,9 @@ export const Sidebar: FC<SidebarProps> = ({ pages, currentPageData }) => {
               fetchPage(`http://localhost:8000/api/pages/${page.id}`);
             }}>
             <p>{page.title}</p>
+            <div className={styles.iconContainer}>
+              <FontAwesomeIcon icon={faTrash} />
+            </div>
           </li>
         );
       })}
@@ -64,7 +68,8 @@ export const Sidebar: FC<SidebarProps> = ({ pages, currentPageData }) => {
 
   const Buttons: FC<ButtonsProps> = ({ expanded, setExpanded }) => (
     <div className={styles.buttonsContainer}>
-      <FontAwesomeIcon icon={faPlusSquare} />{' '}
+      <FontAwesomeIcon icon={faPlusSquare} />
+      <FontAwesomeIcon icon={faTrash} className={styles.expandedOnly} />
       <FontAwesomeIcon
         icon={expanded ? faCompressArrowsAlt : faExpandArrowsAlt}
         onClick={() => setExpanded(!expanded)}
@@ -96,26 +101,42 @@ export const PageDetails: FC<PageDetailsProps> = ({
   fetchPageError,
   loadingCurrentPage,
 }) => {
+  const DetailsWrap: FC<{ children: ReactNode }> = ({ children }) => (
+    <Section clsOuter={styles.pageDetailsOuter}>{children}</Section>
+  );
+
   if (fetchPageError) {
-    return <>fetch page error</>;
+    return (
+      <DetailsWrap>
+        <Error msg={'Error fetching page'} />
+      </DetailsWrap>
+    );
   }
 
   if (loadingCurrentPage) {
-    return <p>loading...</p>;
+    return (
+      <DetailsWrap>
+        <Loading />
+      </DetailsWrap>
+    );
   }
 
   if (!page?.id) {
     // if api returns {detail: 'Not found.'}
-    return <>nothing</>;
+    return (
+      <DetailsWrap>
+        <Error msg={'Page not found'} />
+      </DetailsWrap>
+    );
   }
 
   return (
-    <Section clsOuter={styles.pageDetailsOuter}>
+    <DetailsWrap>
       <p>{page.title}</p>
       <p>{page.slug}</p>
       <p>{page.type}</p>
       <p>{page.notes}</p>
       <p>{formatDate(page.date_created)}</p>
-    </Section>
+    </DetailsWrap>
   );
 };

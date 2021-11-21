@@ -25,6 +25,13 @@
           position: absolute;
           bottom: 0;
           background-color: $text;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          svg {
+            margin: 0 0.25em;
+          }
         }
       }
 
@@ -43,8 +50,14 @@
           margin: 0 auto;
           padding: 2rem 0;
 
-          > svg ~ svg {
-            margin-top: 1.5rem;
+          > svg {
+            ~ svg {
+              margin-top: 1.5rem;
+            }
+
+            &.expandedOnly {
+              display: none;
+            }
           }
         }
       }
@@ -55,6 +68,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        background-color: $text;
       }
 
       ul {
@@ -68,6 +82,9 @@
           color: $white;
           font-size: $font-std;
           transition: $transition-std;
+          display: flex;
+          align-items: center;
+          justify-content: center;
 
           &.current {
             background-color: $secondary;
@@ -81,10 +98,28 @@
             background-color: $secondary;
             transition: $transition-std;
             cursor: pointer;
+
+            .iconContainer {
+              width: 75px;
+            }
           }
 
           p {
             padding: 3rem;
+            margin: 0;
+            pointer-events: none;
+            flex: 1 1 100%;
+          }
+
+          .iconContainer {
+            background: red;
+            align-self: stretch;
+            display: flex;
+            align-items: center;
+            width: 0;
+            flex: 0 0 auto;
+            transition: $transition-std;
+            justify-content: center;
           }
         }
       }
@@ -92,7 +127,7 @@
       .buttonsContainer {
         font-size: $font-lg-1;
         margin: 0 auto;
-        padding: 0.5rem 0;
+        padding: 1rem 0;
         margin-top: auto;
         transition: $transition-std;
         width: 100%;
