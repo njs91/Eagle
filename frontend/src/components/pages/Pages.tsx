@@ -33,20 +33,25 @@ interface SidebarProps {
 }
 
 export const Sidebar: FC<SidebarProps> = ({ pages, currentPageData }) => {
-  const [expanded, setExpanded] = useState(true);
+  const [expanded, setExpanded] = useState<boolean>(true);
+  const [deleteHovered, setDeleteHovered] = useState<boolean>(false);
   const { currentPage, fetchPage } = currentPageData;
 
   const SidebarList: FC<{
     pages: Array<WebPage>;
+    deleteHovered: boolean;
   }> = ({ pages }) => (
     <ul>
       {pages.map((page: WebPage) => {
         const isCurrentPage = page?.id === currentPage?.id;
+        const classes = `${isCurrentPage ? styles.current : ''} ${
+          isCurrentPage && deleteHovered ? styles.deleteHovered : ''
+        }`;
 
         return (
           <li
             key={page.title}
-            className={isCurrentPage ? styles.current : ''}
+            className={classes}
             onClick={() => {
               if (isCurrentPage) return;
               fetchPage(`http://localhost:8000/api/pages/${page.id}`);
@@ -64,12 +69,18 @@ export const Sidebar: FC<SidebarProps> = ({ pages, currentPageData }) => {
   interface ButtonsProps {
     expanded: boolean;
     setExpanded: Dispatch<boolean>;
+    setDeleteHovered: Dispatch<boolean>;
   }
 
   const Buttons: FC<ButtonsProps> = ({ expanded, setExpanded }) => (
     <div className={styles.buttonsContainer}>
       <FontAwesomeIcon icon={faPlusSquare} />
-      <FontAwesomeIcon icon={faTrash} className={styles.expandedOnly} />
+      <FontAwesomeIcon
+        icon={faTrash}
+        className={styles.expandedOnly}
+        onMouseEnter={() => setDeleteHovered(true)}
+        onMouseLeave={() => setDeleteHovered(false)}
+      />
       <FontAwesomeIcon
         icon={expanded ? faCompressArrowsAlt : faExpandArrowsAlt}
         onClick={() => setExpanded(!expanded)}
@@ -84,8 +95,12 @@ export const Sidebar: FC<SidebarProps> = ({ pages, currentPageData }) => {
   return (
     <div className={classes}>
       <h1>Pages</h1>
-      <SidebarList pages={pages} />
-      <Buttons expanded={expanded} setExpanded={setExpanded} />
+      <SidebarList pages={pages} deleteHovered={deleteHovered} />
+      <Buttons
+        expanded={expanded}
+        setExpanded={setExpanded}
+        setDeleteHovered={setDeleteHovered}
+      />
     </div>
   );
 };
