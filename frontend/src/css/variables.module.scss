@@ -25,6 +25,7 @@ $links: $blue;
 // borders
 $border-colour: $grey-medium;
 $border-radius: 0.5rem;
+$border-std: 1px solid $border-colour;
 
 // font sizes
 $font-lg-4: 3.6rem;
@@ -39,6 +40,22 @@ $font-tiny-3: 1rem;
 
 // styles
 $transition-std: 0.4s ease all;
+
+// buttons
+.button {
+  font-size: $font-std;
+  color: $text;
+  padding: 1rem 3rem;
+  background-color: $primary;
+  color: $white;
+  transition: $transition-std;
+
+  &:hover {
+    cursor: pointer;
+    background-color: $secondary;
+    transition: $transition-std;
+  }
+}
 
 // devices
 $desktop: 1200px;

@@ -1,8 +1,8 @@
-import { VFC } from 'react';
+import React, { VFC } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCoffee, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
-import { Section } from '../components/Default';
+import { Section, TestModal } from '../components/Default';
 import { Page } from '../components/Page';
 import { styleGuideMeta } from './MetaTags';
 import styles from '../css/default.module.scss';
@@ -58,7 +58,7 @@ const StyleGuide: VFC = () => (
       </p>
       <p>
         Vim mollis adipisci pertinacia{' '}
-        <Link to='/test-api'>test internal link</Link> ea{' '}
+        <Link to='/pages'>test internal link</Link> ea{' '}
         <a href='https://google.com' target='_blank' rel='noreferrer'>
           test external link
         </a>{' '}
@@ -100,6 +100,17 @@ const StyleGuide: VFC = () => (
         Test breakpoint style - this paragraph will appear differently at
         different specified breakpoints
       </p>
+    </Section>
+
+    <Section patterned={true}>
+      <h2>Modal</h2>
+      <p>Example modal - click to open.</p>
+      <TestModal />
+    </Section>
+
+    <Section patterned={true}>
+      <h2>Another Sibling Section</h2>
+      <p>Text...</p>
     </Section>
   </Page>
 );
