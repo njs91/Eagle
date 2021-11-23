@@ -12,6 +12,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { formatDate } from '../../utils/HelperFunctions';
 import { GetDataFn } from '../../hooks/useFetch';
+import { DeletePageModal } from './DeletePageModal';
 
 interface WebPage {
   date_created: string;
@@ -22,25 +23,56 @@ interface WebPage {
   type: string;
 }
 
+interface CurrentPageData {
+  currentPage: WebPage;
+  fetchPage: GetDataFn;
+  setCurrentPage: Dispatch<WebPage>;
+  fetchPageError: boolean;
+}
+
 interface SidebarProps {
   pages: Array<WebPage>;
-  currentPageData: {
-    currentPage: WebPage;
-    fetchPage: GetDataFn;
-    setCurrentPage: Dispatch<WebPage>;
-    fetchPageError: boolean;
-  };
+  currentPageData: CurrentPageData;
 }
 
 export const Sidebar: FC<SidebarProps> = ({ pages, currentPageData }) => {
   const [expanded, setExpanded] = useState<boolean>(true);
   const [deleteHovered, setDeleteHovered] = useState<boolean>(false);
+  const classes = `${styles.sidebar} ${
+    expanded ? styles.expanded : styles.contracted
+  }`;
+
+  return (
+    <div className={classes}>
+      <h1>Pages</h1>
+      <SidebarList
+        pages={pages}
+        deleteHovered={deleteHovered}
+        currentPageData={currentPageData}
+      />
+      <Buttons
+        expanded={expanded}
+        setExpanded={setExpanded}
+        setDeleteHovered={setDeleteHovered}
+      />
+    </div>
+  );
+};
+
+interface SidebarListProps {
+  pages: Array<WebPage>;
+  deleteHovered: boolean;
+  currentPageData: CurrentPageData;
+}
+
+const SidebarList: FC<SidebarListProps> = ({
+  pages,
+  deleteHovered,
+  currentPageData,
+}) => {
   const { currentPage, fetchPage } = currentPageData;
 
-  const SidebarList: FC<{
-    pages: Array<WebPage>;
-    deleteHovered: boolean;
-  }> = ({ pages }) => (
+  return (
     <ul>
       {pages.map((page: WebPage) => {
         const isCurrentPage = page?.id === currentPage?.id;
@@ -65,14 +97,27 @@ export const Sidebar: FC<SidebarProps> = ({ pages, currentPageData }) => {
       })}
     </ul>
   );
+};
 
-  interface ButtonsProps {
-    expanded: boolean;
-    setExpanded: Dispatch<boolean>;
-    setDeleteHovered: Dispatch<boolean>;
-  }
+interface ButtonsProps {
+  expanded: boolean;
+  setExpanded: Dispatch<boolean>;
+  setDeleteHovered: Dispatch<boolean>;
+}
 
-  const Buttons: FC<ButtonsProps> = ({ expanded, setExpanded }) => (
+const Buttons: FC<ButtonsProps> = ({
+  expanded,
+  setExpanded,
+  setDeleteHovered,
+}) => {
+  const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
+
+  const handleClick = () => {
+    setModalIsOpen(true);
+    // use currentPage.id to determine which item to delete
+  };
+
+  return (
     <div className={styles.buttonsContainer}>
       <FontAwesomeIcon icon={faPlusSquare} />
       <FontAwesomeIcon
@@ -80,26 +125,15 @@ export const Sidebar: FC<SidebarProps> = ({ pages, currentPageData }) => {
         className={styles.expandedOnly}
         onMouseEnter={() => setDeleteHovered(true)}
         onMouseLeave={() => setDeleteHovered(false)}
+        onClick={() => handleClick()}
       />
       <FontAwesomeIcon
         icon={expanded ? faCompressArrowsAlt : faExpandArrowsAlt}
         onClick={() => setExpanded(!expanded)}
       />
-    </div>
-  );
-
-  const classes = `${styles.sidebar} ${
-    expanded ? styles.expanded : styles.contracted
-  }`;
-
-  return (
-    <div className={classes}>
-      <h1>Pages</h1>
-      <SidebarList pages={pages} deleteHovered={deleteHovered} />
-      <Buttons
-        expanded={expanded}
-        setExpanded={setExpanded}
-        setDeleteHovered={setDeleteHovered}
+      <DeletePageModal
+        modalIsOpen={modalIsOpen}
+        setModalIsOpen={setModalIsOpen}
       />
     </div>
   );
