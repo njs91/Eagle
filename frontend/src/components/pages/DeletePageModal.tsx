@@ -22,6 +22,10 @@ export const DeletePageModal: FC<DeletePageModalProps> = ({
     setModalIsOpen(false);
   };
 
+  const doSomething: () => void = () => {
+    console.log('do something...');
+  };
+
   // onRequestClose: do something when clicked close
   // contentLabel: just label the modal (aria name for accessibility)
 
@@ -39,9 +43,14 @@ export const DeletePageModal: FC<DeletePageModalProps> = ({
         <div>
           <h2>Title</h2>
           <p>Content</p>
-          <button onClick={closeModal} className={styles.button}>
-            Close
-          </button>
+          <div className={styles.buttonsContainer}>
+            <button onClick={doSomething} className={styles.btnPrimary}>
+              Do Something
+            </button>
+            <button onClick={closeModal} className={styles.btnRed}>
+              Close
+            </button>
+          </div>
         </div>
       </Modal>
     </div>

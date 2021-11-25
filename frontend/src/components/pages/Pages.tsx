@@ -122,7 +122,7 @@ const Buttons: FC<ButtonsProps> = ({
       <FontAwesomeIcon icon={faPlusSquare} />
       <FontAwesomeIcon
         icon={faTrash}
-        className={styles.expandedOnly}
+        className={`${styles.expandedOnly} ${styles.binIcon}`}
         onMouseEnter={() => setDeleteHovered(true)}
         onMouseLeave={() => setDeleteHovered(false)}
         onClick={() => handleClick()}

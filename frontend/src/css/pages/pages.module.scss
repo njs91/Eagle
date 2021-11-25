@@ -31,6 +31,10 @@
 
           svg {
             margin: 0 0.25em;
+
+            &.binIcon:hover {
+              color: lighten($red, 25%);
+            }
           }
         }
       }
@@ -75,10 +79,6 @@
         padding: 0;
         margin-bottom: 0;
 
-        * {
-          transition: $transition-std !important; // testing! remove after transition issue resolved
-        }
-
         li {
           text-align: center;
           border-top: 1px solid $border-colour;
@@ -93,17 +93,9 @@
           &.current {
             background-color: $secondary;
 
-            &.deleteHovered {
+            &.deleteHovered .iconContainer {
+              width: 75px;
               background-color: $red;
-
-              .iconContainer {
-                // width: 75px; // preferred styles turned off for now...
-
-                // bizarre issue: transition not working
-                // recreated a demo with the same logic and it works: https://stackblitz.com/edit/react-ngmeo7?file=src%2FApp.js
-                // why doesn't it work here? because element is disappearing from the DOM & hence can't apply a transition?
-                // may require react-transition-group to solve: https://stackoverflow.com/questions/46373099/react-toggle-class-css-transitions-not-working-why
-              }
             }
           }
 
@@ -115,10 +107,6 @@
             background-color: $secondary;
             transition: $transition-std;
             cursor: pointer;
-
-            // .iconContainer {
-            //   width: 75px;
-            // }
           }
 
           p {
