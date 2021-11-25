@@ -93,6 +93,42 @@ a {
   }
 }
 
+// buttons
+@mixin buttonStyles($color) {
+  font-size: $font-std;
+  color: $text;
+  padding: 1rem 3rem;
+  background-color: $color;
+  color: $white;
+  transition: $transition-std;
+
+  &:hover {
+    cursor: pointer;
+    background-color: lighten($color, 15%);
+  }
+  &:focus {
+    background-color: lighten($color, 10%);
+  }
+  &:active {
+    background-color: lighten($color, 25%);
+  }
+}
+.btnPrimary {
+  @include buttonStyles($primary);
+}
+.btnSecondary {
+  @include buttonStyles($secondary);
+}
+.btnRed {
+  @include buttonStyles($red);
+}
+.btnGreen {
+  @include buttonStyles($green);
+}
+.btnGrey {
+  @include buttonStyles($grey-dark);
+}
+
 // containers
 .pageContainer {
   width: 100vw;
@@ -169,6 +205,15 @@ a {
       cursor: pointer;
       color: $text;
       transition: $transition-std;
+    }
+  }
+
+  .buttonsContainer {
+    display: flex;
+    justify-content: space-between;
+
+    button ~ button {
+      margin-left: 2rem;
     }
   }
 }

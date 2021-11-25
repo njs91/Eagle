@@ -58,12 +58,16 @@ export const TestModal: VFC = () => {
     setIsOpen(false);
   };
 
+  const doSomething: () => void = () => {
+    console.log('do something...');
+  };
+
   // onRequestClose: do something when clicked close
   // contentLabel: just label the modal (aria name for accessibility)
 
   return (
     <div>
-      <button onClick={openModal} className={styles.button}>
+      <button onClick={openModal} className={styles.btnPrimary}>
         Open Modal
       </button>
       <Modal
@@ -78,9 +82,14 @@ export const TestModal: VFC = () => {
         <div>
           <h2>Title</h2>
           <p>Content</p>
-          <button onClick={closeModal} className={styles.button}>
-            Close
-          </button>
+          <div className={styles.buttonsContainer}>
+            <button onClick={doSomething} className={styles.btnPrimary}>
+              Do Something
+            </button>
+            <button onClick={closeModal} className={styles.btnRed}>
+              Close
+            </button>
+          </div>
         </div>
       </Modal>
     </div>
