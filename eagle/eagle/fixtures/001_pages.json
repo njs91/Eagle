@@ -20,5 +20,49 @@
       "notes": "Nginx guide squeeze page where prospects exchange their email addresses for the free PDF guide",
       "date_created": "2021-11-14T12:11:00+00:00"
     }
+  },
+  {
+    "model": "pages.page",
+    "pk": 12,
+    "fields": {
+      "title": "test",
+      "type": "landing",
+      "slug": "/test",
+      "notes": "test",
+      "date_created": "2021-11-14T12:11:00+00:00"
+    }
+  },
+  {
+    "model": "pages.page",
+    "pk": 13,
+    "fields": {
+      "title": "test 2",
+      "type": "landing",
+      "slug": "/testtwo",
+      "notes": "test 2",
+      "date_created": "2021-11-14T12:11:00+00:00"
+    }
+  },
+  {
+    "model": "pages.page",
+    "pk": 14,
+    "fields": {
+      "title": "test 3",
+      "type": "landing",
+      "slug": "/testthree",
+      "notes": "test 3",
+      "date_created": "2021-11-14T12:11:00+00:00"
+    }
+  },
+  {
+    "model": "pages.page",
+    "pk": 15,
+    "fields": {
+      "title": "test 4",
+      "type": "landing",
+      "slug": "/testfour",
+      "notes": "test 4",
+      "date_created": "2021-11-14T12:11:00+00:00"
+    }
   }
 ]

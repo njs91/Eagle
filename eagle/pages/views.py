@@ -12,8 +12,7 @@ class PagesViewSet(viewsets.ViewSet):
         return Response(serializer.data)
 
     def retrieve(self, request, pk=None):
-        queryset = Page.objects.all()
-        page = get_object_or_404(queryset, pk=pk)
+        page = get_object_or_404(Page, pk=pk)
         serializer = PageSerializer(page)
         return Response(serializer.data)
 
@@ -27,7 +26,9 @@ class PagesViewSet(viewsets.ViewSet):
         pass
 
     def destroy(self, request, pk=None):
-        pass
+        obj = get_object_or_404(Page, id=pk)
+        obj.delete()
+        return Response(status=204)
 
 
 # https://www.django-rest-framework.org/api-guide/viewsets/

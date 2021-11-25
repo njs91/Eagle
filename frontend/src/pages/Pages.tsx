@@ -4,6 +4,7 @@ import { PageDetails, Sidebar } from '../components/pages/Pages';
 import { pagesMeta } from './MetaTags';
 import styles from '../css/pages/pages.module.scss';
 import { useFetch } from '../hooks/useFetch';
+import { PageContextProvider } from '../components/pages/PageContext';
 
 const Pages: VFC = () => (
   <Page
@@ -18,13 +19,14 @@ const Pages: VFC = () => (
 const PagesContent: VFC = () => {
   const {
     data: pages,
-    getData: fetchPages,
+    performFetch: fetchPages,
     fetchError: fetchPagesError,
+    setData: setPages,
     loading: loadingPages,
   } = useFetch();
   const {
     data: currentPage,
-    getData: fetchPage,
+    performFetch: fetchPage,
     fetchError: fetchPageError,
     setData: setCurrentPage,
     loading: loadingCurrentPage,
@@ -54,9 +56,8 @@ const PagesContent: VFC = () => {
   }
 
   return (
-    <>
+    <PageContextProvider values={{ pages, setPages }}>
       <Sidebar
-        pages={pages}
         currentPageData={{
           currentPage,
           fetchPage,
@@ -69,7 +70,7 @@ const PagesContent: VFC = () => {
         fetchPageError={fetchPageError}
         loadingCurrentPage={loadingCurrentPage}
       />
-    </>
+    </PageContextProvider>
   );
 };
 

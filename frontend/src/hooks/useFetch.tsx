@@ -1,10 +1,10 @@
 import { Dispatch, useState } from 'react';
 
-export type GetDataFn = (url: string, options?: any) => Promise<void>;
+export type FetchDataFn = (url: string, options?: any) => Promise<void>;
 
 export const useFetch = (): {
   data: any;
-  getData: GetDataFn;
+  performFetch: FetchDataFn;
   loading: boolean;
   fetchError: boolean;
   setData: Dispatch<any>;
@@ -13,10 +13,17 @@ export const useFetch = (): {
   const [loading, setLoading] = useState<boolean>(false);
   const [fetchError, setFetchError] = useState<boolean>(false);
 
-  const getAllData: GetDataFn = async (url, options?) => {
+  const performFetchFn: FetchDataFn = async (url, options?) => {
     try {
       setLoading(true);
       const res = await fetch(url, options);
+
+      if (res.status === 204) {
+        setData({ success: true, info: 'Item successfully deleted' });
+        setLoading(false);
+        return;
+      }
+
       const data = await res.json();
       setData(data);
       setLoading(false);
@@ -27,5 +34,5 @@ export const useFetch = (): {
     }
   };
 
-  return { data, getData: getAllData, loading, fetchError, setData };
+  return { data, performFetch: performFetchFn, loading, fetchError, setData };
 };
