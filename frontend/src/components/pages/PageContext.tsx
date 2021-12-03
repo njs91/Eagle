@@ -1,4 +1,4 @@
-import React, { Dispatch, createContext, ReactNode, FC } from 'react';
+import React, { createContext, ReactNode, FC } from 'react';
 import { WebPage } from './Pages';
 
 export interface PageContextProps {
