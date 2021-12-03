@@ -6,16 +6,16 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Pages from './pages/Pages';
 
 const App: React.FC = () => {
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route path='/' element={<Homepage />} />
-        <Route path='/styles' element={<StyleGuide />} />
-        <Route path='/pages' element={<Pages />} />
-        <Route path='*' element={<NotFound />} />
-      </Routes>
-    </BrowserRouter>
-  );
+    return (
+        <BrowserRouter>
+            <Routes>
+                <Route path='/' element={<Homepage />} />
+                <Route path='/styles' element={<StyleGuide />} />
+                <Route path='/pages' element={<Pages />} />
+                <Route path='*' element={<NotFound />} />
+            </Routes>
+        </BrowserRouter>
+    );
 };
 
 export default App;

@@ -86,7 +86,7 @@ Demo SEO organiser.
 
 ### Miscellaneous
 
-1. Added proxy to package.json so can fetch from /api/pages rather than http://127.0.0.1:8000/api/pages
+1. Could add proxy to package.json so can fetch from /api/pages rather than http://127.0.0.1:8000/api/pages
    ```
    "proxy": "http://127.0.0.1:8000"
    ```
@@ -94,3 +94,4 @@ Demo SEO organiser.
 3. To update back-end requirements.txt, run `pip3 freeze > requirements.txt`
 4. To update back-end dependencies, consider using `pip-upgrader`: https://github.com/simion/pip-upgrader
 5. Includes font awesome, default components, styles & variables: see /styles page
+6. To format with prettier, run `npm run format`

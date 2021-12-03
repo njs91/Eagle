@@ -1,7 +1,7 @@
 @import '../variables.module.scss';
 
 .footer {
-  margin-top: auto; // pushes footer to bottom if total content height < 100vh
-  background-color: $grey-light;
-  height: $footer-height;
+    margin-top: auto; // pushes footer to bottom if total content height < 100vh
+    background-color: $grey-light;
+    height: $footer-height;
 }
