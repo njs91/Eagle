@@ -1,162 +1,162 @@
 @import '../variables.module.scss';
 
 .pagesOuter {
-  display: flex;
-  flex: 1 1 100%;
-
-  .pagesInner {
     display: flex;
     flex: 1 1 100%;
 
-    .sidebar {
-      background-color: $primary;
-      flex: 0 0 300px;
-      color: $white;
-      display: flex;
-      flex-direction: column;
-      transition: $transition-std;
-      height: calc(100vh - #{$footer-height} - #{$header-height});
-      position: relative;
-
-      &.expanded {
-        background-color: $primary;
-
-        .buttonsContainer {
-          position: absolute;
-          bottom: 0;
-          background-color: $text;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-
-          svg {
-            margin: 0 0.25em;
-
-            &.binIcon:hover {
-              color: lighten($red, 25%);
-            }
-          }
-        }
-      }
-
-      &.contracted {
-        flex: 0 0 50px;
-
-        h1,
-        ul {
-          display: none;
-        }
-
-        .buttonsContainer {
-          flex-direction: column;
-          display: flex;
-          align-items: center;
-          margin: 0 auto;
-          padding: 2rem 0;
-
-          > svg {
-            ~ svg {
-              margin-top: 1.5rem;
-            }
-
-            &.expandedOnly {
-              display: none;
-            }
-          }
-        }
-      }
-
-      h1 {
-        margin: 0;
-        padding: 3rem 0;
+    .pagesInner {
         display: flex;
-        align-items: center;
-        justify-content: center;
-        background-color: $text;
-      }
+        flex: 1 1 100%;
 
-      ul {
-        padding: 0;
-        margin-bottom: 0;
-
-        li {
-          text-align: center;
-          border-top: 1px solid $border-colour;
-          background-color: transparent;
-          color: $white;
-          font-size: $font-std;
-          transition: $transition-std;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-
-          &.current {
-            background-color: $secondary;
-
-            &.deleteHovered .iconContainer {
-              width: 75px;
-              background-color: $red;
-            }
-          }
-
-          &:last-child {
-            border-bottom: 1px solid $border-colour;
-          }
-
-          &:hover {
-            background-color: $secondary;
-            transition: $transition-std;
-            cursor: pointer;
-          }
-
-          p {
-            padding: 3rem;
-            margin: 0;
-            pointer-events: none;
-            flex: 1 1 100%;
-          }
-
-          .iconContainer {
-            align-self: stretch;
+        .sidebar {
+            background-color: $primary;
+            flex: 0 0 300px;
+            color: $white;
             display: flex;
-            align-items: center;
-            width: 0;
-            flex: 0 0 auto;
+            flex-direction: column;
             transition: $transition-std;
-            justify-content: center;
-          }
+            height: calc(100vh - #{$footer-height} - #{$header-height});
+            position: relative;
+
+            &.expanded {
+                background-color: $primary;
+
+                .buttonsContainer {
+                    position: absolute;
+                    bottom: 0;
+                    background-color: $text;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+
+                    svg {
+                        margin: 0 0.25em;
+
+                        &.binIcon:hover {
+                            color: lighten($red, 25%);
+                        }
+                    }
+                }
+            }
+
+            &.contracted {
+                flex: 0 0 50px;
+
+                h1,
+                ul {
+                    display: none;
+                }
+
+                .buttonsContainer {
+                    flex-direction: column;
+                    display: flex;
+                    align-items: center;
+                    margin: 0 auto;
+                    padding: 2rem 0;
+
+                    > svg {
+                        ~ svg {
+                            margin-top: 1.5rem;
+                        }
+
+                        &.expandedOnly {
+                            display: none;
+                        }
+                    }
+                }
+            }
+
+            h1 {
+                margin: 0;
+                padding: 3rem 0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background-color: $text;
+            }
+
+            ul {
+                padding: 0;
+                margin-bottom: 0;
+
+                li {
+                    text-align: center;
+                    border-top: 1px solid $border-colour;
+                    background-color: transparent;
+                    color: $white;
+                    font-size: $font-std;
+                    transition: $transition-std;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+
+                    &.current {
+                        background-color: $secondary;
+
+                        &.deleteHovered .iconContainer {
+                            width: 75px;
+                            background-color: $red;
+                        }
+                    }
+
+                    &:last-child {
+                        border-bottom: 1px solid $border-colour;
+                    }
+
+                    &:hover {
+                        background-color: $secondary;
+                        transition: $transition-std;
+                        cursor: pointer;
+                    }
+
+                    p {
+                        padding: 3rem;
+                        margin: 0;
+                        pointer-events: none;
+                        flex: 1 1 100%;
+                    }
+
+                    .iconContainer {
+                        align-self: stretch;
+                        display: flex;
+                        align-items: center;
+                        width: 0;
+                        flex: 0 0 auto;
+                        transition: $transition-std;
+                        justify-content: center;
+                    }
+                }
+            }
+
+            .buttonsContainer {
+                font-size: $font-lg-1;
+                margin: 0 auto;
+                padding: 1rem 0;
+                margin-top: auto;
+                transition: $transition-std;
+                width: 100%;
+                text-align: center;
+                pointer-events: none;
+
+                > svg {
+                    transition: $transition-std;
+                    pointer-events: all;
+
+                    &:hover {
+                        cursor: pointer;
+                        color: $secondary;
+                        transition: $transition-std;
+                    }
+                }
+            }
         }
-      }
 
-      .buttonsContainer {
-        font-size: $font-lg-1;
-        margin: 0 auto;
-        padding: 1rem 0;
-        margin-top: auto;
-        transition: $transition-std;
-        width: 100%;
-        text-align: center;
-        pointer-events: none;
-
-        > svg {
-          transition: $transition-std;
-          pointer-events: all;
-
-          &:hover {
-            cursor: pointer;
-            color: $secondary;
-            transition: $transition-std;
-          }
+        .pageDetailsOuter {
+            background-color: $secondary;
+            flex: 1 1 100%;
+            width: unset;
+            padding-top: 5rem;
+            padding-bottom: 5rem;
         }
-      }
     }
-
-    .pageDetailsOuter {
-      background-color: $secondary;
-      flex: 1 1 100%;
-      width: unset;
-      padding-top: 5rem;
-      padding-bottom: 5rem;
-    }
-  }
 }
