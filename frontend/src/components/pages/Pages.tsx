@@ -9,6 +9,7 @@ import { formatDate } from '../../utils/HelperFunctions';
 import { FetchDataFn } from '../../hooks/useFetch';
 import { DeletePageModal } from './DeletePageModal';
 import { PageContext, PageContextProps } from './PageContext';
+import { CreatePageModal } from './CreatePageModal';
 
 export interface WebPage {
     date_created: string;
@@ -94,28 +95,33 @@ interface ButtonsProps {
 }
 
 const Buttons: FC<ButtonsProps> = ({ expanded, setExpanded, setDeleteHovered, currentPageData }) => {
-    const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
+    const [deletePageModalIsOpen, setDeletePageModalIsOpen] = useState<boolean>(false);
+    const [createPageModalIsOpen, setCreatePageModalIsOpen] = useState<boolean>(false);
     const { currentPage } = currentPageData;
-
-    const openDeletePageModal = () => {
-        setModalIsOpen(true);
-    };
 
     return (
         <div className={styles.buttonsContainer}>
-            <FontAwesomeIcon icon={faPlusSquare} />
+            <FontAwesomeIcon icon={faPlusSquare} onClick={() => setCreatePageModalIsOpen(true)} />
             <FontAwesomeIcon
                 icon={faTrash}
                 className={`${styles.expandedOnly} ${styles.binIcon}`}
                 onMouseEnter={() => setDeleteHovered(true)}
                 onMouseLeave={() => setDeleteHovered(false)}
-                onClick={() => openDeletePageModal()}
+                onClick={() => setDeletePageModalIsOpen(true)}
             />
             <FontAwesomeIcon
                 icon={expanded ? faCompressArrowsAlt : faExpandArrowsAlt}
                 onClick={() => setExpanded(!expanded)}
             />
-            <DeletePageModal modalIsOpen={modalIsOpen} setModalIsOpen={setModalIsOpen} currentPage={currentPage} />
+            <CreatePageModal
+                createPageModalIsOpen={createPageModalIsOpen}
+                setCreatePageModalIsOpen={setCreatePageModalIsOpen}
+            />
+            <DeletePageModal
+                deletePageModalIsOpen={deletePageModalIsOpen}
+                setDeletePageModalIsOpen={setDeletePageModalIsOpen}
+                currentPage={currentPage}
+            />
         </div>
     );
 };

@@ -10,8 +10,8 @@ $footer-height: 50px;
 // colours
 // std
 $grey-light: #f2f2f2;
-$grey-medium: #ccc;
-$grey-dark: #828282;
+$grey-medium: #e5e5e5;
+$grey-dark: #ccc;
 $white: #fff;
 // brand
 $red: #ba371b;
@@ -23,11 +23,12 @@ $text: #393939;
 $links: $blue;
 
 // borders
-$border-colour: $grey-medium;
+$border-colour: $grey-dark;
 $border-radius: 0.5rem;
 $border-std: 1px solid $border-colour;
 
-// font sizes
+// fonts
+// sizes
 $font-lg-4: 3.6rem;
 $font-lg-3: 3rem;
 $font-lg-2: 2.4rem;
@@ -37,6 +38,8 @@ $font-small: 1.6rem;
 $font-tiny-1: 1.4rem;
 $font-tiny-2: 1.2rem;
 $font-tiny-3: 1rem;
+// families
+$font-family-std: 'Verdana', 'Arial', sans-serif;
 
 // styles
 $transition-std: 0.4s ease all;

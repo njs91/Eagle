@@ -17,7 +17,10 @@ class PagesViewSet(viewsets.ViewSet):
         return Response(serializer.data)
 
     def create(self, request):
-        pass
+        page = Page.objects.create(
+            title="testing", type="other", slug="test-slug", notes="test notes"
+        )
+        return page
 
     def update(self, request, pk=None):
         pass

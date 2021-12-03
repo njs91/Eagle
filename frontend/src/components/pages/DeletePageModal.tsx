@@ -10,12 +10,16 @@ import { PageContext, PageContextProps } from './PageContext';
 import { removeFromArray } from '../../utils/HelperFunctions';
 
 interface DeletePageModalProps {
-    modalIsOpen: boolean;
-    setModalIsOpen: Dispatch<boolean>;
+    deletePageModalIsOpen: boolean;
+    setDeletePageModalIsOpen: Dispatch<boolean>;
     currentPage: WebPage;
 }
 
-export const DeletePageModal: FC<DeletePageModalProps> = ({ modalIsOpen, setModalIsOpen, currentPage }) => {
+export const DeletePageModal: FC<DeletePageModalProps> = ({
+    deletePageModalIsOpen,
+    setDeletePageModalIsOpen,
+    currentPage,
+}) => {
     const {
         data: deletedData,
         performFetch: fetchDeletePage,
@@ -30,7 +34,7 @@ export const DeletePageModal: FC<DeletePageModalProps> = ({ modalIsOpen, setModa
     };
 
     const closeModal: () => void = () => {
-        setModalIsOpen(false);
+        setDeletePageModalIsOpen(false);
     };
 
     const deletePage = async () => {
@@ -53,7 +57,7 @@ export const DeletePageModal: FC<DeletePageModalProps> = ({ modalIsOpen, setModa
 
     return (
         <Modal
-            isOpen={modalIsOpen}
+            isOpen={deletePageModalIsOpen}
             onAfterOpen={afterOpenModal}
             onRequestClose={closeModal}
             className={styles.modal}
