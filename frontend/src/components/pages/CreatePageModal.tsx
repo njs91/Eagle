@@ -7,8 +7,10 @@ import { useFetch } from '../../hooks/useFetch';
 import { WebPage } from './Pages';
 import { Loading, Error } from '../Default';
 import { PageContext, PageContextProps } from './PageContext';
-import { removeFromArray } from '../../utils/HelperFunctions';
+import { removeItemFromArray } from '../../utils/HelperFunctions';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { createPageSchema } from '../../schemas/CreatePageSchema';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 interface CreatePageModalProps {
     createPageModalIsOpen: boolean;
@@ -46,7 +48,7 @@ export const CreatePageModal: FC<CreatePageModalProps> = ({ createPageModalIsOpe
     //         return;
     //     }
 
-    //     setPages([...removeFromArray(currentPage.id, pages)]);
+    //     setPages([...removeItemFromArray(currentPage.id, pages)]);
     // }, [createdData]);
     // React Hook useEffect has missing dependencies: 'currentPage', 'pages', and 'setPages'. Either include them or remove the dependency array  react-hooks/exhaustive-deps
     // can add all deps and then add setDeletePage(null) after setPages to prevent infinite loop, but then memory leak occurs: Warning: Can't perform a React state update on an unmounted component. This is a no-op, but it indicates a memory leak in your application. To fix, cancel all subscriptions and asynchronous tasks in a useEffect cleanup function
@@ -74,7 +76,7 @@ export const CreatePageModal: FC<CreatePageModalProps> = ({ createPageModalIsOpe
 
 type Inputs = {
     title: string;
-    type: string;
+    type: string; // @todo: note: see pageTypes variable in schema
     slug?: string;
     notes?: string;
 };
@@ -84,22 +86,22 @@ const CreatePageForm: FC<{ setCreatePageModalIsOpen: Dispatch<boolean> }> = ({ s
         register,
         handleSubmit,
         formState: { errors },
-    } = useForm<Inputs>();
+    } = useForm<Inputs>({
+        resolver: yupResolver(createPageSchema),
+        mode: 'onTouched',
+    });
     const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
+
+    console.log('errors', errors);
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <div className={styles.formInner}>
                 <label htmlFor='title'>Title:</label>
-                <input
-                    type='text'
-                    {...register('title', { required: true })}
-                    id='title'
-                    placeholder='e.g. Nginx Guide'
-                />
-                {errors.title && <span className={styles.required}>error</span>}
+                <input type='text' {...register('title')} id='title' placeholder='e.g. Nginx Guide' />
+                {errors.title && <span className={styles.required}>{errors.title.message}</span>}
                 <label htmlFor='type'>Type:</label>
-                <select {...(register('type'), { required: true })} id='type'>
+                <select defaultValue='' {...register('type')} id='type'>
                     {/* <optgroup label='Landing Pages'>
                         <option value='squeeze'>Squeeze Page</option>
                         <option value='clickthrough'>Click Through</option>
@@ -109,20 +111,20 @@ const CreatePageForm: FC<{ setCreatePageModalIsOpen: Dispatch<boolean> }> = ({ s
                         <option value='upsell'>Upsell</option>
                         <option value='downsell'>Downsell</option>
                     </optgroup> */}
-                    <option value='' selected disabled hidden>
+                    <option value='' disabled hidden>
                         Select an option
                     </option>
                     <option value='landing'>Landing Page</option>
                     <option value='sale'>Sale Page</option>
                     <option value='other'>Other</option>
                 </select>
-                {errors.type && <span className={styles.required}>error</span>}
+                {errors.type && <span className={styles.required}>{errors.type.message}</span>}
                 <label htmlFor='slug'>Slug:</label>
                 <input type='text' {...register('slug')} id='slug' placeholder='e.g. /nginx/guide' />
-                {errors.slug && <span className={styles.required}>error</span>}
+                {errors.slug && <span className={styles.required}>{errors.slug.message}</span>}
                 <label htmlFor='notes'>Notes:</label>
-                <textarea {...register('notes')} id='notes'></textarea>
-                {errors.notes && <span className={styles.required}>error</span>}
+                <textarea {...register('notes')} id='notes' />
+                {errors.notes && <span className={styles.required}>{errors.notes.message}</span>}
             </div>
 
             <div className={styles.buttonsContainer}>
