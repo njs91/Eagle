@@ -231,6 +231,10 @@ form {
         margin-bottom: 2rem;
     }
 
+    textarea {
+        font-family: $font-family-std;
+    }
+
     label {
         margin-bottom: 1rem;
     }
@@ -251,11 +255,15 @@ form {
         color: $red;
         margin-bottom: 2rem;
         margin-top: -1rem;
-        // font-weight: 700;
     }
 
     .formInner {
         display: flex;
         flex-direction: column;
+
+        .inputContainer {
+            display: flex;
+            flex-direction: column;
+        }
     }
 }

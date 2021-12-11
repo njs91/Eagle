@@ -1,3 +1,5 @@
+import { strictEqual } from 'assert';
+
 export const formatDate = (date: string): string => {
     const actualDate = new Date(date);
     const year = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(actualDate);
@@ -17,4 +19,9 @@ export const removeItemFromArray = (id: number, arr: Array<any>): Array<any> => 
     const indexToRemove: number = arr.map((el) => el.id).indexOf(id);
     ~indexToRemove && arr.splice(indexToRemove, 1); // ~ = >= 0
     return arr;
+};
+
+export const capitalise = (str: string): string => {
+    if (!str.length) return str;
+    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 };

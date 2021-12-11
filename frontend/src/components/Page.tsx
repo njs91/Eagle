@@ -14,9 +14,9 @@ export const Page: React.FC<PageProps> = ({
     showHeader = true,
     showFooter = true,
 }) => {
-    const pageClasses = `${styles.pageContainer} ${clsPage ? clsPage : ''}`;
-    const outerClasses = `${styles.outer} ${clsOuter ? clsOuter : ''}`;
-    const innerClasses = `${!fullWidth ? `${styles.inner}` : ''} ${clsInner ? clsInner : ''}`;
+    const pageClasses = `${styles.pageContainer} ${clsPage || ''}`;
+    const outerClasses = `${styles.outer} ${clsOuter || ''}`;
+    const innerClasses = `${!fullWidth ? `${styles.inner}` : ''} ${clsInner || ''}`;
 
     return (
         <DocumentMeta {...meta}>

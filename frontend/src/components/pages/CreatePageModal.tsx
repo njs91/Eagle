@@ -11,6 +11,7 @@ import { removeItemFromArray } from '../../utils/HelperFunctions';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { createPageSchema } from '../../schemas/CreatePageSchema';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { InputField, SelectField } from '../Form';
 
 interface CreatePageModalProps {
     createPageModalIsOpen: boolean;
@@ -74,9 +75,9 @@ export const CreatePageModal: FC<CreatePageModalProps> = ({ createPageModalIsOpe
     );
 };
 
-type Inputs = {
+type CreatePageFormInputs = {
     title: string;
-    type: string; // @todo: note: see pageTypes variable in schema
+    type: string;
     slug?: string;
     notes?: string;
 };
@@ -86,22 +87,17 @@ const CreatePageForm: FC<{ setCreatePageModalIsOpen: Dispatch<boolean> }> = ({ s
         register,
         handleSubmit,
         formState: { errors },
-    } = useForm<Inputs>({
+    } = useForm<CreatePageFormInputs>({
         resolver: yupResolver(createPageSchema),
         mode: 'onTouched',
     });
-    const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
-
-    console.log('errors', errors);
+    const onSubmit: SubmitHandler<CreatePageFormInputs> = (data) => console.log(data);
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <div className={styles.formInner}>
-                <label htmlFor='title'>Title:</label>
-                <input type='text' {...register('title')} id='title' placeholder='e.g. Nginx Guide' />
-                {errors.title && <span className={styles.required}>{errors.title.message}</span>}
-                <label htmlFor='type'>Type:</label>
-                <select defaultValue='' {...register('type')} id='type'>
+                <InputField type='text' title='title' register={register} errors={errors} />
+                <SelectField type='select' title='type' defaultValue='' register={register} errors={errors}>
                     {/* <optgroup label='Landing Pages'>
                         <option value='squeeze'>Squeeze Page</option>
                         <option value='clickthrough'>Click Through</option>
@@ -117,14 +113,15 @@ const CreatePageForm: FC<{ setCreatePageModalIsOpen: Dispatch<boolean> }> = ({ s
                     <option value='landing'>Landing Page</option>
                     <option value='sale'>Sale Page</option>
                     <option value='other'>Other</option>
-                </select>
-                {errors.type && <span className={styles.required}>{errors.type.message}</span>}
-                <label htmlFor='slug'>Slug:</label>
-                <input type='text' {...register('slug')} id='slug' placeholder='e.g. /nginx/guide' />
-                {errors.slug && <span className={styles.required}>{errors.slug.message}</span>}
-                <label htmlFor='notes'>Notes:</label>
-                <textarea {...register('notes')} id='notes' />
-                {errors.notes && <span className={styles.required}>{errors.notes.message}</span>}
+                </SelectField>
+                <InputField
+                    type='text'
+                    title='slug'
+                    register={register}
+                    errors={errors}
+                    placeholder='e.g. /nginx/guide'
+                />
+                <InputField type='textarea' title='notes' register={register} errors={errors} />
             </div>
 
             <div className={styles.buttonsContainer}>

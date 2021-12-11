@@ -5,17 +5,6 @@ import Modal from 'react-modal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
-export const Section: FC<SectionProps> = ({ children, clsOuter, clsInner, patterned, tag: Tag = 'section' }) => {
-    const outerClasses = `${styles.outer} ${patterned ? styles.patterned : ''} ${clsOuter ? clsOuter : ''}`;
-    const innerClasses = `${styles.inner} ${clsInner ? clsInner : ''}`;
-
-    return (
-        <Tag className={outerClasses}>
-            <div className={innerClasses}>{children}</div>
-        </Tag>
-    );
-};
-
 interface SectionProps {
     children: ReactNode;
     clsOuter?: string;
@@ -24,10 +13,21 @@ interface SectionProps {
     patterned?: boolean;
 }
 
+export const Section: FC<SectionProps> = ({ children, clsOuter, clsInner, patterned, tag: Tag = 'section' }) => {
+    const outerClasses = `${styles.outer} ${patterned ? styles.patterned : ''} ${clsOuter || ''}`;
+    const innerClasses = `${styles.inner} ${clsInner || ''}`;
+
+    return (
+        <Tag className={outerClasses}>
+            <div className={innerClasses}>{children}</div>
+        </Tag>
+    );
+};
+
 export const Loading: FC<{
     clsOuter?: string;
 }> = ({ clsOuter }) => (
-    <div className={clsOuter ? clsOuter : ''}>
+    <div className={clsOuter || ''}>
         <img src={LoadingImage} alt='Loading' />
     </div>
 );
