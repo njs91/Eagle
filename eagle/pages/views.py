@@ -17,10 +17,32 @@ class PagesViewSet(viewsets.ViewSet):
         return Response(serializer.data)
 
     def create(self, request):
-        page = Page.objects.create(
-            title="testing", type="other", slug="test-slug", notes="test notes"
+        # print(" *** TEST ***", request.POST["title"]) # fails with keyerror: 'title' MultiValueDictKeyError(key) django.utils.datastructures.MultiValueDictKeyError: 'title'
+        # print(" *** TEST ***", request["title"]) # fails with TypeError: 'Request' object is not subscriptable
+        # print("*** test ***: ", request.POST.get("title", "eh")) # fails as print eh
+        # print("*** test ***: ", request.POST.get("title")) # fails as it just returns None
+        # print("*** test 2 ***: ", request.get("title")) # fails with AttributeError: 'WSGIRequest' object has no attribute 'get'
+
+        print(
+            " *** TEST 1 self.request.query_params.get('title', None)",
+            self.request.query_params.get("title", None),
         )
-        return page
+        print(
+            " *** TEST 2 self.request.query_params", self.request.query_params
+        )  # prints empty QueryDict: <QueryDict: {}>
+        print("test 3: print(request.data['title'])", request.data["title"])
+
+        # page = Page.objects.create(
+        #     title="testing", type="other", slug="test-slug", notes="test notes"
+        # )
+        page = Page.objects.create(
+            title=request.data["title"],
+            type=request.data["type"],
+            slug=request.data["slug"],
+            notes=request.data["notes"],
+        )
+        serializer = PageSerializer(page)
+        return Response(serializer.data)
 
     def update(self, request, pk=None):
         pass
@@ -29,6 +51,7 @@ class PagesViewSet(viewsets.ViewSet):
         pass
 
     def destroy(self, request, pk=None):
+        # use the request instead of pk? then can presumably fetch http://localhost:8000/api/pages/ rather than http://localhost:8000/api/pages/id?
         obj = get_object_or_404(Page, id=pk)
         obj.delete()
         return Response(status=204)

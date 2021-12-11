@@ -48,7 +48,6 @@ export const DeletePageModal: FC<DeletePageModalProps> = ({
         if (!deletedData || !deletedData?.success || !pages || !currentPage) {
             return;
         }
-
         setPages([...removeItemFromArray(currentPage.id, pages)]);
     }, [deletedData]);
     // React Hook useEffect has missing dependencies: 'currentPage', 'pages', and 'setPages'. Either include them or remove the dependency array  react-hooks/exhaustive-deps

@@ -2,37 +2,50 @@ import { Dispatch, useState } from 'react';
 
 export type FetchDataFn = (url: string, options?: any) => Promise<void>;
 
-export const useFetch = (): {
+type FetchOutputs = {
     data: any;
     performFetch: FetchDataFn;
     loading: boolean;
     fetchError: boolean;
     setData: Dispatch<any>;
-} => {
+};
+
+export const useFetch = (): FetchOutputs => {
     const [data, setData] = useState<any>(null);
     const [loading, setLoading] = useState<boolean>(false);
     const [fetchError, setFetchError] = useState<boolean>(false);
 
     const performFetchFn: FetchDataFn = async (url, options?) => {
+        const setFailed = () => {
+            setFetchError(true);
+            setLoading(false);
+        };
+        const setSuccess = (data: any) => {
+            setData(data);
+            setLoading(false);
+        };
+
         try {
             setLoading(true);
             const res = await fetch(url, options);
 
+            if (!res.ok) {
+                setFailed();
+                return;
+            }
+
             if (res.status === 204) {
-                setData({
+                setSuccess({
                     success: true,
                     info: 'Item successfully deleted',
                 });
-                setLoading(false);
                 return;
             }
 
             const data = await res.json();
-            setData(data);
-            setLoading(false);
+            setSuccess(data);
         } catch (e) {
-            setFetchError(true);
-            setLoading(false);
+            setFailed();
             console.error(e);
         }
     };

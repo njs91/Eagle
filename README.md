@@ -75,9 +75,8 @@ Demo SEO organiser.
 
 ### Formatting
 
-1. Front-end formatter uses prettier
+1. Front-end formatting is configured by prettier in package.json
 2. Python formatter uses black
-3. If using VSCode, formatting is configured in .vscode/settings.json
 
 ### Preprocessing & Transpiling
 

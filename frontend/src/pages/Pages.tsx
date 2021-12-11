@@ -51,6 +51,7 @@ const PagesContent: VFC = () => {
         return <p>No pages found</p>;
     }
 
+    // @todo: add setPages to context?
     return (
         <PageContextProvider values={{ pages, setPages }}>
             <Sidebar

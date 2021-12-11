@@ -116,6 +116,7 @@ const Buttons: FC<ButtonsProps> = ({ expanded, setExpanded, setDeleteHovered, cu
             <CreatePageModal
                 createPageModalIsOpen={createPageModalIsOpen}
                 setCreatePageModalIsOpen={setCreatePageModalIsOpen}
+                currentPage={currentPage}
             />
             <DeletePageModal
                 deletePageModalIsOpen={deletePageModalIsOpen}

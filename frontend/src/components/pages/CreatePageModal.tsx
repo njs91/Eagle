@@ -7,7 +7,6 @@ import { useFetch } from '../../hooks/useFetch';
 import { WebPage } from './Pages';
 import { Loading, Error } from '../Default';
 import { PageContext, PageContextProps } from './PageContext';
-import { removeItemFromArray } from '../../utils/HelperFunctions';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { createPageSchema } from '../../schemas/CreatePageSchema';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -16,16 +15,21 @@ import { InputField, SelectField } from '../Form';
 interface CreatePageModalProps {
     createPageModalIsOpen: boolean;
     setCreatePageModalIsOpen: Dispatch<boolean>;
+    currentPage: WebPage;
 }
 
-export const CreatePageModal: FC<CreatePageModalProps> = ({ createPageModalIsOpen, setCreatePageModalIsOpen }) => {
+export const CreatePageModal: FC<CreatePageModalProps> = ({
+    createPageModalIsOpen,
+    setCreatePageModalIsOpen,
+    currentPage,
+}) => {
     const {
         data: createdData,
         performFetch: fetchCreatePage,
         fetchError: createPageError,
         loading: loadingCreatePage,
     } = useFetch();
-    // const { pages, setPages } = useContext<PageContextProps>(PageContext);
+    const { pages, setPages } = useContext<PageContextProps>(PageContext);
 
     const afterOpenModal: () => void = () => {
         // references are now sync'd and can be accessed.
@@ -36,24 +40,22 @@ export const CreatePageModal: FC<CreatePageModalProps> = ({ createPageModalIsOpe
         setCreatePageModalIsOpen(false);
     };
 
-    const createPage = async () => {
-        console.log('create page Fn...');
-        // await fetchCreatePage(`http://localhost:8000/api/pages/testing?`, {
-        //     method: 'DELETE',
-        // });
+    const createPage = async (data: CreatePageFormInputs) => {
+        await fetchCreatePage('http://localhost:8000/api/pages/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data),
+        });
         closeModal();
     };
 
-    // useEffect(() => {
-    //     if (!createdData || !createdData?.success || !pages || !currentPage) {
-    //         return;
-    //     }
-
-    //     setPages([...removeItemFromArray(currentPage.id, pages)]);
-    // }, [createdData]);
+    useEffect(() => {
+        if (!createdData || !pages || !currentPage) {
+            return;
+        }
+        setPages([createdData, ...pages]);
+    }, [createdData]);
     // React Hook useEffect has missing dependencies: 'currentPage', 'pages', and 'setPages'. Either include them or remove the dependency array  react-hooks/exhaustive-deps
-    // can add all deps and then add setDeletePage(null) after setPages to prevent infinite loop, but then memory leak occurs: Warning: Can't perform a React state update on an unmounted component. This is a no-op, but it indicates a memory leak in your application. To fix, cancel all subscriptions and asynchronous tasks in a useEffect cleanup function
-    // useRef approach fails: https://stackoverflow.com/questions/54954385/react-useeffect-causing-cant-perform-a-react-state-update-on-an-unmounted-comp
 
     return (
         <Modal
@@ -68,7 +70,11 @@ export const CreatePageModal: FC<CreatePageModalProps> = ({ createPageModalIsOpe
             </button>
             <div>
                 <h2>Create Page</h2>
-                <CreatePageForm setCreatePageModalIsOpen={setCreatePageModalIsOpen} />
+                <CreatePageForm
+                    createPage={createPage}
+                    setCreatePageModalIsOpen={setCreatePageModalIsOpen}
+                    loadingCreatePage={loadingCreatePage}
+                />
                 {createPageError && <Error msg={'Error creating page'} />}
             </div>
         </Modal>
@@ -82,7 +88,13 @@ type CreatePageFormInputs = {
     notes?: string;
 };
 
-const CreatePageForm: FC<{ setCreatePageModalIsOpen: Dispatch<boolean> }> = ({ setCreatePageModalIsOpen }) => {
+interface CreatePageFormProps {
+    setCreatePageModalIsOpen: Dispatch<boolean>;
+    createPage: (data: CreatePageFormInputs) => Promise<void>;
+    loadingCreatePage: any;
+}
+
+const CreatePageForm: FC<CreatePageFormProps> = ({ createPage, setCreatePageModalIsOpen, loadingCreatePage }) => {
     const {
         register,
         handleSubmit,
@@ -91,7 +103,7 @@ const CreatePageForm: FC<{ setCreatePageModalIsOpen: Dispatch<boolean> }> = ({ s
         resolver: yupResolver(createPageSchema),
         mode: 'onTouched',
     });
-    const onSubmit: SubmitHandler<CreatePageFormInputs> = (data) => console.log(data);
+    const onSubmit: SubmitHandler<CreatePageFormInputs> = (data) => createPage(data);
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -124,14 +136,18 @@ const CreatePageForm: FC<{ setCreatePageModalIsOpen: Dispatch<boolean> }> = ({ s
                 <InputField type='textarea' title='notes' register={register} errors={errors} />
             </div>
 
-            <div className={styles.buttonsContainer}>
-                <button type='submit' className={styles.btnPrimary}>
-                    Create
-                </button>
-                <button type='button' onClick={() => setCreatePageModalIsOpen(false)} className={styles.btnRed}>
-                    Close
-                </button>
-            </div>
+            {loadingCreatePage ? (
+                <Loading />
+            ) : (
+                <div className={styles.buttonsContainer}>
+                    <button type='submit' className={styles.btnPrimary}>
+                        Create
+                    </button>
+                    <button type='button' onClick={() => setCreatePageModalIsOpen(false)} className={styles.btnRed}>
+                        Close
+                    </button>
+                </div>
+            )}
         </form>
     );
 };
