@@ -75,7 +75,7 @@ export const CreatePageModal: FC<CreatePageModalProps> = ({
                     setCreatePageModalIsOpen={setCreatePageModalIsOpen}
                     loadingCreatePage={loadingCreatePage}
                 />
-                {createPageError && <Error msg={'Error creating page'} />}
+                {createPageError && <Error msg={'Error creating page'} marginTop={true} />}
             </div>
         </Modal>
     );

@@ -80,7 +80,7 @@ export const DeletePageModal: FC<DeletePageModalProps> = ({
                         </button>
                     </div>
                 )}
-                {deletePageError && <Error msg={'Error deleting page'} />}
+                {deletePageError && <Error msg={'Error deleting page'} marginTop={true} />}
             </div>
         </Modal>
     );

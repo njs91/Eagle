@@ -181,6 +181,10 @@ a {
     font-weight: 700;
     padding: 2rem 3rem;
     background-color: $red;
+
+    &.marginTop {
+        margin-top: 2rem;
+    }
 }
 
 // modal

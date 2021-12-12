@@ -32,9 +32,14 @@ export const Loading: FC<{
     </div>
 );
 
-export const Error: FC<{
+interface ErrorProps {
     msg: string;
-}> = ({ msg }) => <p className={styles.errorText}>{msg}</p>;
+    marginTop?: boolean;
+}
+
+export const Error: FC<ErrorProps> = ({ msg, marginTop }) => (
+    <p className={`${styles.errorText} ${marginTop ? styles.marginTop : ''}`}>{msg}</p>
+);
 
 export const TestModal: VFC = () => {
     const [modalIsOpen, setIsOpen] = useState<boolean>(false);
