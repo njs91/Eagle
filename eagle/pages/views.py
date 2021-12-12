@@ -17,29 +17,12 @@ class PagesViewSet(viewsets.ViewSet):
         return Response(serializer.data)
 
     def create(self, request):
-        # print(" *** TEST ***", request.POST["title"]) # fails with keyerror: 'title' MultiValueDictKeyError(key) django.utils.datastructures.MultiValueDictKeyError: 'title'
-        # print(" *** TEST ***", request["title"]) # fails with TypeError: 'Request' object is not subscriptable
-        # print("*** test ***: ", request.POST.get("title", "eh")) # fails as print eh
-        # print("*** test ***: ", request.POST.get("title")) # fails as it just returns None
-        # print("*** test 2 ***: ", request.get("title")) # fails with AttributeError: 'WSGIRequest' object has no attribute 'get'
-
-        print(
-            " *** TEST 1 self.request.query_params.get('title', None)",
-            self.request.query_params.get("title", None),
-        )
-        print(
-            " *** TEST 2 self.request.query_params", self.request.query_params
-        )  # prints empty QueryDict: <QueryDict: {}>
-        print("test 3: print(request.data['title'])", request.data["title"])
-
-        # page = Page.objects.create(
-        #     title="testing", type="other", slug="test-slug", notes="test notes"
-        # )
+        req_data = request.data
         page = Page.objects.create(
-            title=request.data["title"],
-            type=request.data["type"],
-            slug=request.data["slug"],
-            notes=request.data["notes"],
+            title=req_data["title"],
+            type=req_data["type"],
+            slug=req_data["slug"],
+            notes=req_data["notes"],
         )
         serializer = PageSerializer(page)
         return Response(serializer.data)
