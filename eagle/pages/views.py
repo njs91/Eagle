@@ -12,6 +12,7 @@ class PagesViewSet(viewsets.ViewSet):
         return Response(serializer.data)
 
     def retrieve(self, request, pk=None):
+        # use request rather than pk?
         page = get_object_or_404(Page, pk=pk)
         serializer = PageSerializer(page)
         return Response(serializer.data)

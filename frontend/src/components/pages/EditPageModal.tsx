@@ -1,4 +1,4 @@
-import React, { FC, Dispatch, useEffect, useContext, VFC } from 'react';
+import React, { FC, Dispatch, useEffect, useContext } from 'react';
 import styles from '../../css/default.module.scss';
 import Modal from 'react-modal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -11,23 +11,20 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { createPageSchema } from '../../schemas/CreatePageSchema';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { InputField, SelectField } from '../Form';
+import { PageFormInputs } from './CreatePageModal';
 
-interface CreatePageModalProps {
-    createPageModalIsOpen: boolean;
-    setCreatePageModalIsOpen: Dispatch<boolean>;
+interface EditPageModalProps {
+    editPageModalIsOpen: boolean;
+    setEditPageModalIsOpen: Dispatch<boolean>;
     currentPage: WebPage;
 }
 
-export const CreatePageModal: FC<CreatePageModalProps> = ({
-    createPageModalIsOpen,
-    setCreatePageModalIsOpen,
-    currentPage,
-}) => {
+export const EditPageModal: FC<EditPageModalProps> = ({ editPageModalIsOpen, setEditPageModalIsOpen, currentPage }) => {
     const {
-        data: createdData,
-        performFetch: fetchCreatePage,
-        fetchError: createPageError,
-        loading: loadingCreatePage,
+        data: editedData,
+        performFetch: fetchEditPage,
+        fetchError: editPageError,
+        loading: loadingEditPage,
     } = useFetch();
     const { pages, setPages } = useContext<PageContextProps>(PageContext);
 
@@ -37,73 +34,69 @@ export const CreatePageModal: FC<CreatePageModalProps> = ({
     };
 
     const closeModal: () => void = () => {
-        setCreatePageModalIsOpen(false);
+        setEditPageModalIsOpen(false);
     };
 
-    const createPage = async (data: PageFormInputs) => {
-        await fetchCreatePage('http://localhost:8000/api/pages/', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data),
-        });
+    const editPage = async (data: PageFormInputs) => {
+        // await fetchEditPage('http://localhost:8000/api/pages/', {
+        //     method: 'PUT',
+        //     headers: { 'Content-Type': 'application/json' },
+        //     body: JSON.stringify(data),
+        // });
         closeModal();
     };
 
     useEffect(() => {
-        if (!createdData || !pages || !currentPage) {
+        if (!editedData || !pages || !currentPage) {
             return;
         }
-        setPages([createdData, ...pages]);
-    }, [createdData]);
+        setPages([editedData, ...pages]);
+    }, [editedData]);
     // React Hook useEffect has missing dependencies: 'currentPage', 'pages', and 'setPages'. Either include them or remove the dependency array  react-hooks/exhaustive-deps
 
     return (
         <Modal
-            isOpen={createPageModalIsOpen}
+            isOpen={editPageModalIsOpen}
             onAfterOpen={afterOpenModal}
             onRequestClose={closeModal}
             className={styles.modal}
-            contentLabel='Create page modal'
+            contentLabel='Edit page modal'
         >
             <button onClick={closeModal} className={styles.close}>
                 <FontAwesomeIcon icon={faTimes} />
             </button>
             <div>
-                <h2>Create Page</h2>
-                <CreatePageForm
-                    createPage={createPage}
-                    setCreatePageModalIsOpen={setCreatePageModalIsOpen}
-                    loadingCreatePage={loadingCreatePage}
+                <h2>Edit Page</h2>
+                <EditPageForm
+                    editPage={editPage}
+                    setEditPageModalIsOpen={setEditPageModalIsOpen}
+                    loadingEditPage={loadingEditPage}
                 />
-                {createPageError && <Error msg={'Error creating page'} marginTop={true} />}
+                {editPageError && <Error msg={'Error editing page'} marginTop={true} />}
             </div>
         </Modal>
     );
 };
 
-export type PageFormInputs = {
-    title: string;
-    type: string;
-    slug?: string;
-    notes?: string;
-};
-
-interface CreatePageFormProps {
-    setCreatePageModalIsOpen: Dispatch<boolean>;
-    createPage: (data: PageFormInputs) => Promise<void>;
-    loadingCreatePage: any;
+interface EditPageFormProps {
+    setEditPageModalIsOpen: Dispatch<boolean>;
+    editPage: (data: PageFormInputs) => Promise<void>;
+    loadingEditPage: boolean;
 }
 
-const CreatePageForm: FC<CreatePageFormProps> = ({ createPage, setCreatePageModalIsOpen, loadingCreatePage }) => {
+const EditPageForm: FC<EditPageFormProps> = ({ editPage, setEditPageModalIsOpen, loadingEditPage }) => {
     const {
         register,
         handleSubmit,
         formState: { errors },
     } = useForm<PageFormInputs>({
-        resolver: yupResolver(createPageSchema),
+        resolver: yupResolver(createPageSchema), // @todo: correct? also rename createPageSchema?
         mode: 'onTouched',
     });
-    const onSubmit: SubmitHandler<PageFormInputs> = (data) => createPage(data);
+    const onSubmit: SubmitHandler<PageFormInputs> = (data) => editPage(data);
+
+    // @todo: prepopulate form
+    // @todo: refactor somehow? same/similar code to the create page modal; repeated
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -136,14 +129,14 @@ const CreatePageForm: FC<CreatePageFormProps> = ({ createPage, setCreatePageModa
                 <InputField type='textarea' title='notes' register={register} errors={errors} />
             </div>
 
-            {loadingCreatePage ? (
+            {loadingEditPage ? (
                 <Loading />
             ) : (
                 <div className={styles.buttonsContainer}>
                     <button type='submit' className={styles.btnPrimary}>
-                        Create
+                        Update
                     </button>
-                    <button type='button' onClick={() => setCreatePageModalIsOpen(false)} className={styles.btnRed}>
+                    <button type='button' onClick={() => setEditPageModalIsOpen(false)} className={styles.btnRed}>
                         Close
                     </button>
                 </div>

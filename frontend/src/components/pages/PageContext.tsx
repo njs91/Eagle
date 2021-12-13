@@ -1,18 +1,18 @@
-import React, { createContext, ReactNode, FC } from 'react';
+import React, { createContext, ReactNode, FC, Dispatch } from 'react';
 import { WebPage } from './Pages';
 
 export interface PageContextProps {
     pages: Array<WebPage> | null;
+    setPages: any;
     // setPages: Dispatch<any>;
     // setPages: Dispatch<Array<WebPage> | null>;
     // setPages: Dispatch<React.SetStateAction<Array<WebPage> | null>>;
-    setPages: any;
     // setPages: (value: any) => void;
 }
 
 export const PageContext = createContext<PageContextProps>({
     pages: null,
-    setPages: null,
+    setPages: () => {},
 });
 
 export interface PageContextProviderProps {

@@ -4,12 +4,19 @@ import React, { Dispatch, FC, ReactNode, useContext, useState } from 'react';
 import styles from '../../css/pages/pages.module.scss';
 import { Loading, Section, Error } from '../Default';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCompressArrowsAlt, faExpandArrowsAlt, faPlusSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
+import {
+    faCompressArrowsAlt,
+    faExpandArrowsAlt,
+    faPencilAlt,
+    faPlusSquare,
+    faTrash,
+} from '@fortawesome/free-solid-svg-icons';
 import { formatDate } from '../../utils/HelperFunctions';
 import { FetchDataFn } from '../../hooks/useFetch';
 import { DeletePageModal } from './DeletePageModal';
 import { PageContext, PageContextProps } from './PageContext';
 import { CreatePageModal } from './CreatePageModal';
+import { EditPageModal } from './EditPageModal';
 
 export interface WebPage {
     date_created: string;
@@ -95,13 +102,15 @@ interface ButtonsProps {
 }
 
 const Buttons: FC<ButtonsProps> = ({ expanded, setExpanded, setDeleteHovered, currentPageData }) => {
-    const [deletePageModalIsOpen, setDeletePageModalIsOpen] = useState<boolean>(false);
     const [createPageModalIsOpen, setCreatePageModalIsOpen] = useState<boolean>(false);
+    const [editPageModalIsOpen, setEditPageModalIsOpen] = useState<boolean>(false);
+    const [deletePageModalIsOpen, setDeletePageModalIsOpen] = useState<boolean>(false);
     const { currentPage } = currentPageData;
 
     return (
         <div className={styles.buttonsContainer}>
             <FontAwesomeIcon icon={faPlusSquare} onClick={() => setCreatePageModalIsOpen(true)} />
+            <FontAwesomeIcon icon={faPencilAlt} onClick={() => setEditPageModalIsOpen(true)} />
             <FontAwesomeIcon
                 icon={faTrash}
                 className={`${styles.expandedOnly} ${styles.binIcon}`}
@@ -116,6 +125,11 @@ const Buttons: FC<ButtonsProps> = ({ expanded, setExpanded, setDeleteHovered, cu
             <CreatePageModal
                 createPageModalIsOpen={createPageModalIsOpen}
                 setCreatePageModalIsOpen={setCreatePageModalIsOpen}
+                currentPage={currentPage}
+            />
+            <EditPageModal
+                editPageModalIsOpen={editPageModalIsOpen}
+                setEditPageModalIsOpen={setEditPageModalIsOpen}
                 currentPage={currentPage}
             />
             <DeletePageModal
