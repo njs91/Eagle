@@ -8,11 +8,15 @@ export interface PageContextProps {
     // setPages: Dispatch<Array<WebPage> | null>;
     // setPages: Dispatch<React.SetStateAction<Array<WebPage> | null>>;
     // setPages: (value: any) => void;
+    currentPage: WebPage | null;
+    setCurrentPage: Dispatch<WebPage>;
 }
 
 export const PageContext = createContext<PageContextProps>({
     pages: null,
     setPages: () => {},
+    currentPage: null,
+    setCurrentPage: () => {},
 });
 
 export interface PageContextProviderProps {

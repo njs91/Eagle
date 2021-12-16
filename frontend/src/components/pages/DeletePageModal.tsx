@@ -12,21 +12,16 @@ import { removeItemFromArray } from '../../utils/HelperFunctions';
 interface DeletePageModalProps {
     deletePageModalIsOpen: boolean;
     setDeletePageModalIsOpen: Dispatch<boolean>;
-    currentPage: WebPage;
 }
 
-export const DeletePageModal: FC<DeletePageModalProps> = ({
-    deletePageModalIsOpen,
-    setDeletePageModalIsOpen,
-    currentPage,
-}) => {
+export const DeletePageModal: FC<DeletePageModalProps> = ({ deletePageModalIsOpen, setDeletePageModalIsOpen }) => {
     const {
         data: deletedData,
         performFetch: fetchDeletePage,
         fetchError: deletePageError,
         loading: loadingDeletePage,
     } = useFetch();
-    const { pages, setPages } = useContext<PageContextProps>(PageContext);
+    const { pages, setPages, currentPage } = useContext<PageContextProps>(PageContext);
 
     const afterOpenModal: () => void = () => {
         // references are now sync'd and can be accessed.
@@ -38,7 +33,7 @@ export const DeletePageModal: FC<DeletePageModalProps> = ({
     };
 
     const deletePage = async () => {
-        await fetchDeletePage(`http://localhost:8000/api/pages/${currentPage.id}`, {
+        await fetchDeletePage(`http://localhost:8000/api/pages/${currentPage?.id}`, {
             method: 'DELETE',
         });
         closeModal();
@@ -67,7 +62,7 @@ export const DeletePageModal: FC<DeletePageModalProps> = ({
             </button>
             <div>
                 <h2>Delete Page</h2>
-                <p>Are you sure you want to delete page {currentPage.title.toLowerCase()}?</p>
+                <p>Are you sure you want to delete page {currentPage?.title.toLowerCase()}?</p>
                 {loadingDeletePage ? (
                     <Loading />
                 ) : (

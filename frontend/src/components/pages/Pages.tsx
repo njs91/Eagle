@@ -28,9 +28,7 @@ export interface WebPage {
 }
 
 interface CurrentPageData {
-    currentPage: WebPage;
     fetchPage: FetchDataFn;
-    setCurrentPage: Dispatch<WebPage>;
     fetchPageError: boolean;
 }
 
@@ -63,8 +61,8 @@ interface SidebarListProps {
 }
 
 const SidebarList: FC<SidebarListProps> = ({ deleteHovered, currentPageData }) => {
-    const { currentPage, fetchPage } = currentPageData;
-    const { pages } = useContext<PageContextProps>(PageContext);
+    const { fetchPage } = currentPageData;
+    const { pages, currentPage } = useContext<PageContextProps>(PageContext);
 
     return (
         <ul>
@@ -105,7 +103,6 @@ const Buttons: FC<ButtonsProps> = ({ expanded, setExpanded, setDeleteHovered, cu
     const [createPageModalIsOpen, setCreatePageModalIsOpen] = useState<boolean>(false);
     const [editPageModalIsOpen, setEditPageModalIsOpen] = useState<boolean>(false);
     const [deletePageModalIsOpen, setDeletePageModalIsOpen] = useState<boolean>(false);
-    const { currentPage } = currentPageData;
 
     return (
         <div className={styles.buttonsContainer}>
@@ -125,17 +122,11 @@ const Buttons: FC<ButtonsProps> = ({ expanded, setExpanded, setDeleteHovered, cu
             <CreatePageModal
                 createPageModalIsOpen={createPageModalIsOpen}
                 setCreatePageModalIsOpen={setCreatePageModalIsOpen}
-                currentPage={currentPage}
             />
-            <EditPageModal
-                editPageModalIsOpen={editPageModalIsOpen}
-                setEditPageModalIsOpen={setEditPageModalIsOpen}
-                currentPage={currentPage}
-            />
+            <EditPageModal editPageModalIsOpen={editPageModalIsOpen} setEditPageModalIsOpen={setEditPageModalIsOpen} />
             <DeletePageModal
                 deletePageModalIsOpen={deletePageModalIsOpen}
                 setDeletePageModalIsOpen={setDeletePageModalIsOpen}
-                currentPage={currentPage}
             />
         </div>
     );

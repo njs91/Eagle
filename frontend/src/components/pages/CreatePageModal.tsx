@@ -15,21 +15,16 @@ import { InputField, SelectField } from '../Form';
 interface CreatePageModalProps {
     createPageModalIsOpen: boolean;
     setCreatePageModalIsOpen: Dispatch<boolean>;
-    currentPage: WebPage;
 }
 
-export const CreatePageModal: FC<CreatePageModalProps> = ({
-    createPageModalIsOpen,
-    setCreatePageModalIsOpen,
-    currentPage,
-}) => {
+export const CreatePageModal: FC<CreatePageModalProps> = ({ createPageModalIsOpen, setCreatePageModalIsOpen }) => {
     const {
         data: createdData,
         performFetch: fetchCreatePage,
         fetchError: createPageError,
         loading: loadingCreatePage,
     } = useFetch();
-    const { pages, setPages } = useContext<PageContextProps>(PageContext);
+    const { pages, setPages, currentPage } = useContext<PageContextProps>(PageContext);
 
     const afterOpenModal: () => void = () => {
         // references are now sync'd and can be accessed.

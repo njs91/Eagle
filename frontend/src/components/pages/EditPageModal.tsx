@@ -16,17 +16,16 @@ import { PageFormInputs } from './CreatePageModal';
 interface EditPageModalProps {
     editPageModalIsOpen: boolean;
     setEditPageModalIsOpen: Dispatch<boolean>;
-    currentPage: WebPage;
 }
 
-export const EditPageModal: FC<EditPageModalProps> = ({ editPageModalIsOpen, setEditPageModalIsOpen, currentPage }) => {
+export const EditPageModal: FC<EditPageModalProps> = ({ editPageModalIsOpen, setEditPageModalIsOpen }) => {
     const {
         data: editedData,
         performFetch: fetchEditPage,
         fetchError: editPageError,
         loading: loadingEditPage,
     } = useFetch();
-    const { pages, setPages } = useContext<PageContextProps>(PageContext);
+    const { pages, setPages, currentPage } = useContext<PageContextProps>(PageContext);
 
     const afterOpenModal: () => void = () => {
         // references are now sync'd and can be accessed.
@@ -91,7 +90,7 @@ const EditPageForm: FC<EditPageFormProps> = ({ editPage, setEditPageModalIsOpen,
     });
     const onSubmit: SubmitHandler<PageFormInputs> = (data) => editPage(data);
 
-    // @todo: prepopulate form
+    // @todo: prepopulate form - from current page variable
     // @todo: refactor somehow? same/similar code to the create page modal; repeated
     // @todo: anywhere where I can use useCallback to prevent Fns re-rendering unnecessarily?
 
