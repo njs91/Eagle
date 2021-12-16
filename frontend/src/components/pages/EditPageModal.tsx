@@ -7,7 +7,7 @@ import { useFetch } from '../../hooks/useFetch';
 import { WebPage } from './Pages';
 import { Loading, Error } from '../Default';
 import { PageContext, PageContextProps } from './PageContext';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { createPageSchema } from '../../schemas/CreatePageSchema';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { InputField, SelectField } from '../Form';
@@ -85,11 +85,7 @@ interface EditPageFormProps {
 }
 
 const EditPageForm: FC<EditPageFormProps> = ({ editPage, setEditPageModalIsOpen, loadingEditPage }) => {
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-    } = useForm<PageFormInputs>({
+    const methods = useForm<PageFormInputs>({
         resolver: yupResolver(createPageSchema), // @todo: correct? also rename createPageSchema?
         mode: 'onTouched',
     });
@@ -97,13 +93,15 @@ const EditPageForm: FC<EditPageFormProps> = ({ editPage, setEditPageModalIsOpen,
 
     // @todo: prepopulate form
     // @todo: refactor somehow? same/similar code to the create page modal; repeated
+    // @todo: anywhere where I can use useCallback to prevent Fns re-rendering unnecessarily?
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)}>
-            <div className={styles.formInner}>
-                <InputField type='text' title='title' register={register} errors={errors} />
-                <SelectField type='select' title='type' defaultValue='' register={register} errors={errors}>
-                    {/* <optgroup label='Landing Pages'>
+        <FormProvider {...methods}>
+            <form onSubmit={methods.handleSubmit(onSubmit)}>
+                <div className={styles.formInner}>
+                    <InputField type='text' title='title' />
+                    <SelectField type='select' title='type' defaultValue=''>
+                        {/* <optgroup label='Landing Pages'>
                         <option value='squeeze'>Squeeze Page</option>
                         <option value='clickthrough'>Click Through</option>
                     </optgroup>
@@ -112,35 +110,30 @@ const EditPageForm: FC<EditPageFormProps> = ({ editPage, setEditPageModalIsOpen,
                         <option value='upsell'>Upsell</option>
                         <option value='downsell'>Downsell</option>
                     </optgroup> */}
-                    <option value='' disabled hidden>
-                        Select an option
-                    </option>
-                    <option value='landing'>Landing Page</option>
-                    <option value='sale'>Sale Page</option>
-                    <option value='other'>Other</option>
-                </SelectField>
-                <InputField
-                    type='text'
-                    title='slug'
-                    register={register}
-                    errors={errors}
-                    placeholder='e.g. /nginx/guide'
-                />
-                <InputField type='textarea' title='notes' register={register} errors={errors} />
-            </div>
-
-            {loadingEditPage ? (
-                <Loading />
-            ) : (
-                <div className={styles.buttonsContainer}>
-                    <button type='submit' className={styles.btnPrimary}>
-                        Update
-                    </button>
-                    <button type='button' onClick={() => setEditPageModalIsOpen(false)} className={styles.btnRed}>
-                        Close
-                    </button>
+                        <option value='' disabled hidden>
+                            Select an option
+                        </option>
+                        <option value='landing'>Landing Page</option>
+                        <option value='sale'>Sale Page</option>
+                        <option value='other'>Other</option>
+                    </SelectField>
+                    <InputField type='text' title='slug' placeholder='e.g. /nginx/guide' />
+                    <InputField type='textarea' title='notes' />
                 </div>
-            )}
-        </form>
+
+                {loadingEditPage ? (
+                    <Loading />
+                ) : (
+                    <div className={styles.buttonsContainer}>
+                        <button type='submit' className={styles.btnPrimary}>
+                            Update
+                        </button>
+                        <button type='button' onClick={() => setEditPageModalIsOpen(false)} className={styles.btnRed}>
+                            Close
+                        </button>
+                    </div>
+                )}
+            </form>
+        </FormProvider>
     );
 };
