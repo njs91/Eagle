@@ -6,13 +6,12 @@ import { capitalise } from '../utils/HelperFunctions';
 interface InputFieldProps {
     title: string;
     type: string;
-    defaultValue?: any;
     cls?: string;
     placeholder?: string;
     disabled?: boolean;
 }
 
-export const InputField: FC<InputFieldProps> = ({ title, type, defaultValue, cls, placeholder, disabled = false }) => {
+export const InputField: FC<InputFieldProps> = ({ title, type, cls, placeholder, disabled = false }) => {
     const { register } = useFormContext();
     const tags: { [key: string]: string } = {
         text: 'input',
@@ -22,14 +21,7 @@ export const InputField: FC<InputFieldProps> = ({ title, type, defaultValue, cls
 
     return (
         <FieldContainer title={title} cls={cls}>
-            <Tag
-                type={type}
-                id={title}
-                {...register(title)}
-                defaultValue={defaultValue}
-                placeholder={placeholder}
-                disabled={disabled}
-            />
+            <Tag type={type} id={title} {...register(title)} placeholder={placeholder} disabled={disabled} />
         </FieldContainer>
     );
 };
@@ -38,12 +30,12 @@ interface SelectFieldProps extends InputFieldProps {
     children: ReactNode;
 }
 
-export const SelectField: FC<SelectFieldProps> = ({ title, defaultValue, cls, disabled = false, children }) => {
+export const SelectField: FC<SelectFieldProps> = ({ title, cls, disabled = false, children }) => {
     const { register } = useFormContext();
 
     return (
         <FieldContainer title={title} cls={cls}>
-            <select id={title} {...register(title)} defaultValue={defaultValue} disabled={disabled}>
+            <select id={title} {...register(title)} disabled={disabled}>
                 {children}
             </select>
         </FieldContainer>

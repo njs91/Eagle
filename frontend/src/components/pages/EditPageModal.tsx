@@ -4,14 +4,10 @@ import Modal from 'react-modal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { useFetch } from '../../hooks/useFetch';
-import { WebPage } from './Pages';
-import { Loading, Error } from '../Default';
+import { Error } from '../Default';
 import { PageContext, PageContextProps } from './PageContext';
-import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
-import { createPageSchema } from '../../schemas/CreatePageSchema';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { InputField, SelectField } from '../Form';
-import { PageFormInputs } from './CreatePageModal';
+import { PageForm, PageFormInputs } from './PageForm';
+import { updateArray } from '../../utils/HelperFunctions';
 
 interface EditPageModalProps {
     editPageModalIsOpen: boolean;
@@ -37,11 +33,11 @@ export const EditPageModal: FC<EditPageModalProps> = ({ editPageModalIsOpen, set
     };
 
     const editPage = async (data: PageFormInputs) => {
-        // await fetchEditPage('http://localhost:8000/api/pages/', {
-        //     method: 'PUT',
-        //     headers: { 'Content-Type': 'application/json' },
-        //     body: JSON.stringify(data),
-        // });
+        await fetchEditPage(`http://localhost:8000/api/pages/${currentPage?.id}/`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data),
+        });
         closeModal();
     };
 
@@ -49,7 +45,7 @@ export const EditPageModal: FC<EditPageModalProps> = ({ editPageModalIsOpen, set
         if (!editedData || !pages || !currentPage) {
             return;
         }
-        setPages([editedData, ...pages]);
+        setPages([...updateArray(pages, currentPage.id, editedData)]);
     }, [editedData]);
     // React Hook useEffect has missing dependencies: 'currentPage', 'pages', and 'setPages'. Either include them or remove the dependency array  react-hooks/exhaustive-deps
 
@@ -66,73 +62,14 @@ export const EditPageModal: FC<EditPageModalProps> = ({ editPageModalIsOpen, set
             </button>
             <div>
                 <h2>Edit Page</h2>
-                <EditPageForm
-                    editPage={editPage}
-                    setEditPageModalIsOpen={setEditPageModalIsOpen}
-                    loadingEditPage={loadingEditPage}
+                <PageForm
+                    loading={loadingEditPage}
+                    setDisplayModal={setEditPageModalIsOpen}
+                    submitFn={editPage}
+                    showDefaultValues={true}
                 />
                 {editPageError && <Error msg={'Error editing page'} marginTop={true} />}
             </div>
         </Modal>
-    );
-};
-
-interface EditPageFormProps {
-    setEditPageModalIsOpen: Dispatch<boolean>;
-    editPage: (data: PageFormInputs) => Promise<void>;
-    loadingEditPage: boolean;
-}
-
-const EditPageForm: FC<EditPageFormProps> = ({ editPage, setEditPageModalIsOpen, loadingEditPage }) => {
-    const methods = useForm<PageFormInputs>({
-        resolver: yupResolver(createPageSchema), // @todo: correct? also rename createPageSchema?
-        mode: 'onTouched',
-    });
-    const onSubmit: SubmitHandler<PageFormInputs> = (data) => editPage(data);
-
-    // @todo: prepopulate form - from current page variable
-    // @todo: refactor somehow? same/similar code to the create page modal; repeated
-    // @todo: anywhere where I can use useCallback to prevent Fns re-rendering unnecessarily?
-
-    return (
-        <FormProvider {...methods}>
-            <form onSubmit={methods.handleSubmit(onSubmit)}>
-                <div className={styles.formInner}>
-                    <InputField type='text' title='title' />
-                    <SelectField type='select' title='type' defaultValue=''>
-                        {/* <optgroup label='Landing Pages'>
-                        <option value='squeeze'>Squeeze Page</option>
-                        <option value='clickthrough'>Click Through</option>
-                    </optgroup>
-                    <optgroup label='Sale Pages'>
-                        <option value='product'>Product Page</option>
-                        <option value='upsell'>Upsell</option>
-                        <option value='downsell'>Downsell</option>
-                    </optgroup> */}
-                        <option value='' disabled hidden>
-                            Select an option
-                        </option>
-                        <option value='landing'>Landing Page</option>
-                        <option value='sale'>Sale Page</option>
-                        <option value='other'>Other</option>
-                    </SelectField>
-                    <InputField type='text' title='slug' placeholder='e.g. /nginx/guide' />
-                    <InputField type='textarea' title='notes' />
-                </div>
-
-                {loadingEditPage ? (
-                    <Loading />
-                ) : (
-                    <div className={styles.buttonsContainer}>
-                        <button type='submit' className={styles.btnPrimary}>
-                            Update
-                        </button>
-                        <button type='button' onClick={() => setEditPageModalIsOpen(false)} className={styles.btnRed}>
-                            Close
-                        </button>
-                    </div>
-                )}
-            </form>
-        </FormProvider>
     );
 };

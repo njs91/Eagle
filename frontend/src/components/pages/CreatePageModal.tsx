@@ -1,16 +1,12 @@
-import React, { FC, Dispatch, useEffect, useContext, VFC } from 'react';
+import React, { FC, Dispatch, useEffect, useContext } from 'react';
 import styles from '../../css/default.module.scss';
 import Modal from 'react-modal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { useFetch } from '../../hooks/useFetch';
-import { WebPage } from './Pages';
-import { Loading, Error } from '../Default';
+import { Error } from '../Default';
 import { PageContext, PageContextProps } from './PageContext';
-import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
-import { createPageSchema } from '../../schemas/CreatePageSchema';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { InputField, SelectField } from '../Form';
+import { PageForm, PageFormInputs } from './PageForm';
 
 interface CreatePageModalProps {
     createPageModalIsOpen: boolean;
@@ -52,6 +48,10 @@ export const CreatePageModal: FC<CreatePageModalProps> = ({ createPageModalIsOpe
     }, [createdData]);
     // React Hook useEffect has missing dependencies: 'currentPage', 'pages', and 'setPages'. Either include them or remove the dependency array  react-hooks/exhaustive-deps
 
+    // @todo: fix bug - create a new page with 'test' as every field input option, then trying to
+    // delete it doesn't delete it properly - there was another 'test' page (from fixture) at the
+    // same time of creation so maybe that interfered
+
     return (
         <Modal
             isOpen={createPageModalIsOpen}
@@ -65,76 +65,13 @@ export const CreatePageModal: FC<CreatePageModalProps> = ({ createPageModalIsOpe
             </button>
             <div>
                 <h2>Create Page</h2>
-                <CreatePageForm
-                    createPage={createPage}
-                    setCreatePageModalIsOpen={setCreatePageModalIsOpen}
-                    loadingCreatePage={loadingCreatePage}
+                <PageForm
+                    loading={loadingCreatePage}
+                    setDisplayModal={setCreatePageModalIsOpen}
+                    submitFn={createPage}
                 />
                 {createPageError && <Error msg={'Error creating page'} marginTop={true} />}
             </div>
         </Modal>
-    );
-};
-
-export type PageFormInputs = {
-    title: string;
-    type: string;
-    slug?: string;
-    notes?: string;
-};
-
-interface CreatePageFormProps {
-    setCreatePageModalIsOpen: Dispatch<boolean>;
-    createPage: (data: PageFormInputs) => Promise<void>;
-    loadingCreatePage: any;
-}
-
-const CreatePageForm: FC<CreatePageFormProps> = ({ createPage, setCreatePageModalIsOpen, loadingCreatePage }) => {
-    const methods = useForm<PageFormInputs>({
-        resolver: yupResolver(createPageSchema),
-        mode: 'onTouched',
-    });
-    const onSubmit: SubmitHandler<PageFormInputs> = (data) => createPage(data);
-
-    return (
-        <FormProvider {...methods}>
-            <form onSubmit={methods.handleSubmit(onSubmit)}>
-                <div className={styles.formInner}>
-                    <InputField type='text' title='title' />
-                    <SelectField type='select' title='type' defaultValue=''>
-                        {/* <optgroup label='Landing Pages'>
-                        <option value='squeeze'>Squeeze Page</option>
-                        <option value='clickthrough'>Click Through</option>
-                    </optgroup>
-                    <optgroup label='Sale Pages'>
-                        <option value='product'>Product Page</option>
-                        <option value='upsell'>Upsell</option>
-                        <option value='downsell'>Downsell</option>
-                    </optgroup> */}
-                        <option value='' disabled hidden>
-                            Select an option
-                        </option>
-                        <option value='landing'>Landing Page</option>
-                        <option value='sale'>Sale Page</option>
-                        <option value='other'>Other</option>
-                    </SelectField>
-                    <InputField type='text' title='slug' placeholder='e.g. /nginx/guide' />
-                    <InputField type='textarea' title='notes' />
-                </div>
-
-                {loadingCreatePage ? (
-                    <Loading />
-                ) : (
-                    <div className={styles.buttonsContainer}>
-                        <button type='submit' className={styles.btnPrimary}>
-                            Create
-                        </button>
-                        <button type='button' onClick={() => setCreatePageModalIsOpen(false)} className={styles.btnRed}>
-                            Close
-                        </button>
-                    </div>
-                )}
-            </form>
-        </FormProvider>
     );
 };

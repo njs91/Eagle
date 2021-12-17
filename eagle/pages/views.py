@@ -29,15 +29,24 @@ class PagesViewSet(viewsets.ViewSet):
         return Response(serializer.data)
 
     def update(self, request, pk=None):
-        pass
+        req_data = request.data
+        page = get_object_or_404(Page, pk=pk)
+        page.title = req_data["title"]
+        page.type = req_data["type"]
+        page.slug = req_data["slug"]
+        page.notes = req_data["notes"]
+        page.save()
+        serializer = PageSerializer(page)
+        return Response(serializer.data)
 
     def partial_update(self, request, pk=None):
+        # what's the difference between partial_update & update?
         pass
 
     def destroy(self, request, pk=None):
         # use the request instead of pk? then can presumably fetch http://localhost:8000/api/pages/ rather than http://localhost:8000/api/pages/id?
-        obj = get_object_or_404(Page, id=pk)
-        obj.delete()
+        page = get_object_or_404(Page, id=pk)
+        page.delete()
         return Response(status=204)
 
 

@@ -15,6 +15,13 @@ export const removeItemFromArray = (id: number, arr: Array<{ id: number }>): Arr
     return arr;
 };
 
+export const updateArray = (arr: Array<{ id: number }>, id: number, newEl: { id: number }): Array<{}> => {
+    const indexToReplace: number = arr.map((el) => el.id).indexOf(id);
+    ~indexToReplace && arr.splice(indexToReplace, 1);
+    arr.unshift(newEl); // add to front of array so it shows latest edited item
+    return arr;
+};
+
 export const capitalise = (str: string): string => {
     if (!str.length) return str;
     return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
