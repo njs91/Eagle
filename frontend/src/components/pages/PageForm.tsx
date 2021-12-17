@@ -1,5 +1,5 @@
 import React, { Dispatch, FC, useContext } from 'react';
-import { FormProvider, SubmitHandler, useForm, useFormContext } from 'react-hook-form';
+import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { Loading } from '../Default';
 import { InputField, SelectField } from '../Form';
 import styles from '../../css/default.module.scss';
@@ -8,7 +8,6 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { pageSchema } from '../../schemas/PageSchema';
 
 export type PageFormInputs = {
-    // delete duplicates elsewhere but keep this one?
     title: string;
     type: string;
     slug?: string;
@@ -19,10 +18,17 @@ interface PageFormProps {
     loading: boolean;
     setDisplayModal: Dispatch<boolean>;
     submitFn: (data: PageFormInputs) => {};
+    submitBtnText: string;
     showDefaultValues?: boolean;
 }
 
-export const PageForm: FC<PageFormProps> = ({ loading, setDisplayModal, submitFn, showDefaultValues = false }) => {
+export const PageForm: FC<PageFormProps> = ({
+    loading,
+    setDisplayModal,
+    submitFn,
+    submitBtnText,
+    showDefaultValues = false,
+}) => {
     const { currentPage } = useContext<PageContextProps>(PageContext);
     const methods = useForm<PageFormInputs>({
         resolver: yupResolver(pageSchema),
@@ -43,14 +49,14 @@ export const PageForm: FC<PageFormProps> = ({ loading, setDisplayModal, submitFn
                     <InputField type='text' title='title' />
                     <SelectField type='select' title='type'>
                         {/* <optgroup label='Landing Pages'>
-            <option value='squeeze'>Squeeze Page</option>
-            <option value='clickthrough'>Click Through</option>
-        </optgroup>
-        <optgroup label='Sale Pages'>
-            <option value='product'>Product Page</option>
-            <option value='upsell'>Upsell</option>
-            <option value='downsell'>Downsell</option>
-        </optgroup> */}
+                                <option value='squeeze'>Squeeze Page</option>
+                                <option value='clickthrough'>Click Through</option>
+                            </optgroup>
+                            <optgroup label='Sale Pages'>
+                                <option value='product'>Product Page</option>
+                                <option value='upsell'>Upsell</option>
+                                <option value='downsell'>Downsell</option>
+                            </optgroup> */}
                         <option value='' disabled hidden>
                             Select an option
                         </option>
@@ -67,7 +73,7 @@ export const PageForm: FC<PageFormProps> = ({ loading, setDisplayModal, submitFn
                 ) : (
                     <div className={styles.buttonsContainer}>
                         <button type='submit' className={styles.btnPrimary}>
-                            Update
+                            {submitBtnText}
                         </button>
                         <button type='button' onClick={() => setDisplayModal(false)} className={styles.btnRed}>
                             Close

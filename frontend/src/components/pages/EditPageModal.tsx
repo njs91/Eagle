@@ -23,12 +23,12 @@ export const EditPageModal: FC<EditPageModalProps> = ({ editPageModalIsOpen, set
     } = useFetch();
     const { pages, setPages, currentPage } = useContext<PageContextProps>(PageContext);
 
-    const afterOpenModal: () => void = () => {
+    const afterOpenModal = () => {
         // references are now sync'd and can be accessed.
         console.log('Modal opened');
     };
 
-    const closeModal: () => void = () => {
+    const closeModal = () => {
         setEditPageModalIsOpen(false);
     };
 
@@ -49,8 +49,6 @@ export const EditPageModal: FC<EditPageModalProps> = ({ editPageModalIsOpen, set
     }, [editedData]);
     // React Hook useEffect has missing dependencies: 'currentPage', 'pages', and 'setPages'. Either include them or remove the dependency array  react-hooks/exhaustive-deps
 
-    // @todo: refactor modal further? repeated code on createPageModal
-
     return (
         <Modal
             isOpen={editPageModalIsOpen}
@@ -68,6 +66,7 @@ export const EditPageModal: FC<EditPageModalProps> = ({ editPageModalIsOpen, set
                     loading={loadingEditPage}
                     setDisplayModal={setEditPageModalIsOpen}
                     submitFn={editPage}
+                    submitBtnText='Update'
                     showDefaultValues={true}
                 />
                 {editPageError && <Error msg={'Error editing page'} marginTop={true} />}

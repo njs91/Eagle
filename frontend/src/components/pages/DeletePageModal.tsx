@@ -23,12 +23,12 @@ export const DeletePageModal: FC<DeletePageModalProps> = ({ deletePageModalIsOpe
     } = useFetch();
     const { pages, setPages, currentPage } = useContext<PageContextProps>(PageContext);
 
-    const afterOpenModal: () => void = () => {
+    const afterOpenModal = () => {
         // references are now sync'd and can be accessed.
         console.log('Modal opened');
     };
 
-    const closeModal: () => void = () => {
+    const closeModal = () => {
         setDeletePageModalIsOpen(false);
     };
 
