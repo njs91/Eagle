@@ -9,7 +9,10 @@ class PageAdmin(admin.ModelAdmin):
         "type",
         "date_created",
     )
-    readonly_fields = ("date_created",)  # shows date_created on individual 'page' pages
+    readonly_fields = (
+        "date_created",
+        "last_edited",
+    )  # shows date_created on individual 'page' pages
 
 
 @admin.register(Keyword)

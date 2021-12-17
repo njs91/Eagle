@@ -19,6 +19,7 @@ import { CreatePageModal } from './CreatePageModal';
 import { EditPageModal } from './EditPageModal';
 
 export interface WebPage {
+    last_edited: string;
     date_created: string;
     id: number;
     notes: string;
@@ -170,11 +171,12 @@ export const PageDetails: FC<PageDetailsProps> = ({ page, fetchPageError, loadin
 
     return (
         <DetailsWrap>
-            <p>{page.title}</p>
-            <p>{page.slug}</p>
-            <p>{page.type}</p>
-            <p>{page.notes}</p>
-            <p>{formatDate(page.date_created)}</p>
+            <p>Title: {page.title}</p>
+            <p>Slug: {page.slug}</p>
+            <p>Type: {page.type}</p>
+            <p>Notes: {page.notes}</p>
+            <p>Date Created: {formatDate(page.date_created)}</p>
+            <p>Last Edited: {page.last_edited}</p>
         </DetailsWrap>
     );
 };

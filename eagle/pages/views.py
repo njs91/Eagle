@@ -7,7 +7,7 @@ from .models import Page
 
 class PagesViewSet(viewsets.ViewSet):
     def list(self, request):
-        queryset = Page.objects.all().order_by("-date_created")
+        queryset = Page.objects.all().order_by("-last_edited")
         serializer = PageSerializer(queryset, many=True)
         return Response(serializer.data)
 

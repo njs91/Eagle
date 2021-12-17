@@ -11,6 +11,7 @@ class Page(models.Model):
     slug = models.CharField(max_length=200, null=True, blank=True)
     notes = models.TextField(blank=True, null=True)
     date_created = models.DateTimeField(auto_now_add=True, null=True)
+    last_edited = models.DateTimeField(auto_now=True, blank=False)
 
     def __str__(self):
         return self.title
