@@ -74,7 +74,7 @@ const SidebarList: FC<SidebarListProps> = ({ deleteHovered, currentPageData }) =
 
                 return (
                     <li
-                        key={page.title}
+                        key={page.id}
                         className={classes}
                         onClick={() => {
                             if (isCurrentPage) return;

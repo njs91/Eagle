@@ -49,6 +49,8 @@ export const EditPageModal: FC<EditPageModalProps> = ({ editPageModalIsOpen, set
     }, [editedData]);
     // React Hook useEffect has missing dependencies: 'currentPage', 'pages', and 'setPages'. Either include them or remove the dependency array  react-hooks/exhaustive-deps
 
+    // @todo: refactor modal further? repeated code on createPageModal
+
     return (
         <Modal
             isOpen={editPageModalIsOpen}

@@ -48,9 +48,7 @@ export const CreatePageModal: FC<CreatePageModalProps> = ({ createPageModalIsOpe
     }, [createdData]);
     // React Hook useEffect has missing dependencies: 'currentPage', 'pages', and 'setPages'. Either include them or remove the dependency array  react-hooks/exhaustive-deps
 
-    // @todo: fix bug - create a new page with 'test' as every field input option, then trying to
-    // delete it doesn't delete it properly - there was another 'test' page (from fixture) at the
-    // same time of creation so maybe that interfered
+    // @todo: refactor modal further? repeated code on editPageModal
 
     return (
         <Modal
