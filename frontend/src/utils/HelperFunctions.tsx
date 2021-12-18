@@ -9,6 +9,17 @@ export const formatDate = (date: string): string => {
     return `${day}/${month}/${year}`;
 };
 
+export const formatTime = (date: string): string => {
+    const actualDate = new Date(date);
+    const hour = new Intl.DateTimeFormat('en', {
+        hour: 'numeric',
+        hour12: false,
+    }).format(actualDate);
+    const minute = new Intl.DateTimeFormat('en', { minute: 'numeric' }).format(actualDate);
+
+    return `${hour}:${minute}`;
+};
+
 export const removeItemFromArray = (id: number, arr: Array<{ id: number }>): Array<{}> => {
     const indexToRemove: number = arr.map((el) => el.id).indexOf(id);
     ~indexToRemove && arr.splice(indexToRemove, 1); // ~ = >= 0

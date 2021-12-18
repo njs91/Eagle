@@ -11,7 +11,7 @@ import {
     faPlusSquare,
     faTrash,
 } from '@fortawesome/free-solid-svg-icons';
-import { formatDate } from '../../utils/HelperFunctions';
+import { formatDate, formatTime } from '../../utils/HelperFunctions';
 import { FetchDataFn } from '../../hooks/useFetch';
 import { DeletePageModal } from './DeletePageModal';
 import { PageContext, PageContextProps } from './PageContext';
@@ -177,6 +177,7 @@ export const PageDetails: FC<PageDetailsProps> = ({ page, fetchPageError, loadin
             <p>Notes: {page.notes}</p>
             <p>Date Created: {formatDate(page.date_created)}</p>
             <p>Last Edited: {page.last_edited}</p>
+            <p>Last Edited Time: {formatTime(page.last_edited)}</p>
         </DetailsWrap>
     );
 };
