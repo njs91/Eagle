@@ -77,24 +77,30 @@ ol {
 }
 
 // links
-a {
+@mixin linkStyles($color) {
     text-decoration: underline;
     background-color: transparent;
     transition: $transition-std;
 
     &:link {
-        color: $links;
+        color: $color;
     }
     &:visited {
-        color: darken($links, 25%);
+        color: darken($color, 25%);
     }
     &:hover {
-        color: lighten($links, 20%);
+        color: lighten($color, 20%);
         transition: $transition-std;
     }
     &:active {
         color: $red;
     }
+}
+a {
+    @include linkStyles($links);
+}
+.linkSecondary {
+    @include linkStyles($secondary);
 }
 
 // buttons

@@ -3,9 +3,9 @@ export const homepageMeta = {
     title: 'Homepage',
     description: 'Homepage meta description.',
 };
-export const testApiMeta = {
-    title: 'Test API Page',
-    description: 'Test page calling an API.',
+export const aboutMeta = {
+    title: 'About',
+    description: 'About page description.',
 };
 export const styleGuideMeta = {
     title: 'Style Guide',

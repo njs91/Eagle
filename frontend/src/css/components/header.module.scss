@@ -1,10 +1,55 @@
 @import '../variables.module.scss';
+@import '../default.module.scss';
 
 .headerOuter {
-    background-color: $grey-light;
+    background-color: $primary;
     height: $header-height;
 
+    &.fullWidth .headerInner {
+        max-width: none;
+    }
+
     .headerInner {
-        background-color: red;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        h2 {
+            margin: 0;
+        }
+
+        .rightArea {
+            display: flex;
+            align-items: center;
+
+            ul {
+                display: flex;
+                list-style: none;
+                padding: 0;
+                margin: 0;
+
+                li {
+                    a {
+                        @extend .linkSecondary;
+                        text-decoration: none;
+                    }
+
+                    &:not(:last-child) {
+                        margin-right: 1em;
+
+                        &:after {
+                            content: '|';
+                            margin-left: 1em;
+                            color: $secondary;
+                        }
+                    }
+                }
+
+                + button {
+                    margin-left: 1em;
+                }
+            }
+        }
     }
 }

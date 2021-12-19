@@ -3,11 +3,18 @@ import { Page } from '../components/Page';
 import { PageDetails, Sidebar } from '../components/pages/Pages';
 import { pagesMeta } from './MetaTags';
 import styles from '../css/pages/pages.module.scss';
+import headerStyles from '../css/components/header.module.scss';
 import { useFetch } from '../hooks/useFetch';
 import { PageContextProvider } from '../components/pages/PageContext';
 
 const Pages: VFC = () => (
-    <Page meta={pagesMeta} fullWidth={true} clsOuter={styles.pagesOuter} clsInner={styles.pagesInner}>
+    <Page
+        meta={pagesMeta}
+        fullWidth={true}
+        clsOuter={styles.pagesOuter}
+        clsInner={styles.pagesInner}
+        clsHeader={headerStyles.fullWidth}
+    >
         <PagesContent />
     </Page>
 );
