@@ -7,6 +7,10 @@ export const aboutMeta = {
     title: 'About',
     description: 'About page description.',
 };
+export const loginMeta = {
+    title: 'Login',
+    description: 'Login page description.',
+};
 export const styleGuideMeta = {
     title: 'Style Guide',
     description: 'This is the style guide that shows the default styles of various elements.',

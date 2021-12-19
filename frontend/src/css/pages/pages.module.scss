@@ -7,7 +7,7 @@
     .pagesInner {
         display: flex;
         flex: 1 1 100%;
-        height: calc(100vh - #{$header-height});
+        height: $viewport-height-minus-header;
 
         .sidebar {
             background-color: $primary;

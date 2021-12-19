@@ -17,7 +17,7 @@ export const Page: FC<PageProps> = ({
     showFooter = true,
 }) => {
     const pageClasses = `${styles.pageContainer} ${clsPage}`;
-    const outerClasses = `${styles.outer} ${clsOuter}`;
+    const outerClasses = `${styles.outer} ${styles.mainBody} ${clsOuter}`;
     const innerClasses = `${!fullWidth ? styles.inner : ''} ${clsInner}`;
 
     return (

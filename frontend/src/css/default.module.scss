@@ -81,10 +81,8 @@ ol {
     text-decoration: underline;
     background-color: transparent;
     transition: $transition-std;
+    color: $color;
 
-    &:link {
-        color: $color;
-    }
     &:visited {
         color: darken($color, 25%);
     }
@@ -111,16 +109,24 @@ a {
     background-color: $color;
     color: $white;
     transition: $transition-std;
+    text-decoration: none;
+    line-height: 1.2;
 
     &:hover {
         cursor: pointer;
         background-color: lighten($color, 15%);
+        color: $white;
     }
     &:focus {
         background-color: lighten($color, 10%);
+        color: $white;
     }
     &:active {
         background-color: lighten($color, 25%);
+        color: $white;
+    }
+    &:visited {
+        color: $white;
     }
 }
 .btnPrimary {
@@ -148,6 +154,10 @@ a {
 
     .outer {
         width: 100%;
+
+        &.mainBody {
+            margin-top: $header-height;
+        }
 
         .inner {
             max-width: $max-content-width;

@@ -5,6 +5,7 @@ $max-content-width: 960px + ($content-padding * 2);
 $content-vertical-padding: 7.5rem;
 // heights
 $header-height: 60px;
+$viewport-height-minus-header: calc(100vh - #{$header-height});
 
 // colours
 // std
