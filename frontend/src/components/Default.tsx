@@ -13,9 +13,15 @@ interface SectionProps {
     patterned?: boolean;
 }
 
-export const Section: FC<SectionProps> = ({ children, clsOuter, clsInner, patterned, tag: Tag = 'section' }) => {
-    const outerClasses = `${styles.outer} ${patterned ? styles.patterned : ''} ${clsOuter || ''}`;
-    const innerClasses = `${styles.inner} ${clsInner || ''}`;
+export const Section: FC<SectionProps> = ({
+    children,
+    clsOuter = '',
+    clsInner = '',
+    patterned,
+    tag: Tag = 'section',
+}) => {
+    const outerClasses = `${styles.outer} ${patterned ? styles.patterned : ''} ${clsOuter}`;
+    const innerClasses = `${styles.inner} ${clsInner}`;
 
     return (
         <Tag className={outerClasses}>
@@ -24,10 +30,12 @@ export const Section: FC<SectionProps> = ({ children, clsOuter, clsInner, patter
     );
 };
 
-export const Loading: FC<{
+interface LoadingProps {
     clsOuter?: string;
-}> = ({ clsOuter }) => (
-    <div className={clsOuter || ''}>
+}
+
+export const Loading: FC<LoadingProps> = ({ clsOuter = '' }) => (
+    <div className={clsOuter}>
         <img src={LoadingImage} alt='Loading' />
     </div>
 );
