@@ -7,6 +7,7 @@
     .pagesInner {
         display: flex;
         flex: 1 1 100%;
+        height: calc(100vh - #{$header-height});
 
         .sidebar {
             background-color: $primary;
@@ -15,11 +16,14 @@
             display: flex;
             flex-direction: column;
             transition: $transition-std;
-            height: calc(100vh - #{$footer-height} - #{$header-height});
             position: relative;
 
             &.expanded {
                 background-color: $primary;
+
+                @include smallStyles {
+                    flex: 0 0 100%;
+                }
 
                 .buttonsContainer {
                     position: absolute;
@@ -143,12 +147,17 @@
                 > svg {
                     transition: $transition-std;
                     pointer-events: all;
+                    transition: none;
 
                     &:hover {
                         cursor: pointer;
                         color: $secondary;
                         transition: $transition-std;
                     }
+                }
+
+                &.minimised .expandIcon {
+                    order: -1;
                 }
             }
         }

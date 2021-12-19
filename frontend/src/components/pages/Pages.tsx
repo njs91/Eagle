@@ -4,13 +4,7 @@ import React, { Dispatch, FC, ReactNode, useContext, useState } from 'react';
 import styles from '../../css/pages/pages.module.scss';
 import { Loading, Section, Error } from '../Default';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-    faCompressArrowsAlt,
-    faExpandArrowsAlt,
-    faPencilAlt,
-    faPlusSquare,
-    faTrash,
-} from '@fortawesome/free-solid-svg-icons';
+import { faChevronLeft, faChevronRight, faPencilAlt, faPlusSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { formatDate, formatTime } from '../../utils/HelperFunctions';
 import { FetchDataFn } from '../../hooks/useFetch';
 import { DeletePageModal } from './DeletePageModal';
@@ -38,7 +32,7 @@ interface SidebarProps {
 }
 
 export const Sidebar: FC<SidebarProps> = ({ currentPageData }) => {
-    const [expanded, setExpanded] = useState<boolean>(true);
+    const [expanded, setExpanded] = useState<boolean>(window.innerWidth >= 768);
     const [deleteHovered, setDeleteHovered] = useState<boolean>(false);
     const classes = `${styles.sidebar} ${expanded ? styles.expanded : styles.contracted}`;
 
@@ -46,12 +40,7 @@ export const Sidebar: FC<SidebarProps> = ({ currentPageData }) => {
         <div className={classes}>
             <h1>Pages</h1>
             <SidebarList deleteHovered={deleteHovered} currentPageData={currentPageData} />
-            <Buttons
-                expanded={expanded}
-                setExpanded={setExpanded}
-                setDeleteHovered={setDeleteHovered}
-                currentPageData={currentPageData}
-            />
+            <Buttons expanded={expanded} setExpanded={setExpanded} setDeleteHovered={setDeleteHovered} />
         </div>
     );
 };
@@ -97,16 +86,15 @@ interface ButtonsProps {
     expanded: boolean;
     setExpanded: Dispatch<boolean>;
     setDeleteHovered: Dispatch<boolean>;
-    currentPageData: CurrentPageData;
 }
 
-const Buttons: FC<ButtonsProps> = ({ expanded, setExpanded, setDeleteHovered, currentPageData }) => {
+const Buttons: FC<ButtonsProps> = ({ expanded, setExpanded, setDeleteHovered }) => {
     const [createPageModalIsOpen, setCreatePageModalIsOpen] = useState<boolean>(false);
     const [editPageModalIsOpen, setEditPageModalIsOpen] = useState<boolean>(false);
     const [deletePageModalIsOpen, setDeletePageModalIsOpen] = useState<boolean>(false);
 
     return (
-        <div className={styles.buttonsContainer}>
+        <div className={`${styles.buttonsContainer} ${expanded ? styles.minimised : ''}`}>
             <FontAwesomeIcon icon={faPlusSquare} onClick={() => setCreatePageModalIsOpen(true)} />
             <FontAwesomeIcon icon={faPencilAlt} onClick={() => setEditPageModalIsOpen(true)} />
             <FontAwesomeIcon
@@ -117,8 +105,9 @@ const Buttons: FC<ButtonsProps> = ({ expanded, setExpanded, setDeleteHovered, cu
                 onClick={() => setDeletePageModalIsOpen(true)}
             />
             <FontAwesomeIcon
-                icon={expanded ? faCompressArrowsAlt : faExpandArrowsAlt}
+                icon={expanded ? faChevronLeft : faChevronRight}
                 onClick={() => setExpanded(!expanded)}
+                className={styles.expandIcon}
             />
             <CreatePageModal
                 createPageModalIsOpen={createPageModalIsOpen}
