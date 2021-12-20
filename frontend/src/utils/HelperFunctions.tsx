@@ -20,6 +20,11 @@ export const formatTime = (date: string): string => {
     return `${hour}:${minute}`;
 };
 
+export const capitalise = (str: string): string => {
+    if (!str.length) return str;
+    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+};
+
 export const removeItemFromArray = (id: number, arr: Array<{ id: number }>): Array<{}> => {
     const indexToRemove: number = arr.map((el) => el.id).indexOf(id);
     ~indexToRemove && arr.splice(indexToRemove, 1); // ~ = >= 0
@@ -33,7 +38,46 @@ export const updateArray = (arr: Array<{ id: number }>, id: number, newEl: { id:
     return arr;
 };
 
-export const capitalise = (str: string): string => {
-    if (!str.length) return str;
-    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+export const debounce = (fn: () => {}, timeout: number = 300) => {
+    let timer: ReturnType<typeof setTimeout>;
+    return (...args: any) => {
+        clearTimeout(timer);
+        timer = setTimeout(() => {
+            fn.apply(this, args);
+        }, timeout);
+    };
+};
+
+export const asyncDebounce = (fn: () => {}, wait: number, callFirst: any) => {
+    var timeout: any;
+    return function () {
+        return new Promise(async (resolve) => {
+            if (!wait) {
+                // @ts-ignore
+                const result = await fn.apply(this, arguments);
+                resolve(result);
+            }
+
+            // @ts-ignore
+            var context = this;
+            // @ts-ignore
+            var args = arguments;
+            var callNow = callFirst && !timeout;
+            clearTimeout(timeout);
+            timeout = setTimeout(async function () {
+                timeout = null;
+                if (!callNow) {
+                    // @ts-ignore
+                    const result = await fn.apply(context, args);
+                    resolve(result);
+                }
+            }, wait);
+
+            if (callNow) {
+                // @ts-ignore
+                const result = await fn.apply(this, arguments);
+                resolve(result);
+            }
+        });
+    };
 };

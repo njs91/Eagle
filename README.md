@@ -94,3 +94,4 @@ Demo SEO organiser.
 4. To update back-end dependencies, consider using `pip-upgrader`: https://github.com/simion/pip-upgrader
 5. Includes font awesome, default components, styles & variables: see /styles page
 6. To format with prettier, run `npm run format`
+7. To run unit tests (Jest), cd to front-end and run `npm test`
