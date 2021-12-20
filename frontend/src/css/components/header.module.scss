@@ -51,7 +51,7 @@
                 align-items: center;
 
                 @include mobileStyles {
-                    display: flex;
+                    display: none;
                     flex-direction: column;
                     background: $white;
                     position: absolute;
@@ -59,6 +59,10 @@
                     top: 60px;
                     height: $viewport-height-minus-header;
                     width: 100vw;
+
+                    &.open {
+                        display: flex;
+                    }
                 }
 
                 ul {
@@ -88,14 +92,20 @@
                             @extend .linkSecondary;
                             text-decoration: none;
 
+                            svg {
+                                display: none;
+                            }
+
                             @include mobileStyles {
                                 flex: 0 0 100%;
                                 display: flex;
-                                padding: 1em 1.5em;
+                                padding: 1em 1.5em 1em $content-padding;
+                                align-items: center;
 
-                                &:after {
-                                    content: '>';
+                                svg {
                                     margin-left: auto;
+                                    display: inline-block;
+                                    font-size: $font-lg-2;
                                 }
                             }
                         }
