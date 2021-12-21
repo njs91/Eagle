@@ -56,6 +56,7 @@ export const EditPageModal: FC<EditPageModalProps> = ({ editPageModalIsOpen, set
             onRequestClose={closeModal}
             className={styles.modal}
             contentLabel='Edit page modal'
+            portalClassName={styles.modalOverlayWrap} // cannot use overlayClassName
         >
             <button onClick={closeModal} className={styles.close}>
                 <FontAwesomeIcon icon={faTimes} />

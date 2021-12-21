@@ -56,6 +56,7 @@ export const DeletePageModal: FC<DeletePageModalProps> = ({ deletePageModalIsOpe
             onRequestClose={closeModal}
             className={styles.modal}
             contentLabel='Delete page confirmation'
+            portalClassName={styles.modalOverlayWrap} // cannot use overlayClassName
         >
             <button onClick={closeModal} className={styles.close}>
                 <FontAwesomeIcon icon={faTimes} />

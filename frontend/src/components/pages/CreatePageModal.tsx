@@ -55,6 +55,7 @@ export const CreatePageModal: FC<CreatePageModalProps> = ({ createPageModalIsOpe
             onRequestClose={closeModal}
             className={styles.modal}
             contentLabel='Create page modal'
+            portalClassName={styles.modalOverlayWrap} // cannot use overlayClassName
         >
             <button onClick={closeModal} className={styles.close}>
                 <FontAwesomeIcon icon={faTimes} />
