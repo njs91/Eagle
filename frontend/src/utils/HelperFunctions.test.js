@@ -1,4 +1,3 @@
-import React from 'react';
 import { formatDate, formatTime, capitalise, removeItemFromArray, updateArray } from './HelperFunctions';
 
 test('Format date', () => {
@@ -41,16 +40,3 @@ test('Update array', () => {
         { key: 'value', id: 3 },
     ]);
 });
-
-/*
-default react test:
-
-import { render, screen } from '@testing-library/react';
-import App from './App';
-
-test('renders learn react link', () => {
-    render(<App />);
-    const linkElement = screen.getByText(/learn react/i);
-    expect(linkElement).toBeInTheDocument();
-});
-*/
