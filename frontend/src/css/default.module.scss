@@ -111,6 +111,7 @@ a {
     transition: $transition-std;
     text-decoration: none;
     line-height: 1.2;
+    display: inline-block;
 
     &:hover {
         cursor: pointer;

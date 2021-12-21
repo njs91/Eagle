@@ -48,11 +48,11 @@ interface FieldContainerProps {
     cls?: string;
 }
 
-const FieldContainer: FC<FieldContainerProps> = ({ title, cls, children }) => {
+const FieldContainer: FC<FieldContainerProps> = ({ title, cls = '', children }) => {
     const { errors } = useFormState();
 
     return (
-        <div className={`${styles.inputContainer} ${cls || ''}`}>
+        <div className={`${styles.inputContainer} ${cls}`}>
             <label htmlFor={title}>{capitalise(title)}:</label>
             {children}
             {errors?.[title] && <span className={styles.required}>{errors?.[title]?.message}</span>}

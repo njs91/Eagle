@@ -1,0 +1,53 @@
+@import '../../variables.module.scss';
+@import '../../default.module.scss';
+
+.heroAreaOuter {
+    min-height: $viewport-height-minus-header;
+    display: flex;
+
+    .heroAreaInner {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+
+        @include mobileStyles {
+            flex-direction: column;
+        }
+
+        &.fullWidth {
+            max-width: none;
+        }
+
+        .textAndButtonContainer {
+            @include nonMobileStyles {
+                max-width: 60%;
+            }
+
+            @include mobileStyles {
+                margin-bottom: 2em;
+            }
+        }
+
+        img {
+            margin: 2em 0;
+            max-height: 500px;
+            object-fit: contain;
+
+            @include mobileStyles {
+                max-height: 300px;
+                max-width: 350px;
+                width: 100%;
+                order: -1;
+            }
+
+            @include nonMobileStyles {
+                padding-left: 1em;
+            }
+
+            @include tabletStyles {
+                padding-left: 2em;
+            }
+        }
+    }
+}

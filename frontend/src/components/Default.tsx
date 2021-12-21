@@ -5,6 +5,8 @@ import Modal from 'react-modal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
+// @todo: divide this into multiple files inside a 'default' folder
+
 interface SectionProps {
     children: ReactNode;
     clsOuter?: string;
