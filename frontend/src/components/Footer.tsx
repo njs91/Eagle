@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import footerStyles from '../css/components/footer.module.scss';
-import { Section } from './Default';
+import { Section } from './default/Section';
 
 interface FooterProps {
     cls?: string;

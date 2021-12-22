@@ -2,11 +2,12 @@ import React, { VFC } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCoffee, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
-import { Section, TestModal } from '../components/Default';
 import { Page } from '../components/Page';
 import { styleGuideMeta } from './MetaTags';
 import styles from '../css/default.module.scss';
 import guideStyles from '../css//pages/styleGuide.module.scss';
+import { TestModal } from '../components/default/TestModal';
+import { Section } from '../components/default/Section';
 
 const StyleGuide: VFC = () => (
     <Page meta={styleGuideMeta} fullWidth={true}>

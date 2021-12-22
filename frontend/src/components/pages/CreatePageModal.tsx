@@ -4,7 +4,7 @@ import Modal from 'react-modal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { useFetch } from '../../hooks/useFetch';
-import { Error } from '../Default';
+import { Error } from '../default/Error';
 import { PageContext, PageContextProps } from './PageContext';
 import { PageForm, PageFormInputs } from './PageForm';
 

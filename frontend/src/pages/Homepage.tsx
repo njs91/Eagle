@@ -13,6 +13,7 @@ const Homepage: React.VFC = () => (
             buttonText='Find Out More'
             buttonLink='/styles'
             image={stickyNoteImg}
+            imageAlt='Sticky Note'
         />
     </Page>
 );

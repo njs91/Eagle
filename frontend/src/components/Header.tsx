@@ -1,10 +1,10 @@
 import React, { FC, useState } from 'react';
 import headerStyles from '../css/components/header.module.scss';
 import { Link } from 'react-router-dom';
-import { Section } from './Default';
 import defaultStyles from '../css/default.module.scss';
 import { faAngleRight, faBars, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Section } from './default/Section';
 
 interface HeaderProps {
     cls?: string;

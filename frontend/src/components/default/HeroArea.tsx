@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
-import { Section } from '../Default';
 import styles from '../../css/components/default/hero.module.scss';
 import defaultStyles from '../../css/default.module.scss';
 import { Link } from 'react-router-dom';
+import { Section } from './Section';
 
 interface HeroAreaProps {
     title: string;
@@ -14,6 +14,7 @@ interface HeroAreaProps {
     clsBtn?: string;
     fullWidth?: boolean;
     image?: string;
+    imageAlt?: string;
 }
 
 export const HeroArea: FC<HeroAreaProps> = ({
@@ -26,6 +27,7 @@ export const HeroArea: FC<HeroAreaProps> = ({
     clsBtn = defaultStyles.btnPrimary,
     fullWidth,
     image,
+    imageAlt,
 }) => {
     const outerClasses = `${styles.heroAreaOuter} ${clsOuter}`;
     const innerClasses = `${styles.heroAreaInner} ${fullWidth ? styles.fullWidth : ''} ${clsInner}`;
@@ -39,7 +41,7 @@ export const HeroArea: FC<HeroAreaProps> = ({
                     {buttonText}
                 </Link>
             </div>
-            {image && <img src={image} />}
+            {image && <img src={image} alt={imageAlt} />}
         </Section>
     );
 };

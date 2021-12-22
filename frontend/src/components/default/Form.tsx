@@ -1,7 +1,7 @@
 import React, { FC, ReactNode } from 'react';
 import { useFormContext, useFormState } from 'react-hook-form';
-import styles from '../css/default.module.scss';
-import { capitalise } from '../utils/HelperFunctions';
+import styles from '../../css/default.module.scss';
+import { capitalise } from '../../utils/HelperFunctions';
 
 interface InputFieldProps {
     title: string;

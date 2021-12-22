@@ -2,7 +2,6 @@
 
 import React, { Dispatch, FC, ReactNode, useContext, useState } from 'react';
 import styles from '../../css/pages/pages.module.scss';
-import { Loading, Section, Error } from '../Default';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faChevronRight, faPencilAlt, faPlusSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { formatDate, formatTime } from '../../utils/HelperFunctions';
@@ -11,6 +10,9 @@ import { DeletePageModal } from './DeletePageModal';
 import { PageContext, PageContextProps } from './PageContext';
 import { CreatePageModal } from './CreatePageModal';
 import { EditPageModal } from './EditPageModal';
+import { Section } from '../default/Section';
+import { Loading } from '../default/Loading';
+import { Error } from '../default/Error';
 
 export interface WebPage {
     last_edited: string;

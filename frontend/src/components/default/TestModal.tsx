@@ -1,73 +1,26 @@
-import React, { VFC, FC, ReactNode, useState } from 'react';
-import styles from '../css/default.module.scss';
-import LoadingImage from '../images/loading.svg';
+import React, { VFC, useState } from 'react';
+import styles from '../../css/default.module.scss';
 import Modal from 'react-modal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
-// @todo: divide this into multiple files inside a 'default' folder
-
-interface SectionProps {
-    children: ReactNode;
-    clsOuter?: string;
-    clsInner?: string;
-    tag?: any;
-    patterned?: boolean;
-}
-
-export const Section: FC<SectionProps> = ({
-    children,
-    clsOuter = '',
-    clsInner = '',
-    patterned,
-    tag: Tag = 'section',
-}) => {
-    const outerClasses = `${styles.outer} ${patterned ? styles.patterned : ''} ${clsOuter}`;
-    const innerClasses = `${styles.inner} ${clsInner}`;
-
-    return (
-        <Tag className={outerClasses}>
-            <div className={innerClasses}>{children}</div>
-        </Tag>
-    );
-};
-
-interface LoadingProps {
-    clsOuter?: string;
-}
-
-export const Loading: FC<LoadingProps> = ({ clsOuter = '' }) => (
-    <div className={clsOuter}>
-        <img src={LoadingImage} alt='Loading' />
-    </div>
-);
-
-interface ErrorProps {
-    msg: string;
-    marginTop?: boolean;
-}
-
-export const Error: FC<ErrorProps> = ({ msg, marginTop }) => (
-    <p className={`${styles.errorText} ${marginTop ? styles.marginTop : ''}`}>{msg}</p>
-);
-
 export const TestModal: VFC = () => {
     const [modalIsOpen, setIsOpen] = useState<boolean>(false);
 
-    const openModal: () => void = () => {
+    const openModal = () => {
         setIsOpen(true);
     };
 
-    const afterOpenModal: () => void = () => {
+    const afterOpenModal = () => {
         // references are now sync'd and can be accessed.
         console.log('Modal opened');
     };
 
-    const closeModal: () => void = () => {
+    const closeModal = () => {
         setIsOpen(false);
     };
 
-    const doSomething: () => void = () => {
+    const doSomething = () => {
         console.log('do something...');
     };
 

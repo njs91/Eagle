@@ -1,11 +1,11 @@
 import React, { Dispatch, FC, useContext } from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
-import { Loading } from '../Default';
-import { InputField, SelectField } from '../Form';
+import { InputField, SelectField } from '../default/Form';
 import styles from '../../css/default.module.scss';
 import { PageContextProps, PageContext } from './PageContext';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { pageSchema } from '../../schemas/PageSchema';
+import { Loading } from '../default/Loading';
 
 export type PageFormInputs = {
     title: string;
