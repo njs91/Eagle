@@ -102,12 +102,27 @@ a {
 }
 
 // buttons
-@mixin buttonStyles($color) {
+@function contrastText($bg, $optionalColor: -1) {
+    $result: invert($bg);
+    $lightness: lightness($result);
+    @if ($lightness < 50) {
+        $result: $text;
+    }
+    @if ($lightness > 49) {
+        $result: $white;
+    }
+    @if (type_of($optionalColor) == 'color') {
+        $result: $optionalColor;
+    }
+    @return $result;
+}
+
+@mixin buttonStyles($bg, $optionalColor: '') {
+    $contrastedColor: contrastText($bg, $optionalColor);
     font-size: $font-std;
-    color: $text;
     padding: 1rem 3rem;
-    background-color: $color;
-    color: $white;
+    background-color: $bg;
+    color: $contrastedColor;
     transition: $transition-std;
     text-decoration: none;
     line-height: 1.2;
@@ -115,21 +130,22 @@ a {
 
     &:hover {
         cursor: pointer;
-        background-color: lighten($color, 15%);
-        color: $white;
+        background-color: lighten($bg, 15%);
+        color: $contrastedColor;
     }
     &:focus {
-        background-color: lighten($color, 10%);
-        color: $white;
+        background-color: lighten($bg, 10%);
+        color: $contrastedColor;
     }
     &:active {
-        background-color: lighten($color, 25%);
-        color: $white;
+        background-color: lighten($bg, 25%);
+        color: $contrastedColor;
     }
     &:visited {
-        color: $white;
+        color: $contrastedColor;
     }
 }
+
 .btnPrimary {
     @include buttonStyles($primary);
 }

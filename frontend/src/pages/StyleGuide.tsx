@@ -98,8 +98,12 @@ const StyleGuide: VFC = () => (
         </Section>
 
         <Section patterned={true}>
-            <h2>Another Sibling Section</h2>
-            <p>Text...</p>
+            <h2>Buttons</h2>
+            <button className={styles.btnPrimary}>Primary</button>
+            <button className={styles.btnSecondary}>Secondary</button>
+            <button className={styles.btnRed}>Red</button>
+            <button className={styles.btnGreen}>Green</button>
+            <button className={styles.btnGrey}>Grey</button>
         </Section>
     </Page>
 );
