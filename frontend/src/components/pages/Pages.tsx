@@ -116,8 +116,6 @@ const Buttons: FC<ButtonsProps> = ({ expanded, setExpanded, setDeleteHovered }) 
         return <></>;
     }
 
-    // @todo: BUG: when no pages exist, if you try to create one, state doesn’t update
-
     return (
         <div className={`${styles.buttonsContainer} ${expanded ? styles.minimised : ''}`}>
             <FontAwesomeIcon icon={faPlusSquare} onClick={() => setCreatePageModalIsOpen(true)} />
