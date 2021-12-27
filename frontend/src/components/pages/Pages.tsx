@@ -47,7 +47,7 @@ const SidebarList: FC<SidebarListProps> = ({ deleteHovered }) => {
     } = useContext<PageContextProps>(PageContext);
 
     if (fetchPagesError) {
-        return <p>Failed to fetch</p>;
+        return <Error msg={'Error fetching pages'} marginTop={true} cls={styles.error} />;
     }
 
     if (!pages || loadingPages) {
@@ -55,7 +55,7 @@ const SidebarList: FC<SidebarListProps> = ({ deleteHovered }) => {
     }
 
     if (!pages.length) {
-        return <p>No pages found</p>;
+        return <>No pages found</>;
     }
 
     return (
