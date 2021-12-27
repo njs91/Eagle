@@ -44,34 +44,44 @@ interface SidebarListProps {
 const SidebarList: FC<SidebarListProps> = ({ deleteHovered }) => {
     const {
         pagesData: { pages },
-        currentPageData: { currentPage, fetchCurrentPage },
     } = useContext<PageContextProps>(PageContext);
 
     return (
         <ul>
-            {pages?.map((page: WebPage) => {
-                const isCurrentPage = page?.id === currentPage?.id;
-                const classes = `${isCurrentPage ? styles.current : ''} ${
-                    isCurrentPage && deleteHovered ? styles.deleteHovered : ''
-                }`;
-                // @todo: organise in another component
-                return (
-                    <li
-                        key={page.id}
-                        className={classes}
-                        onClick={() => {
-                            if (isCurrentPage) return;
-                            fetchCurrentPage(`http://localhost:8000/api/pages/${page.id}`);
-                        }}
-                    >
-                        <p>{page.title}</p>
-                        <div className={styles.iconContainer}>
-                            <FontAwesomeIcon icon={faTrash} />
-                        </div>
-                    </li>
-                );
-            })}
+            {pages?.map((page: WebPage) => (
+                <PageListItem page={page} deleteHovered={deleteHovered} key={page.id} />
+            ))}
         </ul>
+    );
+};
+
+interface PageListItemProps {
+    page: WebPage;
+    deleteHovered: boolean;
+}
+
+const PageListItem: FC<PageListItemProps> = ({ page, deleteHovered }) => {
+    const {
+        currentPageData: { currentPage, fetchCurrentPage },
+    } = useContext<PageContextProps>(PageContext);
+    const isCurrentPage = page?.id === currentPage?.id;
+    const classes = `${isCurrentPage ? styles.current : ''} ${
+        isCurrentPage && deleteHovered ? styles.deleteHovered : ''
+    }`;
+
+    return (
+        <li
+            className={classes}
+            onClick={() => {
+                if (isCurrentPage) return;
+                fetchCurrentPage(`http://localhost:8000/api/pages/${page.id}`);
+            }}
+        >
+            <p>{page.title}</p>
+            <div className={styles.iconContainer}>
+                <FontAwesomeIcon icon={faTrash} />
+            </div>
+        </li>
     );
 };
 
