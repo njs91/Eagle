@@ -39,18 +39,6 @@ const PagesContent: VFC = () => {
     }, [pages]);
     // React Hook useEffect has a missing dependency: 'setCurrentPage'. Either include it or remove the dependency array - react-hooks/exhaustive-deps)
 
-    if (fetchPagesError) {
-        return <p>Failed to fetch</p>;
-    }
-
-    if (!pages || loadingPages) {
-        return <p>Loading...</p>;
-    }
-
-    if (!pages.length) {
-        return <p>No pages found</p>;
-    }
-
     return (
         <PageContextProvider
             values={{

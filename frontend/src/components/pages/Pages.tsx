@@ -43,8 +43,20 @@ interface SidebarListProps {
 
 const SidebarList: FC<SidebarListProps> = ({ deleteHovered }) => {
     const {
-        pagesData: { pages },
+        pagesData: { pages, loadingPages, fetchPagesError },
     } = useContext<PageContextProps>(PageContext);
+
+    if (fetchPagesError) {
+        return <p>Failed to fetch</p>;
+    }
+
+    if (!pages || loadingPages) {
+        return <p>Loading...</p>;
+    }
+
+    if (!pages.length) {
+        return <p>No pages found</p>;
+    }
 
     return (
         <ul>
@@ -95,18 +107,34 @@ const Buttons: FC<ButtonsProps> = ({ expanded, setExpanded, setDeleteHovered }) 
     const [createPageModalIsOpen, setCreatePageModalIsOpen] = useState<boolean>(false);
     const [editPageModalIsOpen, setEditPageModalIsOpen] = useState<boolean>(false);
     const [deletePageModalIsOpen, setDeletePageModalIsOpen] = useState<boolean>(false);
+    const {
+        pagesData: { pages, loadingPages, fetchPagesError },
+    } = useContext<PageContextProps>(PageContext);
+    const hasPages = pages?.length;
+
+    if (loadingPages || fetchPagesError) {
+        return <></>;
+    }
+
+    // @todo: BUG: when no pages exist, if you try to create one, state doesn’t update
 
     return (
         <div className={`${styles.buttonsContainer} ${expanded ? styles.minimised : ''}`}>
             <FontAwesomeIcon icon={faPlusSquare} onClick={() => setCreatePageModalIsOpen(true)} />
-            <FontAwesomeIcon icon={faPencilAlt} onClick={() => setEditPageModalIsOpen(true)} />
-            <FontAwesomeIcon
-                icon={faTrash}
-                className={styles.binIcon}
-                onMouseEnter={() => setDeleteHovered(true)}
-                onMouseLeave={() => setDeleteHovered(false)}
-                onClick={() => setDeletePageModalIsOpen(true)}
-            />
+            {hasPages ? (
+                <>
+                    <FontAwesomeIcon icon={faPencilAlt} onClick={() => setEditPageModalIsOpen(true)} />
+                    <FontAwesomeIcon
+                        icon={faTrash}
+                        className={styles.binIcon}
+                        onMouseEnter={() => setDeleteHovered(true)}
+                        onMouseLeave={() => setDeleteHovered(false)}
+                        onClick={() => setDeletePageModalIsOpen(true)}
+                    />
+                </>
+            ) : (
+                ''
+            )}
             <FontAwesomeIcon
                 icon={expanded ? faChevronLeft : faChevronRight}
                 onClick={() => setExpanded(!expanded)}
@@ -127,26 +155,31 @@ const Buttons: FC<ButtonsProps> = ({ expanded, setExpanded, setDeleteHovered }) 
 
 export const PageDetails: VFC = () => {
     const {
+        pagesData: { pages, loadingPages, fetchPagesError },
         currentPageData: { currentPage: page, fetchCurrentPageError, loadingCurrentPage },
     } = useContext<PageContextProps>(PageContext);
     const DetailsWrap: FC<{
         children: ReactNode;
     }> = ({ children }) => <Section clsOuter={styles.pageDetailsOuter}>{children}</Section>;
 
-    if (fetchCurrentPageError) {
+    if (fetchCurrentPageError || fetchPagesError) {
         return (
             <DetailsWrap>
-                <Error msg={'Error fetching page'} />
+                <Error msg={'Fetch error'} />
             </DetailsWrap>
         );
     }
 
-    if (loadingCurrentPage) {
+    if (loadingCurrentPage || !pages || loadingPages) {
         return (
             <DetailsWrap>
                 <Loading />
             </DetailsWrap>
         );
+    }
+
+    if (!pages.length) {
+        return <p>No pages found</p>;
     }
 
     if (!page?.id) {

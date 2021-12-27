@@ -18,6 +18,7 @@
             flex-direction: column;
             transition: $transition-std;
             position: relative;
+            box-shadow: 0px 0px 5px $grey-dark;
 
             &.expanded {
                 @include smallStyles {
@@ -79,6 +80,7 @@
                 font-size: $font-lg-2;
                 text-transform: uppercase;
                 font-weight: 400;
+                max-height: 50px;
             }
 
             ul {
