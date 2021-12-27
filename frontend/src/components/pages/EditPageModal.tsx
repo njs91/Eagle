@@ -21,7 +21,10 @@ export const EditPageModal: FC<EditPageModalProps> = ({ editPageModalIsOpen, set
         fetchError: editPageError,
         loading: loadingEditPage,
     } = useFetch();
-    const { pages, setPages, currentPage } = useContext<PageContextProps>(PageContext);
+    const {
+        pagesData: { pages, setPages },
+        currentPageData: { currentPage },
+    } = useContext<PageContextProps>(PageContext);
 
     const afterOpenModal = () => {
         // references are now sync'd and can be accessed.

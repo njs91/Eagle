@@ -29,7 +29,10 @@ export const PageForm: FC<PageFormProps> = ({
     submitBtnText,
     showDefaultValues = false,
 }) => {
-    const { currentPage } = useContext<PageContextProps>(PageContext);
+    const {
+        currentPageData: { currentPage },
+    } = useContext<PageContextProps>(PageContext);
+
     const methods = useForm<PageFormInputs>({
         resolver: yupResolver(pageSchema),
         mode: 'onTouched',

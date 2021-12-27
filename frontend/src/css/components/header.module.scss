@@ -10,6 +10,8 @@
     right: 0;
     z-index: 1;
     overflow: visible;
+    width: 100vw !important; // @todo: overridden, causing header width problem if height > 100vh
+    // need &.outer from other file to remove !important; becoming a real issue now...
 
     &.fullWidth .headerInner {
         max-width: none;

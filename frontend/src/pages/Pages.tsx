@@ -3,18 +3,11 @@ import { Page } from '../components/Page';
 import { PageDetails, Sidebar } from '../components/pages/Pages';
 import { pagesMeta } from './MetaTags';
 import styles from '../css/pages/pages.module.scss';
-import headerStyles from '../css/components/header.module.scss';
 import { useFetch } from '../hooks/useFetch';
 import { PageContextProvider } from '../components/pages/PageContext';
 
 const Pages: VFC = () => (
-    <Page
-        meta={pagesMeta}
-        fullWidth={true}
-        clsOuter={styles.pagesOuter}
-        clsInner={styles.pagesInner}
-        clsHeader={headerStyles.fullWidth}
-    >
+    <Page meta={pagesMeta} fullWidth={true} clsOuter={styles.pagesOuter} clsInner={styles.pagesInner}>
         <PagesContent />
     </Page>
 );
@@ -29,8 +22,8 @@ const PagesContent: VFC = () => {
     } = useFetch();
     const {
         data: currentPage,
-        performFetch: fetchPage,
-        fetchError: fetchPageError,
+        performFetch: fetchCurrentPage,
+        fetchError: fetchCurrentPageError,
         setData: setCurrentPage,
         loading: loadingCurrentPage,
     } = useFetch();
@@ -59,14 +52,26 @@ const PagesContent: VFC = () => {
     }
 
     return (
-        <PageContextProvider values={{ pages, setPages, currentPage, setCurrentPage }}>
-            <Sidebar
-                currentPageData={{
-                    fetchPage,
-                    fetchPageError,
-                }}
-            />
-            <PageDetails page={currentPage} fetchPageError={fetchPageError} loadingCurrentPage={loadingCurrentPage} />
+        <PageContextProvider
+            values={{
+                pagesData: {
+                    pages,
+                    fetchPages,
+                    fetchPagesError,
+                    setPages,
+                    loadingPages,
+                },
+                currentPageData: {
+                    currentPage,
+                    fetchCurrentPage,
+                    fetchCurrentPageError,
+                    setCurrentPage,
+                    loadingCurrentPage,
+                },
+            }}
+        >
+            <Sidebar />
+            <PageDetails />
         </PageContextProvider>
     );
 };

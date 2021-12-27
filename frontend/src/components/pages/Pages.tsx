@@ -1,11 +1,10 @@
 /* Note: components for the /pages page, not general components for all pages */
 
-import React, { Dispatch, FC, ReactNode, useContext, useState } from 'react';
+import React, { Dispatch, FC, ReactNode, useContext, useState, VFC } from 'react';
 import styles from '../../css/pages/pages.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faChevronRight, faPencilAlt, faPlusSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { formatDate, formatTime } from '../../utils/HelperFunctions';
-import { FetchDataFn } from '../../hooks/useFetch';
 import { DeletePageModal } from './DeletePageModal';
 import { PageContext, PageContextProps } from './PageContext';
 import { CreatePageModal } from './CreatePageModal';
@@ -24,16 +23,7 @@ export interface WebPage {
     type: string;
 }
 
-interface CurrentPageData {
-    fetchPage: FetchDataFn;
-    fetchPageError: boolean;
-}
-
-interface SidebarProps {
-    currentPageData: CurrentPageData;
-}
-
-export const Sidebar: FC<SidebarProps> = ({ currentPageData }) => {
+export const Sidebar: VFC = () => {
     const [expanded, setExpanded] = useState<boolean>(window.innerWidth >= 768);
     const [deleteHovered, setDeleteHovered] = useState<boolean>(false);
     const classes = `${styles.sidebar} ${expanded ? styles.expanded : styles.contracted}`;
@@ -41,7 +31,7 @@ export const Sidebar: FC<SidebarProps> = ({ currentPageData }) => {
     return (
         <div className={classes}>
             <h1>Pages</h1>
-            <SidebarList deleteHovered={deleteHovered} currentPageData={currentPageData} />
+            <SidebarList deleteHovered={deleteHovered} />
             <Buttons expanded={expanded} setExpanded={setExpanded} setDeleteHovered={setDeleteHovered} />
         </div>
     );
@@ -49,12 +39,13 @@ export const Sidebar: FC<SidebarProps> = ({ currentPageData }) => {
 
 interface SidebarListProps {
     deleteHovered: boolean;
-    currentPageData: CurrentPageData;
 }
 
-const SidebarList: FC<SidebarListProps> = ({ deleteHovered, currentPageData }) => {
-    const { fetchPage } = currentPageData;
-    const { pages, currentPage } = useContext<PageContextProps>(PageContext);
+const SidebarList: FC<SidebarListProps> = ({ deleteHovered }) => {
+    const {
+        pagesData: { pages },
+        currentPageData: { currentPage, fetchCurrentPage },
+    } = useContext<PageContextProps>(PageContext);
 
     return (
         <ul>
@@ -63,14 +54,14 @@ const SidebarList: FC<SidebarListProps> = ({ deleteHovered, currentPageData }) =
                 const classes = `${isCurrentPage ? styles.current : ''} ${
                     isCurrentPage && deleteHovered ? styles.deleteHovered : ''
                 }`;
-
+                // @todo: organise in another component
                 return (
                     <li
                         key={page.id}
                         className={classes}
                         onClick={() => {
                             if (isCurrentPage) return;
-                            fetchPage(`http://localhost:8000/api/pages/${page.id}`);
+                            fetchCurrentPage(`http://localhost:8000/api/pages/${page.id}`);
                         }}
                     >
                         <p>{page.title}</p>
@@ -101,7 +92,7 @@ const Buttons: FC<ButtonsProps> = ({ expanded, setExpanded, setDeleteHovered }) 
             <FontAwesomeIcon icon={faPencilAlt} onClick={() => setEditPageModalIsOpen(true)} />
             <FontAwesomeIcon
                 icon={faTrash}
-                className={`${styles.expandedOnly} ${styles.binIcon}`}
+                className={styles.binIcon}
                 onMouseEnter={() => setDeleteHovered(true)}
                 onMouseLeave={() => setDeleteHovered(false)}
                 onClick={() => setDeletePageModalIsOpen(true)}
@@ -124,18 +115,15 @@ const Buttons: FC<ButtonsProps> = ({ expanded, setExpanded, setDeleteHovered }) 
     );
 };
 
-interface PageDetailsProps {
-    page: WebPage | null;
-    fetchPageError: boolean;
-    loadingCurrentPage: boolean;
-}
-
-export const PageDetails: FC<PageDetailsProps> = ({ page, fetchPageError, loadingCurrentPage }) => {
+export const PageDetails: VFC = () => {
+    const {
+        currentPageData: { currentPage: page, fetchCurrentPageError, loadingCurrentPage },
+    } = useContext<PageContextProps>(PageContext);
     const DetailsWrap: FC<{
         children: ReactNode;
     }> = ({ children }) => <Section clsOuter={styles.pageDetailsOuter}>{children}</Section>;
 
-    if (fetchPageError) {
+    if (fetchCurrentPageError) {
         return (
             <DetailsWrap>
                 <Error msg={'Error fetching page'} />

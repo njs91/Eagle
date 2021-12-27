@@ -11,7 +11,8 @@
 
         .sidebar {
             background-color: $primary;
-            flex: 0 0 300px;
+            background-color: $grey-light;
+            flex: 0 0 250px;
             color: $white;
             display: flex;
             flex-direction: column;
@@ -19,8 +20,6 @@
             position: relative;
 
             &.expanded {
-                background-color: $primary;
-
                 @include smallStyles {
                     flex: 0 0 100%;
                 }
@@ -36,16 +35,13 @@
 
                     svg {
                         margin: 0 0.25em;
-
-                        &.binIcon:hover {
-                            color: lighten($red, 25%);
-                        }
                     }
                 }
             }
 
             &.contracted {
                 flex: 0 0 50px;
+                background-color: $secondary;
 
                 h1,
                 ul {
@@ -79,6 +75,10 @@
                 justify-content: center;
                 background-color: $text;
                 overflow: hidden;
+                padding: 2rem 0;
+                font-size: $font-lg-2;
+                text-transform: uppercase;
+                font-weight: 400;
             }
 
             ul {
@@ -89,7 +89,7 @@
                     text-align: center;
                     border-top: 1px solid $border-colour;
                     background-color: transparent;
-                    color: $white;
+                    color: $text;
                     font-size: $font-std;
                     transition: $transition-std;
                     display: flex;
@@ -97,7 +97,7 @@
                     justify-content: center;
 
                     &.current {
-                        background-color: $secondary;
+                        background-color: $primary;
 
                         &.deleteHovered .iconContainer {
                             width: 75px;
@@ -112,6 +112,7 @@
                     &:hover {
                         background-color: $secondary;
                         transition: $transition-std;
+                        color: $white;
                         cursor: pointer;
                     }
 
@@ -120,6 +121,7 @@
                         margin: 0;
                         pointer-events: none;
                         flex: 1 1 100%;
+                        font-size: $font-small;
                     }
 
                     .iconContainer {
@@ -130,6 +132,7 @@
                         flex: 0 0 auto;
                         transition: $transition-std;
                         justify-content: center;
+                        color: $white;
                     }
                 }
             }
@@ -147,12 +150,15 @@
                 > svg {
                     transition: $transition-std;
                     pointer-events: all;
-                    transition: none;
 
                     &:hover {
                         cursor: pointer;
-                        color: $secondary;
+                        color: $primary;
                         transition: $transition-std;
+                    }
+
+                    &.binIcon:hover {
+                        color: lighten($red, 25%);
                     }
                 }
 

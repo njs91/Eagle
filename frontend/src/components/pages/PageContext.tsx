@@ -1,22 +1,39 @@
 import React, { createContext, ReactNode, FC, Dispatch } from 'react';
+import { FetchDataFn } from '../../hooks/useFetch';
 import { WebPage } from './Pages';
 
 export interface PageContextProps {
-    pages: Array<WebPage> | null;
-    setPages: any;
-    // setPages: Dispatch<any>;
-    // setPages: Dispatch<Array<WebPage> | null>;
-    // setPages: Dispatch<React.SetStateAction<Array<WebPage> | null>>;
-    // setPages: (value: any) => void;
-    currentPage: WebPage | null;
-    setCurrentPage: Dispatch<WebPage>;
+    pagesData: {
+        pages: Array<WebPage> | null;
+        fetchPages: FetchDataFn;
+        fetchPagesError: boolean;
+        setPages: any;
+        loadingPages: boolean;
+    };
+    currentPageData: {
+        currentPage: WebPage | null;
+        fetchCurrentPage: FetchDataFn;
+        fetchCurrentPageError: boolean;
+        setCurrentPage: Dispatch<WebPage>;
+        loadingCurrentPage: boolean;
+    };
 }
 
 export const PageContext = createContext<PageContextProps>({
-    pages: null,
-    setPages: () => {},
-    currentPage: null,
-    setCurrentPage: () => {},
+    pagesData: {
+        pages: null,
+        fetchPages: async () => {},
+        fetchPagesError: false,
+        setPages: () => {},
+        loadingPages: false,
+    },
+    currentPageData: {
+        currentPage: null,
+        fetchCurrentPage: async () => {},
+        fetchCurrentPageError: false,
+        setCurrentPage: () => {},
+        loadingCurrentPage: false,
+    },
 });
 
 export interface PageContextProviderProps {
