@@ -22,7 +22,6 @@ export const CreatePageModal: FC<CreatePageModalProps> = ({ createPageModalIsOpe
     } = useFetch();
     const {
         pagesData: { pages, setPages },
-        currentPageData: { currentPage },
     } = useContext<PageContextProps>(PageContext);
 
     const afterOpenModal = () => {

@@ -2,6 +2,7 @@
 
 import React, { Dispatch, FC, ReactNode, useContext, useState, VFC } from 'react';
 import styles from '../../css/pages/pages.module.scss';
+import defaultStyles from '../../css/default.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faChevronRight, faPencilAlt, faPlusSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { formatDate, formatTime } from '../../utils/HelperFunctions';
@@ -55,7 +56,7 @@ const SidebarList: FC<SidebarListProps> = ({ deleteHovered }) => {
     }
 
     if (!pages.length) {
-        return <>No pages found</>;
+        return <p className={styles.noPagesFound}>No pages found</p>;
     }
 
     return (
@@ -104,11 +105,11 @@ interface ButtonsProps {
 }
 
 const Buttons: FC<ButtonsProps> = ({ expanded, setExpanded, setDeleteHovered }) => {
-    const [createPageModalIsOpen, setCreatePageModalIsOpen] = useState<boolean>(false);
     const [editPageModalIsOpen, setEditPageModalIsOpen] = useState<boolean>(false);
     const [deletePageModalIsOpen, setDeletePageModalIsOpen] = useState<boolean>(false);
     const {
         pagesData: { pages, loadingPages, fetchPagesError },
+        createPageModalState: { createPageModalIsOpen, setCreatePageModalIsOpen },
     } = useContext<PageContextProps>(PageContext);
     const hasPages = pages?.length;
 
@@ -155,6 +156,7 @@ export const PageDetails: VFC = () => {
     const {
         pagesData: { pages, loadingPages, fetchPagesError },
         currentPageData: { currentPage: page, fetchCurrentPageError, loadingCurrentPage },
+        createPageModalState: { setCreatePageModalIsOpen },
     } = useContext<PageContextProps>(PageContext);
     const DetailsWrap: FC<{
         children: ReactNode;
@@ -177,7 +179,14 @@ export const PageDetails: VFC = () => {
     }
 
     if (!pages.length) {
-        return <p>No pages found</p>;
+        return (
+            <DetailsWrap>
+                <p>No pages found.</p>
+                <p className={defaultStyles.btnPrimary} onClick={() => setCreatePageModalIsOpen(true)}>
+                    Create Page
+                </p>
+            </DetailsWrap>
+        );
     }
 
     if (!page?.id) {

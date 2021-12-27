@@ -28,6 +28,13 @@
                 margin-top: 1rem;
             }
 
+            .noPagesFound {
+                color: $text;
+                font-size: $font-small;
+                text-align: center;
+                margin-top: 1em;
+            }
+
             &.expanded {
                 @include smallStyles {
                     flex: 0 0 100%;
@@ -52,7 +59,8 @@
                 flex: 0 0 50px;
                 background-color: $secondary;
 
-                .error span {
+                .error span,
+                .noPagesFound {
                     display: none;
                 }
 

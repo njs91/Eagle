@@ -17,6 +17,10 @@ export interface PageContextProps {
         setCurrentPage: Dispatch<WebPage>;
         loadingCurrentPage: boolean;
     };
+    createPageModalState: {
+        createPageModalIsOpen: boolean;
+        setCreatePageModalIsOpen: Dispatch<boolean>;
+    };
 }
 
 export const PageContext = createContext<PageContextProps>({
@@ -33,6 +37,10 @@ export const PageContext = createContext<PageContextProps>({
         fetchCurrentPageError: false,
         setCurrentPage: () => {},
         loadingCurrentPage: false,
+    },
+    createPageModalState: {
+        createPageModalIsOpen: false,
+        setCreatePageModalIsOpen: () => {},
     },
 });
 
