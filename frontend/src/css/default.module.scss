@@ -65,6 +65,9 @@ ol {
         margin-bottom: 0;
     }
 }
+::selection {
+    background-color: $text-highlight;
+}
 
 // lists
 ul,
@@ -77,15 +80,22 @@ ol {
 }
 
 // links
-@mixin linkStyles($color) {
-    text-decoration: underline;
+@mixin linkStyles($color, $visitedStyles: '', $underlined: '') {
     background-color: transparent;
     transition: $transition-std;
     color: $color;
+    text-decoration: underline;
 
-    &:visited {
-        color: darken($color, 25%);
+    @if $underlined == 'none' {
+        text-decoration: none;
     }
+
+    @if $visitedStyles != 'none' {
+        &:visited {
+            color: darken($color, 25%);
+        }
+    }
+
     &:hover {
         color: lighten($color, 20%);
         transition: $transition-std;

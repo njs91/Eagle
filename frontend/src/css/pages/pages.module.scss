@@ -52,7 +52,7 @@
                 .buttonsContainer {
                     position: absolute;
                     bottom: 0;
-                    background-color: $text;
+                    background-color: $secondary;
                     display: flex;
                     align-items: center;
                     justify-content: center;
@@ -103,7 +103,7 @@
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                background-color: $text;
+                background-color: $secondary;
                 overflow: hidden;
                 padding: 2rem 0;
                 font-size: $font-lg-2;

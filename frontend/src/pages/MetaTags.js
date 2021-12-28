@@ -23,3 +23,11 @@ export const pagesMeta = {
     title: 'Pages',
     description: 'A list of internal site pages.',
 };
+export const privacyMeta = {
+    title: 'Privacy',
+    description: 'Privacy page description.',
+};
+export const termsMeta = {
+    title: 'Terms & Conditions',
+    description: 'Terms page description.',
+};

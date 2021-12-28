@@ -1,6 +1,50 @@
 @import '../variables.module.scss';
+@import '../default.module.scss';
 
-.footer {
+.footerOuter {
     margin-top: auto; // pushes footer to bottom if total content height < 100vh
-    background-color: $grey-light;
+    background-color: $secondary;
+    color: $primary;
+    font-size: $font-tiny-1;
+
+    .footerInner {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-top: 0.5em !important; // @todo...
+        padding-bottom: 0.5em !important; // @todo...
+
+        @include smallStyles {
+            flex-direction: column;
+            text-align: center;
+        }
+
+        ul {
+            display: flex;
+            list-style: none;
+
+            @include smallStyles {
+                padding-left: 0;
+                margin-top: 0.75em;
+            }
+
+            li {
+                font-size: $font-tiny-1;
+
+                ~ li {
+                    margin-left: 1em;
+
+                    &:before {
+                        content: '|';
+                        margin-right: 1em;
+                        opacity: 0.5;
+                    }
+                }
+
+                a {
+                    @include linkStyles($primary, 'none', 'none');
+                }
+            }
+        }
+    }
 }
