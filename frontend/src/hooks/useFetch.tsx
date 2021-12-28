@@ -1,4 +1,4 @@
-import { Dispatch, useState } from 'react';
+import { Dispatch, useCallback, useState } from 'react';
 
 export type FetchDataFn = (url: string, options?: any) => Promise<void>;
 
@@ -11,11 +11,12 @@ type FetchOutputs = {
 };
 
 export const useFetch = (): FetchOutputs => {
+    // @todo: seems to re-render too many times - e.g. opening the 'create new page' modal renders all instances where useFetch is used. Opening the edit page modal renders useFetch instances from create, edit and delete page modals
     const [data, setData] = useState<any>(null);
     const [loading, setLoading] = useState<boolean>(false);
     const [fetchError, setFetchError] = useState<boolean>(false);
 
-    const performFetchFn: FetchDataFn = async (url, options?) => {
+    const performFetchFn: FetchDataFn = useCallback(async (url, options?) => {
         const setFailed = () => {
             setFetchError(true);
             setLoading(false);
@@ -48,7 +49,7 @@ export const useFetch = (): FetchOutputs => {
             setFailed();
             console.error(e);
         }
-    };
+    }, []);
 
     return {
         data,
