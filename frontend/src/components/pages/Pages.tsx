@@ -32,7 +32,7 @@ export const Sidebar: VFC = () => {
     return (
         <div className={classes}>
             <h1>Pages</h1>
-            <SidebarList deleteHovered={deleteHovered} />
+            <SidebarList deleteHovered={deleteHovered} setExpanded={setExpanded} />
             <Buttons expanded={expanded} setExpanded={setExpanded} setDeleteHovered={setDeleteHovered} />
         </div>
     );
@@ -40,9 +40,10 @@ export const Sidebar: VFC = () => {
 
 interface SidebarListProps {
     deleteHovered: boolean;
+    setExpanded: Dispatch<boolean>;
 }
 
-const SidebarList: FC<SidebarListProps> = ({ deleteHovered }) => {
+const SidebarList: FC<SidebarListProps> = ({ deleteHovered, setExpanded }) => {
     const {
         pagesData: { pages, loadingPages, fetchPagesError },
     } = useContext<PageContextProps>(PageContext);
@@ -62,18 +63,17 @@ const SidebarList: FC<SidebarListProps> = ({ deleteHovered }) => {
     return (
         <ul>
             {pages?.map((page: WebPage) => (
-                <PageListItem page={page} deleteHovered={deleteHovered} key={page.id} />
+                <PageListItem page={page} deleteHovered={deleteHovered} setExpanded={setExpanded} key={page.id} />
             ))}
         </ul>
     );
 };
 
-interface PageListItemProps {
+interface PageListItemProps extends SidebarListProps {
     page: WebPage;
-    deleteHovered: boolean;
 }
 
-const PageListItem: FC<PageListItemProps> = ({ page, deleteHovered }) => {
+const PageListItem: FC<PageListItemProps> = ({ page, deleteHovered, setExpanded }) => {
     const {
         currentPageData: { currentPage, fetchCurrentPage },
     } = useContext<PageContextProps>(PageContext);
@@ -81,6 +81,11 @@ const PageListItem: FC<PageListItemProps> = ({ page, deleteHovered }) => {
     const classes = `${isCurrentPage ? styles.current : ''} ${
         isCurrentPage && deleteHovered ? styles.deleteHovered : ''
     }`;
+    const contractIfMobile = () => {
+        const isMobile = window.innerWidth < 768;
+        if (!isMobile) return;
+        setExpanded(false);
+    };
 
     return (
         <li
@@ -88,6 +93,7 @@ const PageListItem: FC<PageListItemProps> = ({ page, deleteHovered }) => {
             onClick={() => {
                 if (isCurrentPage) return;
                 fetchCurrentPage(`http://localhost:8000/api/pages/${page.id}`);
+                contractIfMobile();
             }}
         >
             <p>{page.title}</p>
