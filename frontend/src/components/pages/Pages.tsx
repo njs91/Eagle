@@ -52,7 +52,7 @@ const SidebarList: FC<SidebarListProps> = ({ deleteHovered }) => {
     }
 
     if (!pages || loadingPages) {
-        return <p>Loading...</p>;
+        return <Loading clsOuter={styles.loading} />;
     }
 
     if (!pages.length) {
