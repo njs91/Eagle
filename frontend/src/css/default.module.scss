@@ -6,16 +6,19 @@
   - mobile first
 */
 
-* {
+*,
+::before,
+::after {
     margin: 0;
     padding: 0;
     border: none;
-    box-sizing: border-box;
+    box-sizing: inherit;
     overflow: hidden auto;
 }
 
 html {
     font-size: 62.5%; // makes 1rem = 10px
+    box-sizing: border-box;
 }
 
 body {
@@ -325,8 +328,8 @@ form {
         flex-direction: column;
 
         .inputContainer {
-            display: flex;
-            flex-direction: column;
+            display: inherit;
+            flex-direction: inherit;
         }
     }
 }

@@ -34,7 +34,7 @@
                 ~ li {
                     margin-left: 1em;
 
-                    &:before {
+                    &::before {
                         content: '|';
                         margin-right: 1em;
                         opacity: 0.5;
