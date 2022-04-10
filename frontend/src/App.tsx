@@ -9,6 +9,7 @@ import Login from './pages/Login';
 import { FC } from 'react';
 import Terms from './pages/legal/Terms';
 import Privacy from './pages/legal/Privacy';
+import CreateAccount from './pages/CreateAccount';
 
 const App: FC = () => (
     <BrowserRouter>
@@ -18,6 +19,7 @@ const App: FC = () => (
             <Route path='/pages' element={<Pages />} />
             <Route path='/about' element={<About />} />
             <Route path='/login' element={<Login />} />
+            <Route path='/create-account' element={<CreateAccount />} />
             <Route path='/terms' element={<Terms />} />
             <Route path='/privacy' element={<Privacy />} />
             <Route path='*' element={<NotFound />} />

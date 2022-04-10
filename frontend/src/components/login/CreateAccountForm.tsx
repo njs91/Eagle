@@ -3,26 +3,40 @@ import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { InputField } from '../default/Form';
 import styles from '../../css/default.module.scss';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { loginSchema } from '../../schemas/LoginSchema';
+import { createAccountSchema } from '../../schemas/CreateAccountSchema';
 import { Loading } from '../default/Loading';
 import { Error } from '../default/Error';
 
-export type LoginFormInputs = {
-    username: string;
+export type CreateAccountFormInputs = {
+    email: string;
     password: string;
+    firstName: string;
+    lastName?: string | null;
+    username: string;
 };
 
-export const LoginForm: VFC = () => {
-    const methods = useForm<LoginFormInputs>({
-        resolver: yupResolver(loginSchema),
+export const CreateAccountForm: VFC = () => {
+    const methods = useForm<CreateAccountFormInputs>({
+        resolver: yupResolver(createAccountSchema),
         mode: 'onTouched',
         defaultValues: {
-            username: '',
+            email: '',
             password: '',
+            firstName: '',
+            lastName: null,
+            username: '',
         },
     });
-    const onSubmit: SubmitHandler<LoginFormInputs> = (data) => {
+    const onSubmit: SubmitHandler<CreateAccountFormInputs> = (data) => {
         console.log('submitted with: ', data);
+
+        // note: if clicking inside lastName, input changes from null to '', so submit as the following:
+        console.log(
+            'lastName: ',
+            data.lastName,
+            ' - will submit as: ',
+            data?.lastName?.length === 0 ? null : data.lastName
+        );
     };
     const loading = false; // @todo
     const error = false; // @todo
@@ -32,15 +46,18 @@ export const LoginForm: VFC = () => {
             <FormProvider {...methods}>
                 <form onSubmit={methods.handleSubmit(onSubmit)}>
                     <div className={styles.formInner}>
-                        <InputField type='text' title='username' />
+                        <InputField type='text' title='email' />
                         <InputField type='text' title='password' placeholder='********' />
+                        <InputField type='text' title='firstName' />
+                        <InputField type='text' title='lastName' />
+                        <InputField type='text' title='username' />
                     </div>
 
                     {loading ? (
                         <Loading />
                     ) : (
                         <button type='submit' className={styles.btnPrimary}>
-                            Log in
+                            Register
                         </button>
                     )}
                 </form>
