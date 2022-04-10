@@ -11,6 +11,7 @@ interface InputFieldProps {
     disabled?: boolean;
 }
 
+// note: title is case sensitive, so may not register properly if capitalisation is not congruent with Yup schema fields
 export const InputField: FC<InputFieldProps> = ({ title, type, cls, placeholder, disabled = false }) => {
     const { register } = useFormContext();
     const tags: { [key: string]: string } = {
