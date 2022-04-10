@@ -9,10 +9,11 @@ interface InputFieldProps {
     cls?: string;
     placeholder?: string;
     disabled?: boolean;
+    alias?: string;
 }
 
 // note: title is case sensitive, so may not register properly if capitalisation is not congruent with Yup schema fields
-export const InputField: FC<InputFieldProps> = ({ title, type, cls, placeholder, disabled = false }) => {
+export const InputField: FC<InputFieldProps> = ({ title, type, cls, placeholder, disabled = false, alias }) => {
     const { register } = useFormContext();
     const tags: { [key: string]: string } = {
         text: 'input',
@@ -21,7 +22,7 @@ export const InputField: FC<InputFieldProps> = ({ title, type, cls, placeholder,
     const Tag: any = tags[type];
 
     return (
-        <FieldContainer title={title} cls={cls}>
+        <FieldContainer title={title} cls={cls} alias={alias}>
             <Tag type={type} id={title} {...register(title)} placeholder={placeholder} disabled={disabled} />
         </FieldContainer>
     );
@@ -29,13 +30,14 @@ export const InputField: FC<InputFieldProps> = ({ title, type, cls, placeholder,
 
 interface SelectFieldProps extends InputFieldProps {
     children: ReactNode;
+    alias?: string;
 }
 
-export const SelectField: FC<SelectFieldProps> = ({ title, cls, disabled = false, children }) => {
+export const SelectField: FC<SelectFieldProps> = ({ title, cls, disabled = false, children, alias }) => {
     const { register } = useFormContext();
 
     return (
-        <FieldContainer title={title} cls={cls}>
+        <FieldContainer title={title} cls={cls} alias={alias}>
             <select id={title} {...register(title)} disabled={disabled}>
                 {children}
             </select>
@@ -47,14 +49,15 @@ interface FieldContainerProps {
     title: string;
     children: ReactNode;
     cls?: string;
+    alias?: string;
 }
 
-const FieldContainer: FC<FieldContainerProps> = ({ title, cls = '', children }) => {
+const FieldContainer: FC<FieldContainerProps> = ({ title, cls = '', children, alias }) => {
     const { errors } = useFormState();
 
     return (
         <div className={`${styles.inputContainer} ${cls}`}>
-            <label htmlFor={title}>{capitalise(title)}:</label>
+            <label htmlFor={title}>{alias ?? capitalise(title)}:</label>
             {children}
             {errors?.[title] && <span className={styles.required}>{errors?.[title]?.message}</span>}
         </div>

@@ -46,11 +46,11 @@ export const CreateAccountForm: VFC = () => {
             <FormProvider {...methods}>
                 <form onSubmit={methods.handleSubmit(onSubmit)}>
                     <div className={styles.formInner}>
-                        <InputField type='text' title='email' />
+                        <InputField type='text' title='email' placeholder='joe@bloggs.com' />
                         <InputField type='text' title='password' placeholder='********' />
-                        <InputField type='text' title='firstName' />
-                        <InputField type='text' title='lastName' />
-                        <InputField type='text' title='username' />
+                        <InputField type='text' title='firstName' alias='First Name' placeholder='Joe' />
+                        <InputField type='text' title='lastName' alias='Last Name' placeholder='Bloggs' />
+                        <InputField type='text' title='username' placeholder='Enter a username' />
                     </div>
 
                     {loading ? (
