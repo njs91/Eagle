@@ -30,7 +30,7 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
-MY_APPS = ["pages"]
+MY_APPS = ["pages", "accounts"]
 
 THIRD_PARTY_APPS = ["rest_framework", "corsheaders"]
 
