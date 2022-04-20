@@ -11,7 +11,6 @@ type FetchOutputs = {
 };
 
 export const useFetch = (): FetchOutputs => {
-    // @todo: seems to re-render too many times - e.g. opening the 'create new page' modal renders all instances where useFetch is used. Opening the edit page modal renders useFetch instances from create, edit and delete page modals
     const [data, setData] = useState<any>(null);
     const [loading, setLoading] = useState<boolean>(false);
     const [fetchError, setFetchError] = useState<boolean>(false);
