@@ -31,14 +31,12 @@ const PagesContent: VFC = () => {
 
     useEffect(() => {
         fetchPages('http://localhost:8000/api/pages');
-    }, []);
-    // React Hook useEffect has a missing dependency: 'fetchPages'. Either include it or remove the dependency array - react-hooks/exhaustive-deps)
+    }, [fetchPages]);
 
     useEffect(() => {
         if (!pages || !pages.length) return;
         setCurrentPage(pages[0]);
-    }, [pages]);
-    // React Hook useEffect has a missing dependency: 'setCurrentPage'. Either include it or remove the dependency array - react-hooks/exhaustive-deps)
+    }, [pages, setCurrentPage]);
 
     return (
         <PageContextProvider

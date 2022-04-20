@@ -46,7 +46,6 @@ export const CreatePageModal: FC<CreatePageModalProps> = ({ createPageModalIsOpe
         if (!createdData || !pages) return;
         setPages([createdData, ...pages]);
     }, [createdData]);
-    // React Hook useEffect has missing dependencies: 'pages', and 'setPages'. Either include them or remove the dependency array  react-hooks/exhaustive-deps
 
     return (
         <Modal
