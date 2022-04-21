@@ -35,41 +35,22 @@ export const CreatePageModal: FC<CreatePageModalProps> = ({ createPageModalIsOpe
     };
 
     const createPage = async (data: PageFormInputs) => {
-        await fetchCreatePage('http://localhost:8000/api/pages/', {
+        const res = await fetch('http://localhost:8000/api/pages/', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data),
         });
-        if (createPageError === false) {
-            setPages([createdData, ...(pages as WebPage[])]);
-        }
+
+        if (!res.ok) return;
+
+        const resData = await res.json();
+
+        setPages([resData, ...(pages as WebPage[])]);
+
+        //try catch
+
         closeModal();
     };
-
-    // useEffect(() => {
-    //     if (createPageError === false) {
-    //         setPages([createdData, ...(pages as WebPage[])]);
-    //     }
-    // }, [createPageError]);
-
-    // const updatePages = useCallback(() => {
-    //     if (!createdData || !pages) return;
-    //     setPages([createdData, ...pages]);
-    // }, [createdData]);
-
-    // useEffect(() => {
-    //     // if (!createdData || !pages) return;
-    //     // setPages([createdData, ...pages]);
-    //     updatePages();
-    // }, [updatePages]);
-
-    // useEffect(() => {
-    //     if (!createdData || !pages) return;
-    //     setPages([createdData, ...pages]);
-    // }, [createdData]);
-    // React Hook useEffect has missing dependencies: 'pages', and 'setPages'. Either include them or remove the dependency array  react-hooks/exhaustive-deps
-
-    // seems like you can either have an infinite loop or the above error...?
 
     return (
         <Modal
