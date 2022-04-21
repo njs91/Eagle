@@ -6,14 +6,14 @@ type FetchOutputs = {
     data: any;
     performFetch: FetchDataFn;
     loading: boolean;
-    fetchError: boolean;
+    fetchError: boolean | null;
     setData: Dispatch<any>;
 };
 
 export const useFetch = (): FetchOutputs => {
     const [data, setData] = useState<any>(null);
     const [loading, setLoading] = useState<boolean>(false);
-    const [fetchError, setFetchError] = useState<boolean>(false);
+    const [fetchError, setFetchError] = useState<boolean | null>(null);
 
     const performFetchFn: FetchDataFn = useCallback(async (url, options?) => {
         const setFailed = () => {
@@ -23,6 +23,7 @@ export const useFetch = (): FetchOutputs => {
         const setSuccess = (data: any) => {
             setData(data);
             setLoading(false);
+            setFetchError(false);
         };
 
         try {

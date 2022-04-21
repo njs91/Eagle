@@ -7,6 +7,7 @@ import { useFetch } from '../../hooks/useFetch';
 import { Error } from '../default/Error';
 import { PageContext, PageContextProps } from './PageContext';
 import { PageForm, PageFormInputs } from './PageForm';
+import { WebPage } from './Pages';
 
 interface CreatePageModalProps {
     createPageModalIsOpen: boolean;
@@ -39,14 +40,36 @@ export const CreatePageModal: FC<CreatePageModalProps> = ({ createPageModalIsOpe
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data),
         });
+        if (createPageError === false) {
+            setPages([createdData, ...(pages as WebPage[])]);
+        }
         closeModal();
     };
 
-    useEffect(() => {
-        if (!createdData || !pages) return;
-        setPages([createdData, ...pages]);
-    }, [createdData]);
+    // useEffect(() => {
+    //     if (createPageError === false) {
+    //         setPages([createdData, ...(pages as WebPage[])]);
+    //     }
+    // }, [createPageError]);
+
+    // const updatePages = useCallback(() => {
+    //     if (!createdData || !pages) return;
+    //     setPages([createdData, ...pages]);
+    // }, [createdData]);
+
+    // useEffect(() => {
+    //     // if (!createdData || !pages) return;
+    //     // setPages([createdData, ...pages]);
+    //     updatePages();
+    // }, [updatePages]);
+
+    // useEffect(() => {
+    //     if (!createdData || !pages) return;
+    //     setPages([createdData, ...pages]);
+    // }, [createdData]);
     // React Hook useEffect has missing dependencies: 'pages', and 'setPages'. Either include them or remove the dependency array  react-hooks/exhaustive-deps
+
+    // seems like you can either have an infinite loop or the above error...?
 
     return (
         <Modal

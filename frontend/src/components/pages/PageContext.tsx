@@ -6,14 +6,14 @@ export interface PageContextProps {
     pagesData: {
         pages: Array<WebPage> | null;
         fetchPages: FetchDataFn;
-        fetchPagesError: boolean;
+        fetchPagesError: boolean | null;
         setPages: any;
         loadingPages: boolean;
     };
     currentPageData: {
         currentPage: WebPage | null;
         fetchCurrentPage: FetchDataFn;
-        fetchCurrentPageError: boolean;
+        fetchCurrentPageError: boolean | null;
         setCurrentPage: Dispatch<WebPage>;
         loadingCurrentPage: boolean;
     };
