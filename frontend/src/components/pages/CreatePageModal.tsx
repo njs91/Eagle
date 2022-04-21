@@ -1,4 +1,4 @@
-import React, { FC, Dispatch, useEffect, useContext } from 'react';
+import React, { FC, Dispatch, useEffect, useContext, useCallback } from 'react';
 import styles from '../../css/default.module.scss';
 import Modal from 'react-modal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -34,18 +34,34 @@ export const CreatePageModal: FC<CreatePageModalProps> = ({ createPageModalIsOpe
     };
 
     const createPage = async (data: PageFormInputs) => {
-        await fetchCreatePage('http://localhost:8000/api/pages/', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data),
-        });
+        await fetchCreatePage(
+            'http://localhost:8000/api/pages/',
+            {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data),
+            },
+            updatePages
+        );
         closeModal();
     };
 
+    const updatePages = useCallback(
+        (createdData: any) => {
+            console.log('upd');
+            const alreadyHasData = pages?.some((cur) => cur['id'] === createdData?.id);
+            if (!createdData || !pages || alreadyHasData) return;
+            // if (!createdData || !pages || pages.includes(createdData)) return; // pages.includes(createdData)) < compare ids instead
+            console.log('setting pages... createdData: ', createdData, ', pages: ', pages);
+            // test when deleting page after creating it
+            setPages([createdData, ...pages]);
+        },
+        [pages, setPages]
+    );
+
     useEffect(() => {
-        if (!createdData || !pages || pages.includes(createdData)) return;
-        setPages([createdData, ...pages]);
-    }, [createdData, pages, setPages]);
+        updatePages(createdData);
+    }, [updatePages, createdData]);
 
     return (
         <Modal
