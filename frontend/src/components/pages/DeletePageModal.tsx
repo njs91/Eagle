@@ -26,11 +26,6 @@ export const DeletePageModal: FC<DeletePageModalProps> = ({ deletePageModalIsOpe
         currentPageData: { currentPage },
     } = useContext<PageContextProps>(PageContext);
 
-    const afterOpenModal = () => {
-        // references are now sync'd and can be accessed.
-        console.log('Modal opened');
-    };
-
     const closeModal = () => {
         setDeletePageModalIsOpen(false);
     };
@@ -48,6 +43,7 @@ export const DeletePageModal: FC<DeletePageModalProps> = ({ deletePageModalIsOpe
         }
         setPages([...removeItemFromArray(currentPage.id, pages)]);
     }, [deletedData]);
+    // @todo
     // React Hook useEffect has missing dependencies: 'currentPage', 'pages', and 'setPages'. Either include them or remove the dependency array  react-hooks/exhaustive-deps
     // can add all deps and then add setDeletePage(null) after setPages to prevent infinite loop, but then memory leak occurs: Warning: Can't perform a React state update on an unmounted component. This is a no-op, but it indicates a memory leak in your application. To fix, cancel all subscriptions and asynchronous tasks in a useEffect cleanup function
     // useRef approach fails: https://stackoverflow.com/questions/54954385/react-useeffect-causing-cant-perform-a-react-state-update-on-an-unmounted-comp
@@ -55,7 +51,6 @@ export const DeletePageModal: FC<DeletePageModalProps> = ({ deletePageModalIsOpe
     return (
         <Modal
             isOpen={deletePageModalIsOpen}
-            onAfterOpen={afterOpenModal}
             onRequestClose={closeModal}
             className={styles.modal}
             contentLabel='Delete page confirmation'

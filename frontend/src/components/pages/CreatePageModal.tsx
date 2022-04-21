@@ -1,12 +1,12 @@
-import React, { FC, Dispatch, useEffect, useContext } from 'react';
+import React, { FC, Dispatch, useContext, useState } from 'react';
 import styles from '../../css/default.module.scss';
 import Modal from 'react-modal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
-import { useFetch } from '../../hooks/useFetch';
 import { Error } from '../default/Error';
 import { PageContext, PageContextProps } from './PageContext';
 import { PageForm, PageFormInputs } from './PageForm';
+import { WebPage } from './Pages';
 
 interface CreatePageModalProps {
     createPageModalIsOpen: boolean;
@@ -14,43 +14,42 @@ interface CreatePageModalProps {
 }
 
 export const CreatePageModal: FC<CreatePageModalProps> = ({ createPageModalIsOpen, setCreatePageModalIsOpen }) => {
-    const {
-        data: createdData,
-        performFetch: fetchCreatePage,
-        fetchError: createPageError,
-        loading: loadingCreatePage,
-    } = useFetch();
+    const [fetchError, setFetchError] = useState<boolean>(false);
+    const [loading, setLoading] = useState<boolean>(false);
     const {
         pagesData: { pages, setPages },
     } = useContext<PageContextProps>(PageContext);
-
-    const afterOpenModal = () => {
-        // references are now sync'd and can be accessed.
-        console.log('Modal opened');
-    };
 
     const closeModal = () => {
         setCreatePageModalIsOpen(false);
     };
 
     const createPage = async (data: PageFormInputs) => {
-        await fetchCreatePage('http://localhost:8000/api/pages/', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data),
-        });
+        const setSuccess = (success: boolean) => {
+            setFetchError(!success);
+            setLoading(false);
+        };
+        try {
+            setLoading(true);
+            const res = await fetch('http://localhost:8000/api/pages/', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data),
+            });
+            if (!res.ok) return;
+            const resData = await res.json();
+            setPages([resData, ...(pages as WebPage[])]);
+            setSuccess(true);
+        } catch (error) {
+            setSuccess(false);
+            console.error(error);
+        }
         closeModal();
     };
-
-    useEffect(() => {
-        if (!createdData || !pages || pages.includes(createdData)) return;
-        setPages([createdData, ...pages]);
-    }, [createdData, pages, setPages]);
 
     return (
         <Modal
             isOpen={createPageModalIsOpen}
-            onAfterOpen={afterOpenModal}
             onRequestClose={closeModal}
             className={styles.modal}
             contentLabel='Create page modal'
@@ -62,12 +61,12 @@ export const CreatePageModal: FC<CreatePageModalProps> = ({ createPageModalIsOpe
             <div>
                 <h2>Create Page</h2>
                 <PageForm
-                    loading={loadingCreatePage}
+                    loading={loading}
                     setDisplayModal={setCreatePageModalIsOpen}
                     submitFn={createPage}
                     submitBtnText='Create'
                 />
-                {createPageError && <Error msg={'Error creating page'} marginTop={true} />}
+                {fetchError && <Error msg={'Error creating page'} marginTop={true} />}
             </div>
         </Modal>
     );
