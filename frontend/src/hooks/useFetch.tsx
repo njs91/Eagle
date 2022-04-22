@@ -1,6 +1,6 @@
 import { Dispatch, useCallback, useState } from 'react';
 
-export type FetchDataFn = (url: string, options?: any) => Promise<void>;
+export type FetchDataFn = (url: string, options?: any, action?: () => {}) => Promise<void>;
 
 type FetchOutputs = {
     data: any;
@@ -15,7 +15,7 @@ export const useFetch = (): FetchOutputs => {
     const [loading, setLoading] = useState<boolean>(false);
     const [fetchError, setFetchError] = useState<boolean>(false);
 
-    const performFetchFn: FetchDataFn = useCallback(async (url, options?) => {
+    const performFetchFn: FetchDataFn = useCallback(async (url, options?, action?) => {
         const setFailed = () => {
             setFetchError(true);
             setLoading(false);
@@ -23,6 +23,7 @@ export const useFetch = (): FetchOutputs => {
         const setSuccess = (data: any) => {
             setData(data);
             setLoading(false);
+            action?.();
         };
 
         try {

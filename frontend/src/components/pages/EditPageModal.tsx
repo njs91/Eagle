@@ -1,9 +1,8 @@
-import React, { FC, Dispatch, useEffect, useContext } from 'react';
+import React, { FC, Dispatch, useContext, useState } from 'react';
 import styles from '../../css/default.module.scss';
 import Modal from 'react-modal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
-import { useFetch } from '../../hooks/useFetch';
 import { Error } from '../default/Error';
 import { PageContext, PageContextProps } from './PageContext';
 import { PageForm, PageFormInputs } from './PageForm';
@@ -15,12 +14,8 @@ interface EditPageModalProps {
 }
 
 export const EditPageModal: FC<EditPageModalProps> = ({ editPageModalIsOpen, setEditPageModalIsOpen }) => {
-    const {
-        data: editedData,
-        performFetch: fetchEditPage,
-        fetchError: editPageError,
-        loading: loadingEditPage,
-    } = useFetch();
+    const [fetchError, setFetchError] = useState<boolean>(false);
+    const [loading, setLoading] = useState<boolean>(false);
     const {
         pagesData: { pages, setPages },
         currentPageData: { currentPage },
@@ -31,22 +26,31 @@ export const EditPageModal: FC<EditPageModalProps> = ({ editPageModalIsOpen, set
     };
 
     const editPage = async (data: PageFormInputs) => {
-        await fetchEditPage(`http://localhost:8000/api/pages/${currentPage?.id}/`, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data),
-        });
+        if (!currentPage?.id || !pages) return;
+
+        const setSuccess = (success: boolean) => {
+            setFetchError(!success);
+            setLoading(false);
+        };
+
+        try {
+            setLoading(true);
+            const res = await fetch(`http://localhost:8000/api/pages/${currentPage?.id}/`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data),
+            });
+            if (!res.ok) return;
+            const resData = await res.json();
+            setPages([...updateArray(pages, currentPage.id, resData)]);
+            setSuccess(true);
+        } catch (error) {
+            setSuccess(false);
+            console.error(error);
+        }
+
         closeModal();
     };
-
-    useEffect(() => {
-        if (!editedData || !pages || !currentPage) {
-            return;
-        }
-        setPages([...updateArray(pages, currentPage.id, editedData)]);
-    }, [editedData]);
-    // @todo
-    // React Hook useEffect has missing dependencies: 'currentPage', 'pages', and 'setPages'. Either include them or remove the dependency array  react-hooks/exhaustive-deps
 
     return (
         <Modal
@@ -62,13 +66,13 @@ export const EditPageModal: FC<EditPageModalProps> = ({ editPageModalIsOpen, set
             <div>
                 <h2>Edit Page</h2>
                 <PageForm
-                    loading={loadingEditPage}
+                    loading={loading}
                     setDisplayModal={setEditPageModalIsOpen}
                     submitFn={editPage}
                     submitBtnText='Update'
                     showDefaultValues={true}
                 />
-                {editPageError && <Error msg={'Error editing page'} marginTop={true} />}
+                {fetchError && <Error msg={'Error editing page'} marginTop={true} />}
             </div>
         </Modal>
     );

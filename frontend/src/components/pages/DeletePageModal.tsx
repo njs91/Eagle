@@ -1,13 +1,13 @@
-import React, { FC, Dispatch, useEffect, useContext } from 'react';
+import React, { FC, Dispatch, useContext, useState } from 'react';
 import styles from '../../css/default.module.scss';
 import Modal from 'react-modal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
-import { useFetch } from '../../hooks/useFetch';
 import { Loading } from '../default/Loading';
 import { Error } from '../default/Error';
 import { PageContext, PageContextProps } from './PageContext';
 import { removeItemFromArray } from '../../utils/HelperFunctions';
+import { WebPage } from './Pages';
 
 interface DeletePageModalProps {
     deletePageModalIsOpen: boolean;
@@ -15,12 +15,8 @@ interface DeletePageModalProps {
 }
 
 export const DeletePageModal: FC<DeletePageModalProps> = ({ deletePageModalIsOpen, setDeletePageModalIsOpen }) => {
-    const {
-        data: deletedData,
-        performFetch: fetchDeletePage,
-        fetchError: deletePageError,
-        loading: loadingDeletePage,
-    } = useFetch();
+    const [fetchError, setFetchError] = useState<boolean>(false);
+    const [loading, setLoading] = useState<boolean>(false);
     const {
         pagesData: { pages, setPages },
         currentPageData: { currentPage },
@@ -31,22 +27,28 @@ export const DeletePageModal: FC<DeletePageModalProps> = ({ deletePageModalIsOpe
     };
 
     const deletePage = async () => {
-        await fetchDeletePage(`http://localhost:8000/api/pages/${currentPage?.id}`, {
-            method: 'DELETE',
-        });
+        if (!currentPage?.id) return;
+
+        const setSuccess = (success: boolean) => {
+            setFetchError(!success);
+            setLoading(false);
+        };
+
+        try {
+            setLoading(true);
+            const res = await fetch(`http://localhost:8000/api/pages/${currentPage.id}`, {
+                method: 'DELETE',
+            });
+            if (!res.ok) return;
+            setPages([...removeItemFromArray(currentPage.id, pages as WebPage[])]);
+            setSuccess(true);
+        } catch (error) {
+            setSuccess(false);
+            console.error(error);
+        }
+
         closeModal();
     };
-
-    useEffect(() => {
-        if (!deletedData || !deletedData?.success || !pages || !currentPage) {
-            return;
-        }
-        setPages([...removeItemFromArray(currentPage.id, pages)]);
-    }, [deletedData]);
-    // @todo
-    // React Hook useEffect has missing dependencies: 'currentPage', 'pages', and 'setPages'. Either include them or remove the dependency array  react-hooks/exhaustive-deps
-    // can add all deps and then add setDeletePage(null) after setPages to prevent infinite loop, but then memory leak occurs: Warning: Can't perform a React state update on an unmounted component. This is a no-op, but it indicates a memory leak in your application. To fix, cancel all subscriptions and asynchronous tasks in a useEffect cleanup function
-    // useRef approach fails: https://stackoverflow.com/questions/54954385/react-useeffect-causing-cant-perform-a-react-state-update-on-an-unmounted-comp
 
     return (
         <Modal
@@ -62,7 +64,7 @@ export const DeletePageModal: FC<DeletePageModalProps> = ({ deletePageModalIsOpe
             <div>
                 <h2>Delete Page</h2>
                 <p>Are you sure you want to delete page {currentPage?.title.toLowerCase()}?</p>
-                {loadingDeletePage ? (
+                {loading ? (
                     <Loading />
                 ) : (
                     <div className={styles.buttonsContainer}>
@@ -74,7 +76,7 @@ export const DeletePageModal: FC<DeletePageModalProps> = ({ deletePageModalIsOpe
                         </button>
                     </div>
                 )}
-                {deletePageError && <Error msg={'Error deleting page'} marginTop={true} />}
+                {fetchError && <Error msg={'Error deleting page'} marginTop={true} />}
             </div>
         </Modal>
     );

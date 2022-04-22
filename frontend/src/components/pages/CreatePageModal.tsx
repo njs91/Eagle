@@ -29,6 +29,7 @@ export const CreatePageModal: FC<CreatePageModalProps> = ({ createPageModalIsOpe
             setFetchError(!success);
             setLoading(false);
         };
+
         try {
             setLoading(true);
             const res = await fetch('http://localhost:8000/api/pages/', {
@@ -44,6 +45,7 @@ export const CreatePageModal: FC<CreatePageModalProps> = ({ createPageModalIsOpe
             setSuccess(false);
             console.error(error);
         }
+
         closeModal();
     };
 

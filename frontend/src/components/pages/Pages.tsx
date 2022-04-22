@@ -204,15 +204,17 @@ export const PageDetails: VFC = () => {
         );
     }
 
+    const { title, slug, type, notes, date_created, last_edited } = page;
+
     return (
         <DetailsWrap>
-            <p>Title: {page.title}</p>
-            <p>Slug: {page.slug}</p>
-            <p>Type: {page.type}</p>
-            <p>Notes: {page.notes}</p>
-            <p>Date Created: {formatDate(page.date_created)}</p>
-            <p>Last Edited: {page.last_edited}</p>
-            <p>Last Edited Time: {formatTime(page.last_edited)}</p>
+            <p>Title: {title}</p>
+            {slug && <p>Slug: {slug}</p>}
+            <p>Type: {type}</p>
+            {notes && <p>Notes: {notes}</p>}
+            <p>Date Created: {formatDate(date_created)}</p>
+            <p>Last Edited: {last_edited}</p>
+            <p>Last Edited Time: {formatTime(last_edited)}</p>
         </DetailsWrap>
     );
 };
