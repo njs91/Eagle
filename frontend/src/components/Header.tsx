@@ -40,7 +40,7 @@ export const Header: FC<HeaderProps> = ({ cls = '' }) => {
     );
 };
 
-const links = [
+export const links = [
     {
         title: 'Home',
         url: '/',
